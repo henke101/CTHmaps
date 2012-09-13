@@ -1,5 +1,6 @@
-package se.chalmers.project14;
+package se.chalmers.project14.cthmaps;
 
+import se.chalmers.project14.R;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
