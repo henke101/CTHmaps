@@ -17,6 +17,15 @@
             android:name=".CTHmaps"
             android:label="@string/title_activity_main" >
             <intent-filter>
+                <action android:name="se.chalmers.project14.main.CTHMAPS" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+         <activity
+            android:name=".Splash"
+            android:label="@string/title_activity_main" >
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
