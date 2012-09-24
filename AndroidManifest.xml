@@ -32,11 +32,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".ChooseLocationActivity"
             android:label="@string/title_activity_main" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="se.chalmers.project14.main.ChooseLocationActivity" />
+                android:value="se.chalmers.project14.main.Splash" />
         </activity>
     </application>
 

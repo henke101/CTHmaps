@@ -35,7 +35,7 @@ public class ChooseLocationActivity extends Activity {
 	}
 
 	public void searchLocationButton(View view) {
-		Intent intent = new Intent(this, MainActivity.class);
+		Intent intent = new Intent(this, CTHmaps.class);
 		EditText editText = (EditText) findViewById(R.id.search_locationText);
 		String location = editText.getText().toString(); // I have Edithuset == 
     	intent.putExtra(EXTRA_MESSAGE, location);

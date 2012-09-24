@@ -17,7 +17,7 @@ public class Splash extends Activity{
 				} catch (InterruptedException e){
 					e.printStackTrace();
 				}finally{
-					Intent openMain = new Intent("se.chalmers.project14.main.CTHMAPS");
+					Intent openMain = new Intent("android.support.PARENT_ACTIVITY");
 					startActivity(openMain);
 				}
 			}
