@@ -40,7 +40,7 @@ public class CTHmaps extends MapActivity {
 	@Override
 	public void onBackPressed(){
 		super.onBackPressed();
+		//Stopping the update och GPS-status, when closing map-activity/pressing the back-button in the map-activity
 		locManager.removeUpdates(locListener);
-		//locListener = null;
 	}
 }
