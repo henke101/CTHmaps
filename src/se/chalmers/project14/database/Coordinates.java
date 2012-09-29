@@ -6,8 +6,17 @@ public class Coordinates {
 	private String _CTHplace;
 	private String _coordinates;
 
+	public Coordinates() {
+		// empty constructor
+	}
+
 	public Coordinates(int id, String CTHplace, String coordinates) {
 		this._id = id;
+		this._CTHplace = CTHplace;
+		this._coordinates = coordinates;
+	}
+
+	public Coordinates(String CTHplace, String coordinates) {
 		this._CTHplace = CTHplace;
 		this._coordinates = coordinates;
 	}
