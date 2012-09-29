@@ -4,6 +4,8 @@ import se.chalmers.project14.main.R;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.*;
+import android.view.View.OnTouchListener;
+import android.view.GestureDetector.*;
 import android.view.View.OnClickListener;
 import android.widget.SlidingDrawer;
 import android.widget.ViewFlipper;
@@ -12,19 +14,41 @@ import android.support.v4.app.NavUtils;
 public class FloorViewer extends Activity{
 
 	ViewFlipper floorFlipper;
-	OnClickListener swipeHandler;
-    @Override
+	SimpleOnGestureListener swipeHandler;
+	GestureDetector detector;
+	OnTouchListener gestureListener;
+	
+	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_floor_viewer);
         floorFlipper = (ViewFlipper) findViewById(R.id.viewFlipper1);
         swipeHandler = new SwipeHandler(floorFlipper);
-        floorFlipper.setOnClickListener(swipeHandler);
+        detector = new GestureDetector(this, swipeHandler);
+        gestureListener = new OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                if (detector.onTouchEvent(event)) {
+                    return true;
+                }
+                return false;
+            }
+        };
         
         
-        /*getActionBar().setDisplayHomeAsUpEnabled(true);
-        IS NEVER USED AND ONLY CREATES PROBLEMS / HENKE */
+        //swipeHandler = new SwipeHandler(floorFlipper);
+        //floorFlipper.setOnTouchListener(swipeHandler);
+        
     }
+	
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+	    if (detector.onTouchEvent(event))
+	        return true;
+	    else
+	        return false;
+
+
+	}
 
     /*@Override IS NEVER USED AND ONLY CREATES PROBLEMS / HENKE
     public boolean onCreateOptionsMenu(Menu menu) {
