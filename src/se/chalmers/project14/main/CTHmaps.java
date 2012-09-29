@@ -10,6 +10,9 @@ import android.content.Context;
 import android.view.Menu;
 
 public class CTHmaps extends MapActivity {
+	private LocationManager locManager;
+	private LocationListener locListener;
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,8 +22,8 @@ public class CTHmaps extends MapActivity {
         mapView.setBuiltInZoomControls(true);
         
         /*Using the LocationManager class to obtain GPS-location*/
-        LocationManager locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        LocationListener locListener = new MyLocationListener(this);
+        locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        locListener = new MyLocationListener(this);
         locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locListener);
     }
 
@@ -33,5 +36,11 @@ public class CTHmaps extends MapActivity {
 	@Override
 	protected boolean isRouteDisplayed() {
 		return false;
+	}
+	@Override
+	public void onBackPressed(){
+		super.onBackPressed();
+		locManager.removeUpdates(locListener);
+		//locListener = null;
 	}
 }
