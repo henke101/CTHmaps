@@ -10,7 +10,6 @@ import android.content.Context;
 import android.view.Menu;
 
 public class CTHmaps extends MapActivity {
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
