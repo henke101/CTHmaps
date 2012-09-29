@@ -2,6 +2,7 @@ package se.chalmers.project14.main;
 
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapView;
+import com.google.android.maps.MyLocationOverlay;
 
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -25,6 +26,12 @@ public class CTHmaps extends MapActivity {
         locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         locListener = new MyLocationListener(this);
         locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locListener);
+        
+        /*Using the MyLocationOverlay-class to add users current position to map-view*/
+        MyLocationOverlay myLocationOverlay = new MyLocationOverlay(this, mapView);
+        mapView.getOverlays().add(myLocationOverlay);
+        myLocationOverlay.enableMyLocation(); 
+        myLocationOverlay.enableCompass(); //Adding a compass to the map
     }
 
     @Override
