@@ -3,10 +3,14 @@ package se.chalmers.project14.main;
 
 import java.util.*;
 
+import se.chalmers.project14.enterBuilding.FloorViewer;
+
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
-
+import android.sax.StartElementListener;
+import android.app.Activity;
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.OverlayItem;
 
@@ -32,10 +36,10 @@ public class BuildingOverlay extends ItemizedOverlay {
 	@Override
 	protected boolean onTap(int index) {
 	  OverlayItem item = buildingOverlays.get(index);
-	  AlertDialog.Builder dialog = new AlertDialog.Builder(buildingContext);
-	  dialog.setTitle(item.getTitle());
-	  dialog.setMessage(item.getSnippet());
-	  dialog.show();
+	  Intent intent = new Intent("se.chalmers.project14.enterBuilding.FloorViewer");
+	  
+	  
+	  
 	  return true;
 	}
 
@@ -50,3 +54,4 @@ public class BuildingOverlay extends ItemizedOverlay {
 	}
 
 }
+ 
