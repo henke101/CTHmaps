@@ -1,5 +1,11 @@
 package se.chalmers.project14.database;
 
+/**
+ * Class that represent a coordinate.
+ * 
+ * @author tomassellden
+ * 
+ */
 public class Coordinates {
 
 	private int _id;

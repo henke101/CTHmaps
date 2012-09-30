@@ -1,41 +1,44 @@
 package se.chalmers.project14.main;
 
-import java.util.List;
 
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
 
-import se.chalmers.project14.database.Coordinates;
-import se.chalmers.project14.database.DatabaseHandler;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.content.Context;
-import android.content.Intent;
 import android.view.Menu;
-import android.util.Log;
 
 public class CTHmaps extends MapActivity {
 	private LocationManager locManager;
 	private LocationListener locListener;
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_map);
-        //Enabling zooming
+
+		// Enabling zooming
 		MapView mapView = (MapView) findViewById(R.id.mapview);
 		mapView.setBuiltInZoomControls(true);
-        
-        /*Using the LocationManager class to obtain GPS-location*/
-        locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        locListener = new MyLocationListener(this);
-        locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locListener);
-        
-        /*Using the MyLocationOverlay-class to add users current position to map-view*/
-        MyLocationOverlay myLocationOverlay = new MyLocationOverlay(this, mapView);
-        mapView.getOverlays().add(myLocationOverlay);
-        myLocationOverlay.enableMyLocation(); 
-        myLocationOverlay.enableCompass(); //Adding a compass to the map
+
+		/* Using the LocationManager class to obtain GPS-location */
+		locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		locListener = new MyLocationListener(this);
+		locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0,
+				locListener);
+
+		/*
+		 * Using the MyLocationOverlay-class to add users current position to
+		 * map-view
+		 */
+		MyLocationOverlay myLocationOverlay = new MyLocationOverlay(this,
+				mapView);
+		mapView.getOverlays().add(myLocationOverlay);
+		myLocationOverlay.enableMyLocation();
+		myLocationOverlay.enableCompass(); // Adding a compass to the map
 	}
 
 	@Override
@@ -48,10 +51,12 @@ public class CTHmaps extends MapActivity {
 	protected boolean isRouteDisplayed() {
 		return false;
 	}
+
 	@Override
-	public void onBackPressed(){
+	public void onBackPressed() {
 		super.onBackPressed();
-		//Stopping the update och GPS-status, when closing map-activity/pressing the back-button in the map-activity
+		// Stopping the update och GPS-status, when closing
+		// map-activity/pressing the back-button in the map-activity
 		locManager.removeUpdates(locListener);
 	}
 }

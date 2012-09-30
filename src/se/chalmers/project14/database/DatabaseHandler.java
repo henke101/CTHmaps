@@ -8,8 +8,14 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
+/**
+ * A class representing the database, It creates the database and have methods
+ * so we can add and get values from our database
+ * 
+ * @author tomassellden
+ * 
+ */
 public class DatabaseHandler extends SQLiteOpenHelper {
 	private Context context;
 
@@ -27,7 +33,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 	}
 
-	// Database created
+	/**
+	 * Creates the database. It«s creating a table which contain of three
+	 * columns, an int representing the key, a String representing the building
+	 * and another String representing the coordinates that are connected to the
+	 * building
+	 */
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		String CREATE_COORDINATES_TABLE = "CREATE TABLE " + TABLE_COORDINATES
@@ -44,13 +55,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 	}
 
-	// add coordinates to database
-
+	/**
+	 * 
+	 * @param coordinates
+	 *            Coordinates you want to add to the database
+	 */
 	public void addCordinates(Coordinates coordinates) {
-		// String hej = coordinates.getCTHplace();
-		// String hej2 = coordinates.getCoordinates();
-		// Log.d(hej, hej2);
-		Log.d("into addCoordinate", " method");
 		SQLiteDatabase db = this.getWritableDatabase();
 		ContentValues contentValues = new ContentValues();
 		contentValues.put(KEY_ID, coordinates.getID());
@@ -62,8 +72,16 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		db.close();
 	}
 
+	/**
+	 * A method that returns the coordinates that are connected to the String
+	 * parameter
+	 * 
+	 * @param CTHplace
+	 *            A String representing the building which the coordinates are
+	 *            connected to.
+	 * @return The coordinates that the String is connected to
+	 */
 	public Coordinates getCoordinates(String CTHplace) {
-		Log.d("into getCoordinates ", "method");
 		SQLiteDatabase db = this.getReadableDatabase();
 
 		Cursor cursor = db.query(TABLE_COORDINATES, new String[] { KEY_ID,
@@ -81,6 +99,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		return coordinates;
 	}
 
+	/**
+	 * 
+	 * @return a List which contain all building that exists in the database
+	 */
 	public List<Coordinates> getAllCoordinates() {
 		List<Coordinates> coordinateList = new ArrayList<Coordinates>();
 		String getCoordinates = "SELECT * FROM " + TABLE_COORDINATES;
