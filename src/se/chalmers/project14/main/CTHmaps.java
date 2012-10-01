@@ -1,14 +1,15 @@
 package se.chalmers.project14.main;
 
 
+
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
-
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.content.Context;
+
 import android.view.Menu;
 
 public class CTHmaps extends MapActivity {
@@ -40,6 +41,7 @@ public class CTHmaps extends MapActivity {
 		myLocationOverlay.enableMyLocation();
 		myLocationOverlay.enableCompass(); // Adding a compass to the map
 	}
+
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

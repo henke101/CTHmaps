@@ -7,5 +7,10 @@
     <string name="title_activity_main">CTHmaps</string>
     <string name="new_dest">New Destination</string>
     <string name="button_send">Search</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_floor_viewer">FloorViewer</string>
+    <string name="floorOne">Våning 1</string>
+    <string name="floorTwo">Våning 2</string>
+    <string name="sampleBuilding">Exempelbyggnad</string>
 
 </resources>
