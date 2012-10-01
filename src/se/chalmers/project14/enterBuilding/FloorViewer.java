@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.view.*;
 import android.view.View.OnTouchListener;
 import android.view.GestureDetector.*;
+import android.view.animation.Animation;
 import android.view.View.OnClickListener;
 import android.widget.SlidingDrawer;
 import android.widget.ViewFlipper;

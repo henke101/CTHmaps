@@ -11,5 +11,6 @@
     <string name="title_activity_floor_viewer">FloorViewer</string>
     <string name="floorOne">Våning 1</string>
     <string name="floorTwo">Våning 2</string>
+    <string name="sampleBuilding">Exempelbyggnad</string>
 
 </resources>

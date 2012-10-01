@@ -24,30 +24,18 @@ public class SwipeHandler extends SimpleOnGestureListener {
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
 		System.out.println("" + e1 + e2);
 		
-		try {
 			if (Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF_PATH)
 				return false;
 			// right to left swipe
 			if(e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
 				
-
-				//flipper.setInAnimation(slideLeftIn);
-				//flipper.setOutAnimation(slideLeftOut);
-				//flipper.addView(nextImage(true));
-
 				flipper.showNext();
 
 			}  else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
 			
-
-				//flipper.setInAnimation(slideRightIn);
-				//flipper.setOutAnimation(slideRightOut);
-				//flipper.addView(nextImage(false));
 				flipper.showNext();
 			}
-		} catch (Exception e) {
-			// nothing
-		}
+		 
 		return false;
 	}
 	@Override
@@ -56,10 +44,5 @@ public class SwipeHandler extends SimpleOnGestureListener {
 	}
 
 
-	/*public void onClick(View v) {
-		flipper.showNext();
-
-
-	}*/
 
 }
