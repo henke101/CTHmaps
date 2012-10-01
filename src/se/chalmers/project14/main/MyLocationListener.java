@@ -28,7 +28,6 @@ public class MyLocationListener implements LocationListener {
 	}
 
 	public void onStatusChanged(String provider, int status, Bundle extras) {
-		// TODO Auto-generated method stub
 	}
 
 }
