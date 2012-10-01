@@ -23,8 +23,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	private static final String DATABASE_NAME = "cordinatesManager";
 	private static final String TABLE_COORDINATES = "CoordinateTable";
 
-	private static final String KEY_ID = "id";
-	private static final String KEY_CTHPLACE = "CTHplace";
+	private static final String KEY_ID = "_id";
+	public static final String KEY_CTHPLACE = "_idCTHplace";
 	private static final String KEY_COORDINATES = "coordinates";
 
 	public DatabaseHandler(Context context) {
@@ -76,17 +76,17 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	 * A method that returns the coordinates that are connected to the String
 	 * parameter
 	 * 
-	 * @param CTHplace
+	 * @param _idCTHplace
 	 *            A String representing the building which the coordinates are
 	 *            connected to.
 	 * @return The coordinates that the String is connected to
 	 */
-	public Coordinates getCoordinates(String CTHplace) {
+	public Coordinates getCoordinates(String _idCTHplace) {
 		SQLiteDatabase db = this.getReadableDatabase();
 
 		Cursor cursor = db.query(TABLE_COORDINATES, new String[] { KEY_ID,
 				KEY_CTHPLACE, KEY_COORDINATES }, KEY_CTHPLACE + " = '"
-				+ CTHplace + "'", null, null, null, null, null);
+				+ _idCTHplace + "'", null, null, null, null, null);
 		if (cursor != null) {
 			cursor.moveToFirst();
 		}
@@ -120,5 +120,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		cursor.close();
 
 		return coordinateList;
+	}
+
+	public Cursor fetchAllCoordinates() {
+		String getCoordinates = "SELECT * FROM " + TABLE_COORDINATES;
+		SQLiteDatabase db = this.getWritableDatabase();
+		Cursor cursor = db.rawQuery(getCoordinates, null);
+		return cursor;
 	}
 }
