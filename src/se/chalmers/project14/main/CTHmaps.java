@@ -2,7 +2,9 @@ package se.chalmers.project14.main;
 
 
 
+import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
+import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
 import android.location.LocationListener;
@@ -15,6 +17,7 @@ import android.view.Menu;
 public class CTHmaps extends MapActivity {
 	private LocationManager locManager;
 	private LocationListener locListener;
+	private MapController controller;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -31,15 +34,20 @@ public class CTHmaps extends MapActivity {
 		locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0,
 				locListener);
 
-		/*
-		 * Using the MyLocationOverlay-class to add users current position to
-		 * map-view
-		 */
+		/* Using the MyLocationOverlay-class to add users current position to
+		 * map-view */
 		MyLocationOverlay myLocationOverlay = new MyLocationOverlay(this,
 				mapView);
 		mapView.getOverlays().add(myLocationOverlay);
 		myLocationOverlay.enableMyLocation();
 		myLocationOverlay.enableCompass(); // Adding a compass to the map
+		
+		/* Using the controller to pan in to the EDIT-house's coordinates and
+		 * to zoom in at a lucid level */
+		controller = mapView.getController();
+		GeoPoint point = new GeoPoint(57688018, 11977886);
+		controller.animateTo(point);
+		controller.setZoom(15);
 	}
 
 
