@@ -1,15 +1,21 @@
 package se.chalmers.project14.main;
 
+import java.util.List;
+
 import se.chalmers.project14.database.DatabaseHandler;
+
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
+import com.google.android.maps.Overlay;
+
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -71,6 +77,10 @@ public class Map extends MapActivity{
 		GeoPoint point = new GeoPoint(57688018, 11977886);
 		controller.animateTo(point);
 		controller.setZoom(15);
+		
+		//Overlays
+		List<Overlay> mapOverlays = mapView.getOverlays();
+		Drawable destFlag = this.getResources().getDrawable(R.drawable.destination_flag);
 	}
 
 
