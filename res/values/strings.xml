@@ -5,14 +5,9 @@
     <string name="recentPlacesVisited">The ten recent places you visited</string>
     <string name="menu_settings">Settings</string>
     <string name="title_activity_main">CTHmaps</string>
-<<<<<<< .merge_file_6UJ3Op
-    <string name="new_dest">New Destination</string>
-    <string name="button_send">Browse</string>
-=======
     <string name="button_new_dest">New Destination</string>
     <string name="button_toggle">Toggle</string>
     <string name="button_send">Search</string>
->>>>>>> .merge_file_007YNp
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_floor_viewer">FloorViewer</string>
     <string name="floorOne">Våning 1</string>
