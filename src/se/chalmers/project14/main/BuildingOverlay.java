@@ -10,8 +10,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.sax.StartElementListener;
+import android.view.MotionEvent;
 import android.app.Activity;
 import com.google.android.maps.ItemizedOverlay;
+import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
 
 public class BuildingOverlay extends ItemizedOverlay {
@@ -34,9 +36,17 @@ public class BuildingOverlay extends ItemizedOverlay {
 	}
 	
 	@Override
+
+    public boolean onTouchEvent(MotionEvent event, MapView mapview){
+		
+		return false;
+	}
+	
+	@Override
 	protected boolean onTap(int index) {
 	  OverlayItem item = buildingOverlays.get(index);
 	  Intent intent = new Intent("se.chalmers.project14.enterBuilding.FloorViewer");
+		
 	  
 	  
 	  

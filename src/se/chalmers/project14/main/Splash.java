@@ -27,7 +27,7 @@ public class Splash extends Activity {
 					e.printStackTrace();
 				} finally {
 					Intent openMain = new Intent(
-							"se.chalmers.project14.main.ChooseLocationActivity");
+							"se.chalmers.project14.enterBuilding.FloorViewer");
 					startActivity(openMain);
 				}
 			}
