@@ -1,5 +1,10 @@
 package se.chalmers.project14.main;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import se.chalmers.project14.database.Coordinates;
+import se.chalmers.project14.database.DatabaseAdapter;
 import se.chalmers.project14.database.DatabaseHandler;
 import se.chalmers.project14.enterBuilding.FloorViewer;
 import android.os.Bundle;
@@ -21,6 +26,7 @@ import android.support.v4.app.NavUtils;
 public class ChooseLocationActivity extends ListActivity {
 
 	public final static String EXTRA_MESSAGE = "se.chalmers.project14.main.EXTRA_MESSAGE";
+	private DatabaseAdapter dba;
 
 	@TargetApi(11)
 	@SuppressWarnings("deprecation")
@@ -29,17 +35,28 @@ public class ChooseLocationActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_choose_location);
 		DatabaseHandler db = new DatabaseHandler(this);
-		Cursor c = db.fetchAllCoordinates();
-		startManagingCursor(c);
-		SimpleCursorAdapter cursor = new SimpleCursorAdapter(this,
-				R.layout.row, c, new String[] { DatabaseHandler.KEY_CTHPLACE },
-				new int[] { R.id.text123 }, 0);
+		List<Coordinates> coordinateList = db.getAllCoordinates();
+		// cordinateList
+		// Log.d("Reading: ", "Reading all contacts..");
+//        List<Contact> contacts = db.getAllContacts();       
+// 
+//        for (Contact cn : contacts) {
+//            String log = "Id: "+cn.getID()+" ,Name: " + cn.getName() + " ,Phone: " + cn.getPhoneNumber();
+//                // Writing Contacts to log
+//        Log.d("Name: ", log);
+		dba = new DatabaseAdapter(this, R.layout.row, coordinateList);
+		setListAdapter(dba);
 
-		setListAdapter(cursor);
+		// Cursor c = db.fetchAllCoordinates();
+		// startManagingCursor(c);
+		// SimpleCursorAdapter cursor = new SimpleCursorAdapter(this,
+		// R.layout.row, c, new String[] { DatabaseHandler.KEY_CTHPLACE },
+		// new int[] { R.id.text123 }, 0);
+		//
+		// setListAdapter(cursor);
 
 	}
-	
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.activity_choose_location, menu);
