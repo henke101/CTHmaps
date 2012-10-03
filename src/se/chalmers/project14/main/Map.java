@@ -67,10 +67,7 @@ public class Map extends MapActivity{
 		mapView.getOverlays().add(myLocationOverlay);
 		myLocationOverlay.enableMyLocation();
 		myLocationOverlay.enableCompass(); // Adding a compass to the map
-
-		//Getting the coordinates of the Edit-house
-		DatabaseHandler db = new DatabaseHandler(this);
-
+		
 		/* Using the controller to pan in to the EDIT-house's coordinates and
 		 * to zoom in at a lucid level */
 		controller = mapView.getController();
