@@ -44,27 +44,19 @@ public class DatabaseAdapter extends BaseAdapter {
 
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View view = null;
-		Log.d("still", " working");
+
 		if (convertView == null) {
-			Log.d("still 2 ", "working");
-			view = inflater.inflate(R.layout.activity_choose_location, parent,
-					false);
-			Log.d("still 3 ", "working");
-			TextView textView = (TextView) view.findViewById(layoutId);
-			Log.d("still 4 ", "working");
+			view = inflater.inflate(R.layout.row, null);
+			TextView t = (TextView) view.findViewById(R.id.text123);
 			String data = coordinateList.get(position).getCTHplace();
-			Log.d("still 5 ", "working");
-			Log.d("what sata contain", data);
-			textView.setText(data);
-			Log.d("still 6 ", "working");
+			t.setText(data);
 		} else {
-			Log.d("shouldn«t be here", "no way!");
 			view = convertView;
 		}
-		if (view == null) {
-			Log.d("view is null", "a problem");
-		}
+
 		return view;
 	}
+//	@Override
+//	public void onItemClick(View arg1, int arg2, long arg3) {
 
 }

@@ -1,59 +1,44 @@
 package se.chalmers.project14.main;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import se.chalmers.project14.database.Coordinates;
 import se.chalmers.project14.database.DatabaseAdapter;
 import se.chalmers.project14.database.DatabaseHandler;
-import se.chalmers.project14.enterBuilding.FloorViewer;
 import android.os.Bundle;
-import android.annotation.TargetApi;
 import android.app.ListActivity;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
 import android.support.v4.app.NavUtils;
+import android.widget.AdapterView.OnItemClickListener;
 
-@TargetApi(11)
-public class ChooseLocationActivity extends ListActivity {
+public class ChooseLocationActivity extends ListActivity implements
+		OnItemClickListener {
 
 	public final static String EXTRA_MESSAGE = "se.chalmers.project14.main.EXTRA_MESSAGE";
+	public final static String CTHBUILDING_MESSAGE = "se.chalmers.project14.main.CTHBUILDING_MESSAGE";
 	private DatabaseAdapter dba;
+	private ListView listview;
+	private List<Coordinates> coordinateList;
+	private DatabaseHandler db;
 
-	@TargetApi(11)
-	@SuppressWarnings("deprecation")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_choose_location);
-		DatabaseHandler db = new DatabaseHandler(this);
-		List<Coordinates> coordinateList = db.getAllCoordinates();
-		// cordinateList
-		// Log.d("Reading: ", "Reading all contacts..");
-//        List<Contact> contacts = db.getAllContacts();       
-// 
-//        for (Contact cn : contacts) {
-//            String log = "Id: "+cn.getID()+" ,Name: " + cn.getName() + " ,Phone: " + cn.getPhoneNumber();
-//                // Writing Contacts to log
-//        Log.d("Name: ", log);
+		listview = getListView();
+
+		db = new DatabaseHandler(this);
+		coordinateList = db.getAllCoordinates();
 		dba = new DatabaseAdapter(this, R.layout.row, coordinateList);
 		setListAdapter(dba);
-
-		// Cursor c = db.fetchAllCoordinates();
-		// startManagingCursor(c);
-		// SimpleCursorAdapter cursor = new SimpleCursorAdapter(this,
-		// R.layout.row, c, new String[] { DatabaseHandler.KEY_CTHPLACE },
-		// new int[] { R.id.text123 }, 0);
-		//
-		// setListAdapter(cursor);
+		listview.setOnItemClickListener(this);
 
 	}
 
@@ -73,12 +58,35 @@ public class ChooseLocationActivity extends ListActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
+	/**
+	 * 
+	 * @param view
+	 */
 	public void searchLocationButton(View view) {
 		Intent intent = new Intent(this, CTHmaps.class);
 		EditText editText = (EditText) findViewById(R.id.search_locationText);
-		String location = editText.getText().toString(); // I have Edithuset ==
+		String location = editText.getText().toString();
 		intent.putExtra(EXTRA_MESSAGE, location);
 		startActivity(intent);
 	}
 
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see android.widget.AdapterView.OnItemClickListener#onItemClick(android.widget.AdapterView,
+	 *      android.view.View, int, long)
+	 */
+	public void onItemClick(AdapterView<?> arg0, View view, int listPosition,
+			long i) {
+		Coordinates coordinate = coordinateList.get(listPosition);
+		String cthBuilding = coordinate.getCTHplace();
+		coordinate = db.getCoordinates(cthBuilding);
+		Log.d("OnitemClick ", " " + coordinate.getCoordinates());
+
+		Intent intent = new Intent(this, CTHmaps.class);
+		intent.putExtra(CTHBUILDING_MESSAGE, coordinate.getCoordinates());
+
+		startActivity(intent);
+
+	}
 }
