@@ -40,13 +40,13 @@ public class ChooseLocationActivity extends Activity {
 	}
 
 	public void searchLocationButton(View view) {
-Intent intent = new Intent(this, CTHmaps.class);
+		Intent intent = new Intent(this, Map.class);
 		DatabaseHandler db = new DatabaseHandler(this);
 		Coordinates coordinate = db.getCoordinates("EDIT-huset");
 		String coordinates = coordinate.getCoordinates();
 		Log.d(" input from coordinates are ", coordinates);
 		intent.putExtra(EXTRA_MESSAGE, coordinates);
-		startActivity(intent);	
+		startActivity(intent);
 
 	}
 
