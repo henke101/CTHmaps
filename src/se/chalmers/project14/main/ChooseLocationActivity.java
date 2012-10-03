@@ -40,6 +40,7 @@ public class ChooseLocationActivity extends Activity {
 	}
 
 	public void searchLocationButton(View view) {
+<<<<<<< .merge_file_PWlugh
 		Intent intent = new Intent(this, CTHmaps.class);
 		DatabaseHandler db = new DatabaseHandler(this);
 		Coordinates coordinate = db.getCoordinates("EDIT-huset");
@@ -47,6 +48,13 @@ public class ChooseLocationActivity extends Activity {
 		Log.d(" input from coordinates are ", coordinates);
 		intent.putExtra(EXTRA_MESSAGE, coordinates);
 		startActivity(intent);
+=======
+		Intent intent = new Intent(this, Map.class);
+		EditText editText = (EditText) findViewById(R.id.search_locationText);
+		String location = editText.getText().toString(); // I have Edithuset == 
+    	intent.putExtra(EXTRA_MESSAGE, location);
+    	startActivity(intent);
+>>>>>>> .merge_file_3g5xdg
 	}
 
 }
