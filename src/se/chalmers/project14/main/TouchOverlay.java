@@ -1,6 +1,7 @@
 package se.chalmers.project14.main;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -8,8 +9,6 @@ import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
 import android.widget.Toast;
-
-import com.example.hellomaps.HelloItemizedOverlay;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.MapView;
@@ -23,6 +22,8 @@ public class TouchOverlay extends Overlay {
 	private float touchStartX = 1, touchStartY = 2, touchStopX = 3,
 			touchStopY = 4;
 	private MapView mapView;
+	private GeoPoint geoPoint;
+	private DestinationMarkerOverlay destOverlay;
 
 	public TouchOverlay(Context context, MapView mapView) {
 		super();// Fixing so that the flag is pointed
@@ -50,7 +51,7 @@ public class TouchOverlay extends Overlay {
 			 */
 			if (touchStop - touchStart > 1000 && touchStartX <= touchStopX+20 &&touchStartX >= touchStopX-20 
 					&& touchStartY <= touchStopY+20 && touchStartY >= touchStopY-20) {
-				GeoPoint geoPoint = mapView.getProjection().fromPixels((int)touchStopX, (int)touchStopY);
+				geoPoint = mapView.getProjection().fromPixels((int)touchStopX, (int)touchStopY);
 				AlertDialog options = new AlertDialog.Builder(context).create();
 				options.setTitle("Options");
 				options.setMessage("Coordinates:\nLatitude: " + geoPoint.getLatitudeE6()/1E6 + "\nLongitude: " 
@@ -59,7 +60,11 @@ public class TouchOverlay extends Overlay {
 					public void onClick(DialogInterface dialog, int which) {						
 						//TODO Add Possibility to add a destination marker
 						Drawable destFlag = mapView.getResources().getDrawable(R.drawable.destination_flag);
-						DestinationMarkerOverlay itemizedoverlay = new DestinationMarkerOverlay(destflag, this);
+						destOverlay = new DestinationMarkerOverlay(destFlag);
+						OverlayItem overlayitem = new OverlayItem((GeoPoint)geoPoint, "Hola, Mundo!", "I'm in Mexico City!");
+				        destOverlay.addOverlay(overlayitem);
+				        List<Overlay> destinationOverlays = mapView.getOverlays();
+				        destinationOverlays.add(destOverlay);
 						//OverlayItem overlayitem = new OverlayItem(new
 						//GeoPoint((int)touchStopX*1E6, (int)touchStopY*1E6), "Hola, Mundo!",
 						//"I'm in Mexico City!");
@@ -75,5 +80,8 @@ public class TouchOverlay extends Overlay {
 			}
 		}
 		return false;
+	}
+	DestinationMarkerOverlay getDestOverlay(){
+		return destOverlay;
 	}
 }
