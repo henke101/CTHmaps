@@ -21,13 +21,16 @@ public class TouchOverlay extends Overlay {
 	private long touchStart, touchStop;
 	private float touchStartX = 1, touchStartY = 2, touchStopX = 3,
 			touchStopY = 4;
+	private MapView mapView;
 
-	public TouchOverlay(Drawable marker, Context context) {
+	public TouchOverlay(Drawable marker, Context context, MapView mapView) {
 		super();// Fixing so that the flag is pointed
 		// to the lower left corner
 		this.context = context;
+		this.mapView=mapView;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean onTouchEvent(MotionEvent event, MapView m) {
 		// when user touches the screen
@@ -46,10 +49,11 @@ public class TouchOverlay extends Overlay {
 			 */
 			if (touchStop - touchStart > 1000 && touchStartX <= touchStopX+20 &&touchStartX >= touchStopX-20 
 					&& touchStartY <= touchStopY+20 && touchStartY >= touchStopY-20) {
+				GeoPoint geoPoint = mapView.getProjection().fromPixels((int)touchStopX, (int)touchStopY);
 				AlertDialog options = new AlertDialog.Builder(context).create();
 				options.setTitle("Options");
-				options.setMessage("What do you want to do?" +
-						"\n " + touchStopX + "\n" + touchStopY);
+				options.setMessage("Coordinates:\nLatitude: " + geoPoint.getLatitudeE6()/1E6 + "\nLongitude: " 
+						+ geoPoint.getLongitudeE6()/1E6 + "\n\nWhat do you want to do?");
 				options.setButton("Set destination", new DialogInterface.OnClickListener(){
 					public void onClick(DialogInterface dialog, int which) {
 						//TODO Add Possibility to add a destination marker
@@ -58,10 +62,9 @@ public class TouchOverlay extends Overlay {
 						//"I'm in Mexico City!");
 					}
 				});
-				options.setButton2("Show coordinates", new DialogInterface.OnClickListener(){
-					public void onClick(DialogInterface dialog, int
-							which) {
-						// TODO Add possibility to show coordinates
+				options.setButton2("Back to Map", new DialogInterface.OnClickListener(){
+					public void onClick(DialogInterface dialog, int which) {
+						Toast.makeText(context, "Test2", Toast.LENGTH_SHORT).show();
 					}
 				});
 				options.show();
