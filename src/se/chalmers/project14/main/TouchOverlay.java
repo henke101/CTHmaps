@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
 import android.widget.Toast;
 
+import com.example.hellomaps.HelloItemizedOverlay;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.MapView;
@@ -23,7 +24,7 @@ public class TouchOverlay extends Overlay {
 			touchStopY = 4;
 	private MapView mapView;
 
-	public TouchOverlay(Drawable marker, Context context, MapView mapView) {
+	public TouchOverlay(Context context, MapView mapView) {
 		super();// Fixing so that the flag is pointed
 		// to the lower left corner
 		this.context = context;
@@ -55,8 +56,10 @@ public class TouchOverlay extends Overlay {
 				options.setMessage("Coordinates:\nLatitude: " + geoPoint.getLatitudeE6()/1E6 + "\nLongitude: " 
 						+ geoPoint.getLongitudeE6()/1E6 + "\n\nWhat do you want to do?");
 				options.setButton("Set destination", new DialogInterface.OnClickListener(){
-					public void onClick(DialogInterface dialog, int which) {
+					public void onClick(DialogInterface dialog, int which) {						
 						//TODO Add Possibility to add a destination marker
+						Drawable destFlag = mapView.getResources().getDrawable(R.drawable.destination_flag);
+						DestinationMarkerOverlay itemizedoverlay = new DestinationMarkerOverlay(destflag, this);
 						//OverlayItem overlayitem = new OverlayItem(new
 						//GeoPoint((int)touchStopX*1E6, (int)touchStopY*1E6), "Hola, Mundo!",
 						//"I'm in Mexico City!");
