@@ -9,64 +9,66 @@ import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
 import android.widget.Toast;
 
+import com.google.android.maps.GeoPoint;
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.MapView;
+import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
 
-public class DestinationOverlay extends ItemizedOverlay{
-	private ArrayList<OverlayItem> mOverlays = new ArrayList<OverlayItem>();
+public class DestinationOverlay extends Overlay {
+	//private ArrayList<OverlayItem> mOverlays = new ArrayList<OverlayItem>();
 	private Context context;
 	private long touchStart, touchStop;
-	private float touchStartX, touchStartY, touchStopX, touchStopY;
-	
+	private float touchStartX = 1, touchStartY = 2, touchStopX = 3,
+			touchStopY = 4;
+
 	public DestinationOverlay(Drawable marker, Context context) {
-		super(boundCenterBottom(marker));//Fixing so that the flag is pointed to the lower left corner
-		this.context=context;
+		super();// Fixing so that the flag is pointed
+		// to the lower left corner
+		this.context = context;
 	}
 
 	@Override
-	protected OverlayItem createItem(int i) {
-		return mOverlays.get(i);
-	}
+	public boolean onTouchEvent(MotionEvent event, MapView m) {
+		// when user touches the screen
+		if (event.getAction() == MotionEvent.ACTION_DOWN) {
+			touchStart = event.getEventTime();
+			touchStartX = event.getX();
+			touchStartY = event.getY();
+		}// when screen is released
+		else if (event.getAction() == MotionEvent.ACTION_UP) {
+			touchStop = event.getEventTime();
+			touchStopX = event.getX();
+			touchStopY = event.getY();
 
-	@Override
-	public int size() {
-		return mOverlays.size();
-	}
-	@SuppressWarnings("deprecation")
-	@Override
-	public boolean onTouchEvent(MotionEvent e, MapView m){
-		if(e.getAction()==MotionEvent.ACTION_DOWN){
-			touchStart=e.getEventTime();
-			touchStartX=e.getX();
-			touchStartY=e.getY();
-		}
-		if(e.getAction()==MotionEvent.ACTION_UP){
-			touchStop=e.getEventTime();
-			touchStopX=e.getX();
-			touchStopY=e.getY();
-		}
-		/*Checking holdtime to be above 1500 ms and at he same position*/
-		if(touchStop-touchStart>1500 && touchStartX==touchStopX && touchStartY==touchStopY){
-			AlertDialog options = new AlertDialog.Builder(context).create();
-			options.setTitle("Options");
-			options.setMessage("What do you want to do?");
-			options.setButton("Set destination", new DialogInterface.OnClickListener(){
-				
-				public void onClick(DialogInterface dialog, int which) {
-					// TODO Auto-generated method stub
-					
-				}
-			});
-			options.setButton2("Show coordinates", new DialogInterface.OnClickListener(){
-				
-				public void onClick(DialogInterface dialog, int which) {
-					// TODO Auto-generated method stub
-					
-				}
-			});
-			options.show();
-			return true;
+			// swipped up
+			/*
+			 * Checking holdtime to be above 1500 ms and at he same position
+			 */
+			if (touchStop - touchStart > 1500 && touchStartX <= touchStopX+20 &&touchStartX >= touchStopX-20 
+					&& touchStartY <= touchStopY+20 && touchStartY >= touchStopY-20) {
+				AlertDialog options = new AlertDialog.Builder(context).create();
+				options.setTitle("Options");
+				options.setMessage("What do you want to do?" +
+						"\n " + touchStopX + "\n" + touchStopY);
+				options.setButton("Set destination", new DialogInterface.OnClickListener(){
+					public void onClick(DialogInterface dialog, int which) {
+						//TODO Add Possibility to add a destination marker
+						//OverlayItem overlayitem = new OverlayItem(new
+						//GeoPoint((int)touchStopX*1E6, (int)touchStopY*1E6), "Hola, Mundo!",
+						//"I'm in Mexico City!");
+					}
+				});
+				options.setButton2("Show coordinates", new DialogInterface.OnClickListener(){
+					public void onClick(DialogInterface dialog, int
+							which) {
+						// TODO Add possibility to show coordinates
+					}
+				});
+				options.show();
+				Toast.makeText(context, "Test2", Toast.LENGTH_SHORT).show();
+				return true;
+			}
 		}
 		return false;
 	}

@@ -46,7 +46,7 @@ public class Map extends MapActivity{
 		buttonNewDest.setOnClickListener(new OnClickListener() {
 			
 			public void onClick(View v) {
-				Toast.makeText(getApplicationContext(), "Test", Toast.LENGTH_SHORT).show();				
+				onBackPressed();				
 			}
 		});
 
