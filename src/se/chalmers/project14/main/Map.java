@@ -78,7 +78,7 @@ public class Map extends MapActivity{
 		//Overlays
 		List<Overlay> mapOverlays = mapView.getOverlays();
 		Drawable destFlag = this.getResources().getDrawable(R.drawable.destination_flag);
-		DestinationOverlay destOverlay = new DestinationOverlay(destFlag, this);
+		TouchOverlay destOverlay = new TouchOverlay(destFlag, this);
 		mapOverlays.add(destOverlay);
 	}
 
