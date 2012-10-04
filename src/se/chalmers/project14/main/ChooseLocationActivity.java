@@ -15,12 +15,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.support.v4.app.NavUtils;
 import android.widget.AdapterView.OnItemClickListener;
 
 public class ChooseLocationActivity extends ListActivity implements
-		OnItemClickListener {
+OnItemClickListener {
 
 	public final static String CTHBUILDING_COORDINATES = "se.chalmers.project14.main.CTHBUILDING_COORDINATES";
 	public final static String CTHBUILDING = "se.chalmers.project14.main.CTHBUILDING";
@@ -79,7 +80,8 @@ public class ChooseLocationActivity extends ListActivity implements
 	 * @param view
 	 */
 	public void searchLocationButton(View view) {
-
+		Intent intent = new Intent(this, Map.class);
+		startActivity(intent);
 	}
 
 	/**
