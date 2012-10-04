@@ -65,7 +65,6 @@ public class TouchOverlay extends Overlay {
 					}
 				});
 				options.show();
-				Toast.makeText(context, "Test2", Toast.LENGTH_SHORT).show();
 				return true;
 			}
 		}
