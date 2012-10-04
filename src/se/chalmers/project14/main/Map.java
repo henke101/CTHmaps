@@ -1,5 +1,7 @@
 package se.chalmers.project14.main;
 
+import java.util.List;
+
 import se.chalmers.project14.database.DatabaseHandler;
 
 import com.google.android.maps.GeoPoint;
@@ -7,11 +9,15 @@ import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
+import com.google.android.maps.Overlay;
+import com.google.android.maps.OverlayItem;
+
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -54,7 +60,7 @@ public class Map extends MapActivity {
 		buttonNewDest.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
-				Toast.makeText(getApplicationContext(), "Test",
+				onBackPressed();				
 						Toast.LENGTH_SHORT).show();
 			}
 		});
@@ -77,10 +83,7 @@ public class Map extends MapActivity {
 		mapView.getOverlays().add(myLocationOverlay);
 		myLocationOverlay.enableMyLocation();
 		myLocationOverlay.enableCompass(); // Adding a compass to the map
-
-		// Getting the coordinates of the Edit-house
-		DatabaseHandler db = new DatabaseHandler(this);
-
+		
 		/*
 		 * Using the controller to pan in to the EDIT-house's coordinates and to
 		 * zoom in at a lucid level
@@ -88,7 +91,28 @@ public class Map extends MapActivity {
 		controller = mapView.getController();
 		GeoPoint point = new GeoPoint(57688018, 11977886);
 		controller.animateTo(point);
-		controller.setZoom(15);
+		controller.setZoom(16);
+		
+		//Overlays
+		List<Overlay> mapOverlays = mapView.getOverlays();
+		Drawable destFlag = this.getResources().getDrawable(R.drawable.destination_flag);
+		TouchOverlay destOverlay = new TouchOverlay(destFlag, this);
+		mapOverlays.add(destOverlay);
+		
+		// Adding clickable map overlays for the EDIT-house entrances
+				mapOverlays = mapView.getOverlays();
+				Drawable editIcon = this.getResources().getDrawable(R.drawable.edit); 
+				BuildingOverlay editOverlay = new BuildingOverlay(editIcon, this); 
+				GeoPoint edit1GeoPoint = new GeoPoint(57687808,11979096);
+				OverlayItem edit1OverlayItem = new OverlayItem(edit1GeoPoint, "Entr EDIT huset", "Klassrum nra denna entrn:");
+				editOverlay.addOverlay(edit1OverlayItem);
+				GeoPoint edit2GeoPoint = new GeoPoint(57687458,11978455);
+				OverlayItem edit2OverlayItem = new OverlayItem(edit2GeoPoint, "Entr EDIT huset", "Klassrum nra denna entrn:");
+				editOverlay.addOverlay(edit2OverlayItem);
+				GeoPoint edit3GeoPoint = new GeoPoint(57688242,11978600);
+				OverlayItem edit3OverlayItem = new OverlayItem(edit3GeoPoint, "Entr EDIT huset", "Klassrum nra denna entrn:");
+				editOverlay.addOverlay(edit3OverlayItem);
+				mapOverlays.add(editOverlay);
 	}
 
 	@Override

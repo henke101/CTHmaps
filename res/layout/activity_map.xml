@@ -11,7 +11,8 @@
 	    android:layout_height="wrap_content"
 	    android:layout_above="@+id/linearLayout"
 	    android:apiKey="0wMDFClMcSsyqhOaYeMVyj4sZTP23y_zewDmsOw"
-	    android:clickable="true"/>
+	    android:clickable="true"
+	    android:enabled="true"/>
     
 	<TextView
 	    android:id="@+id/textview"
