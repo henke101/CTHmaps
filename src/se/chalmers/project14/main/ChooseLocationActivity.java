@@ -24,8 +24,9 @@ import android.widget.AdapterView.OnItemClickListener;
 public class ChooseLocationActivity extends ListActivity implements
 		OnItemClickListener {
 
-	public final static String EXTRA_MESSAGE = "se.chalmers.project14.main.EXTRA_MESSAGE";
-	public final static String CTHBUILDING_MESSAGE = "se.chalmers.project14.main.CTHBUILDING_MESSAGE";
+	public final static String CTHBUILDING_COORDINATES = "se.chalmers.project14.main.CTHBUILDING_COORDINATES";
+	public final static String CTHBUILDING = "se.chalmers.project14.main.CTHBUILDING";
+	public final static String CTHDOOR_COORDINATES = "se.chalmers.project14.main.CTHDOOR_CTHBUILDING";
 	private DatabaseAdapter dba;
 	private ListView listview;
 	private List<Coordinates> coordinateList;
@@ -80,16 +81,12 @@ public class ChooseLocationActivity extends ListActivity implements
 	 * @param view
 	 */
 	public void searchLocationButton(View view) {
-		Intent intent = new Intent(this, Map.class);
-		EditText editText = (EditText) findViewById(R.id.search_locationText);
-		String location = editText.getText().toString();
-		intent.putExtra(EXTRA_MESSAGE, location);
-		startActivity(intent);
+
 	}
 
 	/**
 	 * Invoked when List view is pressed, send the coordinate to selected
-	 * building
+	 * building and coordinates to the building doors and which building
 	 * 
 	 * @see android.widget.AdapterView.OnItemClickListener#onItemClick(android.widget.AdapterView,
 	 *      android.view.View, int, long)
@@ -99,11 +96,12 @@ public class ChooseLocationActivity extends ListActivity implements
 		Coordinates coordinate = coordinateList.get(listPosition);
 		String cthBuilding = coordinate.getCTHplace();
 		coordinate = db.getCoordinates(cthBuilding);
-		Log.d("OnitemClick", cthBuilding + ":" + coordinate.getCoordinates());//delete this row
-		Intent intent = new Intent(this, CTHmaps.class);
-		intent.putExtra(CTHBUILDING_MESSAGE, cthBuilding + cthBuilding + ":"
-				+ coordinate.getCoordinates());
-
+		String doorAndbuildingCoordinates = coordinate.getCoordinates();
+		String[] dbc = doorAndbuildingCoordinates.split("-");
+		Intent intent = new Intent(this, Map.class);
+		intent.putExtra(CTHBUILDING_COORDINATES, dbc[0]);
+		intent.putExtra(CTHBUILDING, cthBuilding);
+		intent.putExtra(CTHDOOR_COORDINATES, dbc[1]);
 		startActivity(intent);
 
 	}
