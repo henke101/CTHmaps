@@ -9,7 +9,6 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
-
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -27,18 +26,26 @@ public class Map extends MapActivity {
 	private MapController controller;
 	private Button buttonToggle, buttonNewDest;
 	private MapView mapView;
+	private GeoPoint geoPoint;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_map);
 		Intent i = getIntent();
-		String cthBuilding = i
-				.getStringExtra(ChooseLocationActivity.CTHBUILDING);
-		String doorCoordinates = i
-				.getStringExtra(ChooseLocationActivity.CTHDOOR_COORDINATES);
-		String cthBuildingCoordinates = i
-				.getStringExtra(ChooseLocationActivity.CTHBUILDING_COORDINATES);
+		if(i.getStringExtra(ChooseLocationActivity.CTHBUILDING.toString()) != null){
+			String cthBuilding = i
+					.getStringExtra(ChooseLocationActivity.CTHBUILDING);
+			String doorCoordinates = i
+					.getStringExtra(ChooseLocationActivity.CTHDOOR_COORDINATES);
+			String cthBuildingCoordinates = i
+					.getStringExtra(ChooseLocationActivity.CTHBUILDING_COORDINATES);
+			//Set geoPoint to the coordinate of the building
+			geoPoint = new GeoPoint(57688018, 11977886);
+			
+		}else{
+			geoPoint = new GeoPoint(57688018, 11977886);
+		}
 		buttonToggle = (Button) findViewById(R.id.buttonToggle);
 		buttonNewDest = (Button) findViewById(R.id.buttonNewDest);
 		buttonToggle.setOnClickListener(new OnClickListener() {
@@ -79,8 +86,7 @@ public class Map extends MapActivity {
 		 * zoom in at a lucid level
 		 */
 		controller = mapView.getController();
-		GeoPoint point = new GeoPoint(57688018, 11977886);
-		controller.animateTo(point);
+		controller.animateTo(geoPoint);
 		controller.setZoom(16);
 
 		// Overlays
