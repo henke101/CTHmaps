@@ -10,6 +10,7 @@ import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.Overlay;
+import com.google.android.maps.OverlayItem;
 
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -73,13 +74,28 @@ public class Map extends MapActivity{
 		controller = mapView.getController();
 		GeoPoint point = new GeoPoint(57688018, 11977886);
 		controller.animateTo(point);
-		controller.setZoom(15);
+		controller.setZoom(16);
 		
 		//Overlays
 		List<Overlay> mapOverlays = mapView.getOverlays();
 		Drawable destFlag = this.getResources().getDrawable(R.drawable.destination_flag);
 		TouchOverlay destOverlay = new TouchOverlay(destFlag, this);
 		mapOverlays.add(destOverlay);
+		
+		// Adding clickable map overlays for the EDIT-house entrances
+				mapOverlays = mapView.getOverlays();
+				Drawable editIcon = this.getResources().getDrawable(R.drawable.edit); 
+				BuildingOverlay editOverlay = new BuildingOverlay(editIcon, this); 
+				GeoPoint edit1GeoPoint = new GeoPoint(57687808,11979096);
+				OverlayItem edit1OverlayItem = new OverlayItem(edit1GeoPoint, "Entré EDIT huset", "Klassrum nära denna entrén:");
+				editOverlay.addOverlay(edit1OverlayItem);
+				GeoPoint edit2GeoPoint = new GeoPoint(57687458,11978455);
+				OverlayItem edit2OverlayItem = new OverlayItem(edit2GeoPoint, "Entré EDIT huset", "Klassrum nära denna entrén:");
+				editOverlay.addOverlay(edit2OverlayItem);
+				GeoPoint edit3GeoPoint = new GeoPoint(57688242,11978600);
+				OverlayItem edit3OverlayItem = new OverlayItem(edit3GeoPoint, "Entré EDIT huset", "Klassrum nära denna entrén:");
+				editOverlay.addOverlay(edit3OverlayItem);
+				mapOverlays.add(editOverlay);
 	}
 
 
