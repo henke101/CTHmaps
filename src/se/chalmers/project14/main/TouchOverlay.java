@@ -58,17 +58,14 @@ public class TouchOverlay extends Overlay {
 						+ geoPoint.getLongitudeE6()/1E6 + "\n\nWhat do you want to do?");
 				options.setButton("Set destination", new DialogInterface.OnClickListener(){
 					public void onClick(DialogInterface dialog, int which) {						
-						//TODO Add Possibility to add a destination marker
+						//Adding a destination marker
 						Drawable destFlag = mapView.getResources().getDrawable(R.drawable.destination_flag);
 						destOverlay = new DestinationMarkerOverlay(destFlag);
-						OverlayItem overlayitem = new OverlayItem((GeoPoint)geoPoint, "Hola, Mundo!", "I'm in Mexico City!");
+						OverlayItem overlayitem = new OverlayItem(geoPoint, "Hola, Mundo!", "I'm in Mexico City!");
 				        destOverlay.addOverlay(overlayitem);
 				        List<Overlay> destinationOverlays = mapView.getOverlays();
 				        destinationOverlays.add(destOverlay);
 				        mapView.invalidate();
-						//OverlayItem overlayitem = new OverlayItem(new
-						//GeoPoint((int)touchStopX*1E6, (int)touchStopY*1E6), "Hola, Mundo!",
-						//"I'm in Mexico City!");
 					}
 				});
 				options.setButton2("Back to Map", new DialogInterface.OnClickListener(){

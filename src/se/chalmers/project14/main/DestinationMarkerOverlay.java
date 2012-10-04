@@ -9,11 +9,11 @@ import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.OverlayItem;
 
 public class DestinationMarkerOverlay extends ItemizedOverlay{
+	//List of overlayitems, made generic to simplify future functions
 	private ArrayList<OverlayItem> destOverlays = new ArrayList<OverlayItem>();
 	
 	public DestinationMarkerOverlay(Drawable marker) {
 		super(boundCenterBottom(marker));
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -26,6 +26,7 @@ public class DestinationMarkerOverlay extends ItemizedOverlay{
 		return destOverlays.size();
 	}
 
+	//Adding an item (a flagmarker) to the list of destinationoverlays
 	public void addOverlay(OverlayItem overlayitem) {
 		destOverlays.add(overlayitem);
 		populate();		
