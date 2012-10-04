@@ -7,7 +7,6 @@ import java.io.InputStreamReader;
 
 import android.content.Context;
 import android.content.res.AssetManager;
-import android.util.Log;
 
 /**
  * This class reads a file which contains buildings and coordinates connected to
@@ -50,7 +49,6 @@ public class DatabaseInput {
 	private void addCoordinatesToDatabase(String coordinateLine) {
 		DatabaseHandler db = new DatabaseHandler(context);
 		String[] coordinateInput = coordinateLine.split(":");
-		Log.d("addcoordinates", " " + coordinateInput[0]);
 		int coordinateKey;
 		coordinateKey = Integer.parseInt(coordinateInput[0]);
 		Coordinates coordinate = new Coordinates(coordinateKey,

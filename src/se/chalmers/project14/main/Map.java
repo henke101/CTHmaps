@@ -2,8 +2,6 @@ package se.chalmers.project14.main;
 
 import java.util.List;
 
-import se.chalmers.project14.database.DatabaseHandler;
-
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
@@ -18,12 +16,10 @@ import android.os.Bundle;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.Toast;
 
 public class Map extends MapActivity {
 	private LocationManager locManager;
@@ -37,18 +33,12 @@ public class Map extends MapActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_map);
 		Intent i = getIntent();
-		String coordinateAndBuilding = i
-				.getStringExtra(ChooseLocationActivity.CTHBUILDING_MESSAGE);
-		Log.d("map.class", " " + coordinateAndBuilding);
-		String[] splitCoordinateAndBuilding = coordinateAndBuilding.split(":");
-
-//		int[] abc = convertStringCordinateToIntCoordinate(splitCoordinateAndBuilding[1]);
-//		for (int j = 0; j < abc.length; j = j + 8) {
-//			Log.d("abc", " " + abc[j]);
-//		}
-//		Log.d("mapview", " " + abc[0] + " " + abc[1]);
-
-		// Link the buttons
+		String cthBuilding = i
+				.getStringExtra(ChooseLocationActivity.CTHBUILDING);
+		String doorCoordinates = i
+				.getStringExtra(ChooseLocationActivity.CTHDOOR_COORDINATES);
+		String cthBuildingCoordinates = i
+				.getStringExtra(ChooseLocationActivity.CTHBUILDING_COORDINATES);
 		buttonToggle = (Button) findViewById(R.id.buttonToggle);
 		buttonNewDest = (Button) findViewById(R.id.buttonNewDest);
 		buttonToggle.setOnClickListener(new OnClickListener() {
@@ -60,8 +50,8 @@ public class Map extends MapActivity {
 		buttonNewDest.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
-				onBackPressed();				
-						Toast.LENGTH_SHORT).show();
+				onBackPressed();
+
 			}
 		});
 		// Enabling zooming
@@ -83,7 +73,7 @@ public class Map extends MapActivity {
 		mapView.getOverlays().add(myLocationOverlay);
 		myLocationOverlay.enableMyLocation();
 		myLocationOverlay.enableCompass(); // Adding a compass to the map
-		
+
 		/*
 		 * Using the controller to pan in to the EDIT-house's coordinates and to
 		 * zoom in at a lucid level
@@ -92,27 +82,31 @@ public class Map extends MapActivity {
 		GeoPoint point = new GeoPoint(57688018, 11977886);
 		controller.animateTo(point);
 		controller.setZoom(16);
-		
-		//Overlays
+
+		// Overlays
 		List<Overlay> mapOverlays = mapView.getOverlays();
-		Drawable destFlag = this.getResources().getDrawable(R.drawable.destination_flag);
+		Drawable destFlag = this.getResources().getDrawable(
+				R.drawable.destination_flag);
 		TouchOverlay destOverlay = new TouchOverlay(destFlag, this);
 		mapOverlays.add(destOverlay);
-		
+
 		// Adding clickable map overlays for the EDIT-house entrances
-				mapOverlays = mapView.getOverlays();
-				Drawable editIcon = this.getResources().getDrawable(R.drawable.edit); 
-				BuildingOverlay editOverlay = new BuildingOverlay(editIcon, this); 
-				GeoPoint edit1GeoPoint = new GeoPoint(57687808,11979096);
-				OverlayItem edit1OverlayItem = new OverlayItem(edit1GeoPoint, "Entr EDIT huset", "Klassrum nra denna entrn:");
-				editOverlay.addOverlay(edit1OverlayItem);
-				GeoPoint edit2GeoPoint = new GeoPoint(57687458,11978455);
-				OverlayItem edit2OverlayItem = new OverlayItem(edit2GeoPoint, "Entr EDIT huset", "Klassrum nra denna entrn:");
-				editOverlay.addOverlay(edit2OverlayItem);
-				GeoPoint edit3GeoPoint = new GeoPoint(57688242,11978600);
-				OverlayItem edit3OverlayItem = new OverlayItem(edit3GeoPoint, "Entr EDIT huset", "Klassrum nra denna entrn:");
-				editOverlay.addOverlay(edit3OverlayItem);
-				mapOverlays.add(editOverlay);
+		mapOverlays = mapView.getOverlays();
+		Drawable editIcon = this.getResources().getDrawable(R.drawable.edit);
+		BuildingOverlay editOverlay = new BuildingOverlay(editIcon, this);
+		GeoPoint edit1GeoPoint = new GeoPoint(57687808, 11979096);
+		OverlayItem edit1OverlayItem = new OverlayItem(edit1GeoPoint,
+				"Entr EDIT huset", "Klassrum nra denna entrn:");
+		editOverlay.addOverlay(edit1OverlayItem);
+		GeoPoint edit2GeoPoint = new GeoPoint(57687458, 11978455);
+		OverlayItem edit2OverlayItem = new OverlayItem(edit2GeoPoint,
+				"Entr EDIT huset", "Klassrum nra denna entrn:");
+		editOverlay.addOverlay(edit2OverlayItem);
+		GeoPoint edit3GeoPoint = new GeoPoint(57688242, 11978600);
+		OverlayItem edit3OverlayItem = new OverlayItem(edit3GeoPoint,
+				"Entr EDIT huset", "Klassrum nra denna entrn:");
+		editOverlay.addOverlay(edit3OverlayItem);
+		mapOverlays.add(editOverlay);
 	}
 
 	@Override
