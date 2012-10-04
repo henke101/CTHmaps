@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 public class DatabaseAdapter extends BaseAdapter {
 	private Activity activity;
-	private Context context;
 	private int layoutId;
 	private List<Coordinates> coordinateList;
 	private LayoutInflater inflater;
@@ -46,7 +45,7 @@ public class DatabaseAdapter extends BaseAdapter {
 		View view = null;
 
 		if (convertView == null) {
-			view = inflater.inflate(R.layout.row, null);
+			view = inflater.inflate(layoutId, null);
 			TextView t = (TextView) view.findViewById(R.id.text123);
 			String data = coordinateList.get(position).getCTHplace();
 			t.setText(data);
@@ -56,7 +55,5 @@ public class DatabaseAdapter extends BaseAdapter {
 
 		return view;
 	}
-//	@Override
-//	public void onItemClick(View arg1, int arg2, long arg3) {
 
 }

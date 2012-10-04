@@ -56,6 +56,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	}
 
 	/**
+	 * Add coordinates to the database
 	 * 
 	 * @param coordinates
 	 *            Coordinates you want to add to the database
@@ -110,7 +111,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		Cursor cursor = db.rawQuery(getCoordinates, null);
 
 		cursor.moveToFirst();
-		while (!cursor.isAfterLast()) {
+		while (!cursor.isLast()) {
 			Coordinates coordinate = new Coordinates();
 			coordinate.setCTHplace(cursor.getString(1));
 			coordinateList.add(coordinate);
@@ -120,12 +121,5 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		cursor.close();
 
 		return coordinateList;
-	}
-
-	public Cursor fetchAllCoordinates() {
-		String getCoordinates = "SELECT * FROM " + TABLE_COORDINATES;
-		SQLiteDatabase db = this.getWritableDatabase();
-		Cursor cursor = db.rawQuery(getCoordinates, null);
-		return cursor;
 	}
 }

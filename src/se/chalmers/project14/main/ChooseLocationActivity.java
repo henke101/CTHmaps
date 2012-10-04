@@ -1,5 +1,8 @@
 package se.chalmers.project14.main;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import se.chalmers.project14.database.Coordinates;
@@ -33,9 +36,10 @@ public class ChooseLocationActivity extends ListActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_choose_location);
 		listview = getListView();
-
 		db = new DatabaseHandler(this);
+		coordinateList = new ArrayList<Coordinates>();
 		coordinateList = db.getAllCoordinates();
+		sortCoordinateList(coordinateList);
 		dba = new DatabaseAdapter(this, R.layout.row, coordinateList);
 		setListAdapter(dba);
 		listview.setOnItemClickListener(this);
@@ -46,6 +50,17 @@ public class ChooseLocationActivity extends ListActivity implements
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.activity_choose_location, menu);
 		return true;
+	}
+
+	public void sortCoordinateList(List<Coordinates> sortCoordinateList) {
+		Collections.sort(coordinateList, new Comparator<Coordinates>() {
+
+			public int compare(Coordinates c1, Coordinates c2) {
+				return c1.getCTHplace().compareTo(c2.getCTHplace());
+
+			}
+		});
+
 	}
 
 	@Override
@@ -59,6 +74,8 @@ public class ChooseLocationActivity extends ListActivity implements
 	}
 
 	/**
+	 * Invoked when browse button is pressed, send the coordinates to Chalmers
+	 * school to next view
 	 * 
 	 * @param view
 	 */
@@ -71,7 +88,8 @@ public class ChooseLocationActivity extends ListActivity implements
 	}
 
 	/**
-	 * (non-Javadoc)
+	 * Invoked when List view is pressed, send the coordinate to selected
+	 * building
 	 * 
 	 * @see android.widget.AdapterView.OnItemClickListener#onItemClick(android.widget.AdapterView,
 	 *      android.view.View, int, long)
@@ -81,10 +99,10 @@ public class ChooseLocationActivity extends ListActivity implements
 		Coordinates coordinate = coordinateList.get(listPosition);
 		String cthBuilding = coordinate.getCTHplace();
 		coordinate = db.getCoordinates(cthBuilding);
-		Log.d("OnitemClick ", " " + coordinate.getCoordinates());
-
+		Log.d("OnitemClick", cthBuilding + ":" + coordinate.getCoordinates());//delete this row
 		Intent intent = new Intent(this, CTHmaps.class);
-		intent.putExtra(CTHBUILDING_MESSAGE, coordinate.getCoordinates());
+		intent.putExtra(CTHBUILDING_MESSAGE, cthBuilding + cthBuilding + ":"
+				+ coordinate.getCoordinates());
 
 		startActivity(intent);
 
