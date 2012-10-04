@@ -65,6 +65,7 @@ public class TouchOverlay extends Overlay {
 				        destOverlay.addOverlay(overlayitem);
 				        List<Overlay> destinationOverlays = mapView.getOverlays();
 				        destinationOverlays.add(destOverlay);
+				        mapView.invalidate();
 						//OverlayItem overlayitem = new OverlayItem(new
 						//GeoPoint((int)touchStopX*1E6, (int)touchStopY*1E6), "Hola, Mundo!",
 						//"I'm in Mexico City!");
