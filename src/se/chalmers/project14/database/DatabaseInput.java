@@ -49,7 +49,8 @@ public class DatabaseInput {
 	private void addCoordinatesToDatabase(String coordinateLine) {
 		DatabaseHandler db = new DatabaseHandler(context);
 		String[] coordinateInput = coordinateLine.split(":");
-		int coordinateKey = Integer.parseInt(coordinateInput[0]);
+		int coordinateKey;
+		coordinateKey = Integer.parseInt(coordinateInput[0]);
 		Coordinates coordinate = new Coordinates(coordinateKey,
 				coordinateInput[1], coordinateInput[2]);
 		db.addCordinates(coordinate);
