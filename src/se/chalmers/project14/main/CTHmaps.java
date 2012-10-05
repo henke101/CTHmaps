@@ -24,7 +24,6 @@ public class CTHmaps extends MapActivity {
 		// Enabling zooming
 		MapView mapView = (MapView) findViewById(R.id.mapview);
 		mapView.setBuiltInZoomControls(true);
-
 		/* Using the LocationManager class to obtain GPS-location */
 		locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		locListener = new MyLocationListener(this);
