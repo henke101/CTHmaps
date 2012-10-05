@@ -12,7 +12,7 @@ import android.widget.SlidingDrawer;
 import android.widget.ViewFlipper;
 import android.support.v4.app.NavUtils;
 
-public class FloorViewer extends Activity{
+public class FloorViewer extends Activity {
 
 	ViewFlipper floorFlipper;
 	SimpleOnGestureListener swipeHandler;
@@ -34,11 +34,7 @@ public class FloorViewer extends Activity{
                 return false;
             }
         };
-        
-        
-        //swipeHandler = new SwipeHandler(floorFlipper);
-        //floorFlipper.setOnTouchListener(swipeHandler);
-        
+   
     }
 	
 	@Override
@@ -50,24 +46,5 @@ public class FloorViewer extends Activity{
 
 
 	}
-
-    /*@Override IS NEVER USED AND ONLY CREATES PROBLEMS / HENKE
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_floor_viewer, menu);
-        return true;
-    }
-
-    
-    @Override IS NEVER USED AND ONLY CREATES PROBLEMS / HENKE
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }*/
-
-	
 
 }

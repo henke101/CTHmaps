@@ -102,15 +102,15 @@ public class Map extends MapActivity {
 		BuildingOverlay editOverlay = new BuildingOverlay(editIcon, this);
 		GeoPoint edit1GeoPoint = new GeoPoint(57687808, 11979096);
 		OverlayItem edit1OverlayItem = new OverlayItem(edit1GeoPoint,
-				"Entr EDIT huset", "Klassrum nra denna entrn:");
+				"Entrance EDIT huset", "Classrooms close to this entrance:");
 		editOverlay.addOverlay(edit1OverlayItem);
 		GeoPoint edit2GeoPoint = new GeoPoint(57687458, 11978455);
 		OverlayItem edit2OverlayItem = new OverlayItem(edit2GeoPoint,
-				"Entr EDIT huset", "Klassrum nra denna entrn:");
+				"Entrance EDIT huset", "Classrooms close to this entrance:");
 		editOverlay.addOverlay(edit2OverlayItem);
 		GeoPoint edit3GeoPoint = new GeoPoint(57688242, 11978600);
 		OverlayItem edit3OverlayItem = new OverlayItem(edit3GeoPoint,
-				"Entr EDIT huset", "Klassrum nra denna entrn:");
+				"Entrance EDIT huset", "Classrooms close to this entrance:");
 		editOverlay.addOverlay(edit3OverlayItem);
 		mapOverlays.add(editOverlay);
 	}

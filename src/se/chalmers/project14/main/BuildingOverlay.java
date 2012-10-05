@@ -40,14 +40,14 @@ public class BuildingOverlay extends ItemizedOverlay {
 		AlertDialog.Builder dialog = new AlertDialog.Builder(buildingContext);
 		dialog.setTitle(item.getTitle());
 		dialog.setMessage(item.getSnippet());
-		dialog.setPositiveButton("Gå in i byggnad", new DialogInterface.OnClickListener() {
+		dialog.setPositiveButton("Enter Building", new DialogInterface.OnClickListener() {
 
 			public void onClick(DialogInterface dialog, int which) {
 				Intent intent = new Intent(buildingContext, se.chalmers.project14.enterBuilding.FloorViewer.class);
 				buildingContext.startActivity(intent);
 			}
 		});
-		dialog.setNegativeButton("Gå tillbaka till karta", new DialogInterface.OnClickListener() {
+		dialog.setNegativeButton("Go back to map", new DialogInterface.OnClickListener() {
 
 			public void onClick(DialogInterface dialog, int which) {
 			// do nothing and go back to mapview
