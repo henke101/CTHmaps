@@ -17,7 +17,7 @@
         <uses-library android:name="com.google.android.maps" />
 
         <activity
-            android:name=".CTHmaps"
+            android:name=".Map"
             android:label="@string/title_activity_main" >
             <intent-filter>
                 <action android:name="se.chalmers.project14.main.CTHMAPS" />

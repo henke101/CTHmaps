@@ -11,7 +11,8 @@
 	    android:layout_height="wrap_content"
 	    android:layout_above="@+id/linearLayout"
 	    android:apiKey="0wMDFClMcSsyqhOaYeMVyj4sZTP23y_zewDmsOw"
-	    android:clickable="true"/>
+	    android:clickable="true"
+	    android:enabled="true"/>
     
 	<TextView
 	    android:id="@+id/textview"
@@ -29,10 +30,16 @@
         android:orientation="horizontal" >
 
         <Button
-            android:id="@+id/button1"
-            android:layout_width="fill_parent"
+            android:id="@+id/buttonToggle"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/new_dest" />
+            android:text="@string/button_toggle" />"
+
+        <Button
+            android:id="@+id/buttonNewDest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_new_dest" />
 
     </LinearLayout>
     	
