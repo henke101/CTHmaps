@@ -5,8 +5,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import se.chalmers.project14.model.Coordinates;
+import se.chalmers.project14.model.Door;
+import se.chalmers.project14.model.House;
+
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.util.Log;
 
 /**
  * This class reads a file which contains buildings and coordinates connected to
@@ -47,12 +52,19 @@ public class DatabaseInput {
 	 *            a String representing a row line from the file Coordinates.txt
 	 */
 	private void addCoordinatesToDatabase(String coordinateLine) {
+		Log.d("addCoordinateToDatabase", " " + coordinateLine);
 		DatabaseHandler db = new DatabaseHandler(context);
 		String[] coordinateInput = coordinateLine.split(":");
-		int coordinateKey;
-		coordinateKey = Integer.parseInt(coordinateInput[0]);
-		Coordinates coordinate = new Coordinates(coordinateKey,
-				coordinateInput[1], coordinateInput[2]);
-		db.addCordinates(coordinate);
+		int coordinateKey = Integer.parseInt(coordinateInput[0]);
+		House house = new House(coordinateKey, coordinateInput[1]);
+		Coordinates coordinates = new Coordinates(coordinateInput[2]);
+		Door door = new Door(coordinateInput[3], coordinateInput[4]);
+		Log.d("addCoordinateToDatabase", " " + coordinateKey);
+		Log.d("addCoordinateToDatabase", " " + coordinateInput[1]);
+		Log.d("addCoordinateToDatabase", " " + coordinateInput[2]);
+		Log.d("addCoordinateToDatabase", " " + coordinateInput[3]);
+		Log.d("addCoordinateToDatabase", " " + coordinateInput[4]);
+		db.addCthHouse(house, coordinates, door);
+		// db.addCthCoordinates(coordinateKey, coordinates, door);
 	}
 }

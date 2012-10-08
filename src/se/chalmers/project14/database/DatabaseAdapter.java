@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import se.chalmers.project14.main.R;
+import se.chalmers.project14.model.Coordinates;
+import se.chalmers.project14.view.HouseListItem;
 
 import android.app.Activity;
 import android.content.Context;
@@ -21,7 +23,7 @@ public class DatabaseAdapter extends BaseAdapter {
 	private LayoutInflater inflater;
 
 	public DatabaseAdapter(Activity activity, int layoutId,
-			List<Coordinates> coordinateList) {
+			List<Coordinates> coordinateList) {//change this to House instead of Coordinates!!!!!!!
 		this.activity = activity;
 		this.layoutId = layoutId;
 		this.coordinateList = coordinateList;
@@ -47,13 +49,13 @@ public class DatabaseAdapter extends BaseAdapter {
 		if (convertView == null) {
 			view = inflater.inflate(layoutId, null);
 			TextView t = (TextView) view.findViewById(R.id.text123);
-			String data = coordinateList.get(position).getCTHplace();
+			String data = coordinateList.get(position).getCoordinates();
 			t.setText(data);
 		} else {
 			view = convertView;
 		}
-
 		return view;
+		// return new HouseListItem(activity,h);
 	}
 
 }
