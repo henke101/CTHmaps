@@ -8,6 +8,7 @@ import java.util.List;
 import se.chalmers.project14.database.DatabaseAdapter;
 import se.chalmers.project14.database.DatabaseHandler;
 import se.chalmers.project14.model.Coordinates;
+import se.chalmers.project14.model.Door;
 import se.chalmers.project14.model.House;
 import se.chalmers.project14.view.HouseListItem;
 import android.os.Bundle;
@@ -41,16 +42,36 @@ public class ChooseLocationActivity extends ListActivity implements
 		listview = getListView();
 		db = new DatabaseHandler(this);
 		coordinateList = new ArrayList<House>();// change this to House
-														// instead!!!!!
+												// instead!!!!!
 		coordinateList = db.getAllHouse();
-		for (House h : coordinateList)	{
+		for (House h : coordinateList) {
 			String log = "id: " + h.getId() + " house: " + h.getHouse();
 			Log.d("coordinateList: ", log);
 		}
-		
-		//coordinateList = db.getAllCoordinates();
+		House house = new House();
+		house = db.getHouse(1);
+		Log.d("CTHlocationActivity", house.getHouse());
+		house = db.getHouse(2);
+		Log.d("CTHlocationActivity", house.getHouse());
+		house = db.getHouse(3);
+		Log.d("CTHlocationActivity", house.getHouse());
+		Door door = new Door();
+		door = db.getDoorCoordinates(1);
+		Log.d("CTHlocationActivity", door.getDoor() + " " + door.getFloor());
+		door = db.getDoorCoordinates(2);
+		Log.d("CTHlocationActivity", door.getDoor() + " " + door.getFloor());
+		door = db.getDoorCoordinates(3);
+		Log.d("CTHlocationActivity", door.getDoor() + " " + door.getFloor());
+		Coordinates coordinates = new Coordinates();
+		coordinates = db.getCoordinates(1);
+		Log.d("CTHlocationActivity", coordinates.getCoordinates());
+		coordinates = db.getCoordinates(2);
+		Log.d("CTHlocationActivity", coordinates.getCoordinates());
+		coordinates = db.getCoordinates(3);
+		Log.d("CTHlocationActivity", coordinates.getCoordinates());
+		// coordinateList = db.getAllCoordinates();
 		// sortCoordinateList(coordinateList);
-		//dba = new DatabaseAdapter(this, R.layout.row, coordinateList);
+		// dba = new DatabaseAdapter(this, R.layout.row, coordinateList);
 		setListAdapter(dba);
 		listview.setOnItemClickListener(this);
 

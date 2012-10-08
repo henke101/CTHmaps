@@ -111,20 +111,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	public void addCthCoordinates(int tableKey, Coordinates coordinates,
 			Door door) {
 		SQLiteDatabase sqdb = this.getWritableDatabase();
-		Log.d("addCthCoordinates", " good1");
 		ContentValues contentValues = new ContentValues();
-		Log.d("addCthCoordinates", " good2");
 		contentValues.put(KEY_ID, tableKey);
-		Log.d("addCthCoordinates", " good3");
 		contentValues.put(KEY_COORDINATES, coordinates.getCoordinates());
-		Log.d("addCthCoordinates", " good4");
-		Log.d("addCthCoordinates", " " + tableKey);
-		Log.d("addCthCoordinates", " " + coordinates.getCoordinates());
 		sqdb.insertWithOnConflict(TABLE_COORDINATE, null, contentValues,
 				SQLiteDatabase.CONFLICT_IGNORE);
-		Log.d("addCthCoordinates", " good5");
 		sqdb.close();
-		// addCthDoors(tableKey, door);
+		addCthDoors(tableKey, door);
 
 	}
 
@@ -136,7 +129,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		contentValues.put(KEY_DOOR, door.getDoor());
 		sqdb.insertWithOnConflict(TABLE_DOORCOORDINATES, null, contentValues,
 				SQLiteDatabase.CONFLICT_IGNORE);
-		Log.d("addCthDoors", " good");
 		sqdb.close();
 	}
 
@@ -149,9 +141,32 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		if (cursor != null) {
 			cursor.moveToFirst();
 		}
-		House house = new House(Integer.parseInt(cursor.getString(0)),
-				cursor.getString(1));
+		House house = new House(cursor.getString(1));
 		return house;
+	}
+
+	public Coordinates getCoordinates(int id) {
+		SQLiteDatabase sqdb = this.getReadableDatabase();
+		Cursor cursor = sqdb.query(TABLE_COORDINATE, new String[] { KEY_ID,
+				KEY_COORDINATES }, KEY_ID + "=?",
+				new String[] { String.valueOf(id) }, null, null, null, null);
+		if (cursor != null) {
+			cursor.moveToFirst();
+		}
+		Coordinates coordinates = new Coordinates(cursor.getString(1));
+		return coordinates;
+	}
+
+	public Door getDoorCoordinates(int id) {
+		SQLiteDatabase sqdb = this.getReadableDatabase();
+		Cursor cursor = sqdb.query(TABLE_DOORCOORDINATES, new String[] {
+				KEY_ID, KEY_FLOOR, KEY_DOOR }, KEY_ID + "=?",
+				new String[] { String.valueOf(id) }, null, null, null, null);
+		if (cursor != null) {
+			cursor.moveToFirst();
+		}
+		Door door = new Door(cursor.getString(1), cursor.getString(2));
+		return door;
 	}
 
 	/**
