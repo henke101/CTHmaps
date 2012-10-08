@@ -35,4 +35,9 @@ public class DestinationMarkerOverlay extends ItemizedOverlay{
 		this.dest = dest;
 		populate();
 	}
+
+	public void removeDestinationMarker() {
+		dest=null;
+		populate();
+	}
 }

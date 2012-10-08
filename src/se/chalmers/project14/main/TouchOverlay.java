@@ -77,4 +77,7 @@ public class TouchOverlay extends Overlay {
 		}
 		return false;
 	}
+	public DestinationMarkerOverlay getDestOverlay(){
+		return destOverlay;
+	}
 }
