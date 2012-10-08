@@ -1,35 +1,38 @@
 package se.chalmers.project14.main;
 
-import java.util.ArrayList;
-
-import android.content.DialogInterface.OnClickListener;
 import android.graphics.drawable.Drawable;
-
 import com.google.android.maps.ItemizedOverlay;
+import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
 
 public class DestinationMarkerOverlay extends ItemizedOverlay{
-	//List of overlayitems, made generic to simplify future functions
-	private ArrayList<OverlayItem> destOverlays = new ArrayList<OverlayItem>();
-	
-	public DestinationMarkerOverlay(Drawable marker) {
+	private MapView mapView;
+	private OverlayItem dest;
+	public DestinationMarkerOverlay(Drawable marker, MapView mapView) {
+		/* Fixing so that the flag is pointed to the lower left corner*/
 		super(boundCenterBottom(marker));
+		this.mapView=mapView;
+		populate();
 	}
 
 	@Override
 	protected OverlayItem createItem(int i) {
-		return destOverlays.get(i);
+		return dest;
 	}
 
 	@Override
 	public int size() {
-		return destOverlays.size();
+		if(dest==null){
+			return 0;
+		}
+		else{
+			return 1;
+		}
 	}
-
-	//Adding an item (a flagmarker) to the list of destinationoverlays
-	public void addOverlay(OverlayItem overlayitem) {
-		destOverlays.add(overlayitem);
-		populate();		
+	
+	//Putting out an item (a flagmarker)
+	public void setDestination(OverlayItem dest){
+		this.dest = dest;
+		populate();
 	}
-
 }
