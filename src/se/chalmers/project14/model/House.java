@@ -35,8 +35,8 @@ public class House {
 		return doorList;
 	}
 
-	public String getHouse() {
-		return house;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public int getId() {
@@ -47,7 +47,8 @@ public class House {
 		this.house = house;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public String getHouse() {
+		return house;
 	}
+
 }

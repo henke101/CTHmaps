@@ -77,24 +77,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 	}
 
-	/**
-	 * Add coordinates to the database
-	 * 
-	 * @param coordinates
-	 *            Coordinates you want to add to the database
-	 */
-	// public void addCordinates(Coordinates coordinates) {
-	// SQLiteDatabase sqdb = this.getWritableDatabase();
-	// ContentValues contentValues = new ContentValues();
-	// contentValues.put(KEY_ID, coordinates.getId());
-	// contentValues.put(KEY_CTHPLACE, coordinates.getCTHplace());
-	// contentValues.put(KEY_COORDINATES, coordinates.getCoordinates());
-	//
-	// sqdb.insertWithOnConflict(TABLE_COORDINATE, null, contentValues,
-	// SQLiteDatabase.CONFLICT_IGNORE);
-	// sqdb.close();
-	// }
-
 	public void addCthHouse(House house, Coordinates coordinates, Door door) {
 		SQLiteDatabase sqdb = this.getWritableDatabase();
 		ContentValues contentValues = new ContentValues();
