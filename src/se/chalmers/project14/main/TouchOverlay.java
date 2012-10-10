@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
@@ -34,7 +35,7 @@ public class TouchOverlay extends Overlay {
 		mapView.getOverlays().add(destOverlay);
 	}
 
-	@SuppressWarnings("deprecation")
+
 	@Override
 	public boolean onTouchEvent(MotionEvent event, MapView m) {
 		// when user touches the screen
@@ -54,11 +55,11 @@ public class TouchOverlay extends Overlay {
 			if (touchStop - touchStart > 1000 && touchStartX <= touchStopX+20 && touchStartX >= touchStopX-20 
 					&& touchStartY <= touchStopY+20 && touchStartY >= touchStopY-20) {
 				geoPoint = mapView.getProjection().fromPixels((int)touchStopX, (int)touchStopY);
-				AlertDialog options = new AlertDialog.Builder(context).create();
+				AlertDialog.Builder options = new AlertDialog.Builder(context);
 				options.setTitle("Options");
 				options.setMessage("Coordinates:\nLatitude: " + geoPoint.getLatitudeE6()/1E6 + "\nLongitude: " 
 						+ geoPoint.getLongitudeE6()/1E6 + "\n\nWhat do you want to do?");
-				options.setButton("Set destination", new DialogInterface.OnClickListener(){
+				options.setNegativeButton("Set destination", new DialogInterface.OnClickListener(){
 					public void onClick(DialogInterface dialog, int which) {						
 						//Adding a destination marker
 						OverlayItem destinationItem = new OverlayItem(geoPoint, "Destinationmarker", "This is the chosen destination");
@@ -66,7 +67,7 @@ public class TouchOverlay extends Overlay {
 				        mapView.invalidate();
 					}
 				});
-				options.setButton2("Back to Map", new DialogInterface.OnClickListener(){
+				options.setPositiveButton("Back to Map", new DialogInterface.OnClickListener(){
 					public void onClick(DialogInterface dialog, int which) {
 						Toast.makeText(context, "Test2", Toast.LENGTH_SHORT).show();
 					}
