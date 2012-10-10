@@ -2,6 +2,8 @@ package se.chalmers.project14.main;
 
 import java.util.List;
 
+import utils.CoordinateParser;
+
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
@@ -28,6 +30,7 @@ public class Map extends MapActivity {
 	private MapView mapView;
 	private GeoPoint geoPoint;
 	private TouchOverlay touchOverlay;
+	private CoordinateParser coordinateParser = CoordinateParser.getInstance();
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -37,13 +40,14 @@ public class Map extends MapActivity {
 		if (i.getStringExtra(ChooseLocationActivity.CTHBUILDING.toString()) != null) {
 			String cthBuilding = i
 					.getStringExtra(ChooseLocationActivity.CTHBUILDING);
-			String doorCoordinates = i
-					.getStringExtra(ChooseLocationActivity.CTHDOOR_COORDINATES);
-			String cthBuildingCoordinates = i
-					.getStringExtra(ChooseLocationActivity.CTHBUILDING_COORDINATES);
-			String cthBuildingFloor = i
-					.getStringExtra(ChooseLocationActivity.CTHBUILDING_FLOOR);
+			int [] doorCoordinates = coordinateParser.parseCoordinates(i
+					.getStringExtra(ChooseLocationActivity.CTHDOOR_COORDINATES));
+			int [] cthBuildingCoordinates = coordinateParser.parseCoordinates(i
+					.getStringExtra(ChooseLocationActivity.CTHBUILDING_COORDINATES));
+			int cthBuildingFloor = Integer.parseInt(i
+					.getStringExtra(ChooseLocationActivity.CTHBUILDING_FLOOR));		
 			// Set geoPoint to the coordinate of the building
+			
 			geoPoint = new GeoPoint(57688018, 11977886);
 		} else {
 			geoPoint = new GeoPoint(57688018, 11977886);
