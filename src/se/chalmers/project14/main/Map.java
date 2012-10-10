@@ -108,23 +108,6 @@ public class Map extends MapActivity {
 		touchOverlay = new TouchOverlay(this, mapView);
 		mapOverlays.add(touchOverlay);
 
-		// Adding clickable map overlays for the EDIT-house entrances
-		mapOverlays = mapView.getOverlays();
-		Drawable editIcon = this.getResources().getDrawable(R.drawable.edit);
-		BuildingOverlay editOverlay = new BuildingOverlay(editIcon, this);
-		GeoPoint edit1GeoPoint = new GeoPoint(57687808, 11979096);
-		OverlayItem edit1OverlayItem = new OverlayItem(edit1GeoPoint,
-				"Entrance EDIT huset", "Classrooms close to this entrance:");
-		editOverlay.addOverlay(edit1OverlayItem);
-		GeoPoint edit2GeoPoint = new GeoPoint(57687458, 11978455);
-		OverlayItem edit2OverlayItem = new OverlayItem(edit2GeoPoint,
-				"Entrance EDIT huset", "Classrooms close to this entrance:");
-		editOverlay.addOverlay(edit2OverlayItem);
-		GeoPoint edit3GeoPoint = new GeoPoint(57688242, 11978600);
-		OverlayItem edit3OverlayItem = new OverlayItem(edit3GeoPoint,
-				"Entrance EDIT huset", "Classrooms close to this entrance:");
-		editOverlay.addOverlay(edit3OverlayItem);
-		mapOverlays.add(editOverlay);
 	}
 
 	@Override
