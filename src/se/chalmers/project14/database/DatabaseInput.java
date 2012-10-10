@@ -65,6 +65,5 @@ public class DatabaseInput {
 		Log.d("addCoordinateToDatabase", " " + coordinateInput[3]);
 		Log.d("addCoordinateToDatabase", " " + coordinateInput[4]);
 		db.addCthHouse(house, coordinates, door);
-		// db.addCthCoordinates(coordinateKey, coordinates, door);
 	}
 }

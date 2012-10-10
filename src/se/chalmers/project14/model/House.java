@@ -2,6 +2,12 @@ package se.chalmers.project14.model;
 
 import java.util.List;
 
+/**
+ * class that represent a house
+ * 
+ * @author tomassellden
+ * 
+ */
 public class House {
 	private String house;
 	private int id;
@@ -13,7 +19,6 @@ public class House {
 		// empty constructor
 	}
 
-	// delete this constructor!?!?!?!??!
 	public House(String house) {
 		this.house = house;
 	}

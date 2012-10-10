@@ -12,18 +12,17 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 /**
- * A class representing the database, It creates the database and have methods
- * so we can add and get values from our database
+ * A class representing the database, It creates three database tables which all
+ * are connected with an id, which mean that if you have an id you can get all
+ * information that existsin the database. DatabaseHandler has methods so we can
+ * add and get values from our database
  * 
  * @author tomassellden
  * 
  */
 public class DatabaseHandler extends SQLiteOpenHelper {
-
-	private Context context;
 
 	private static final int DATABASE_VERSION = 5;
 	private static final String DATABASE_NAME = "cordinatesManager";
@@ -51,15 +50,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 	public DatabaseHandler(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
-		this.context = context;
 
 	}
 
 	/**
-	 * Creates the database. It«s creating a table which contain of three
-	 * columns, an int representing the key, a String representing the building
-	 * and another String representing the coordinates that are connected to the
-	 * building
+	 * Creates the database. It«s creating three table, one containing hte
+	 * lecture room, one contains information about the coordinates and one
+	 * contains information about the doorcoordinates and which floor the
+	 * lecture room can be found,
 	 */
 	@Override
 	public void onCreate(SQLiteDatabase db) {
@@ -77,6 +75,18 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 	}
 
+	/**
+	 * Adding house/lecture room to the database table "TABLE_HOUSE"
+	 * 
+	 * @param house
+	 *            a house object containing information about the lecture name
+	 * @param coordinates
+	 *            a coordinate object containing information about the lectures
+	 *            coordinates
+	 * @param door
+	 *            a door object containing information about the which door and
+	 *            which floor the lecture room can be found
+	 */
 	public void addCthHouse(House house, Coordinates coordinates, Door door) {
 		SQLiteDatabase sqdb = this.getWritableDatabase();
 		ContentValues contentValues = new ContentValues();
@@ -85,11 +95,22 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		contentValues.put(KEY_CTHPLACE, house.getHouse());
 		sqdb.insertWithOnConflict(TABLE_HOUSE, null, contentValues,
 				SQLiteDatabase.CONFLICT_IGNORE);
-		Log.d("addCthHouse", " good");
 		sqdb.close();
 		addCthCoordinates(tableKey, coordinates, door);
 	}
 
+	/**
+	 * Adding coordinates to the database table "TABLE_COORDINATE"
+	 * 
+	 * @param tableKey
+	 *            the id the coordinates and are connected to
+	 * @param coordinates
+	 *            a coordinate object containing information about the lectures
+	 *            coordinates
+	 * @param door
+	 *            a door object containing information about the which door and
+	 *            which floor the lecture room can be found
+	 */
 	public void addCthCoordinates(int tableKey, Coordinates coordinates,
 			Door door) {
 		SQLiteDatabase sqdb = this.getWritableDatabase();
@@ -103,17 +124,36 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 	}
 
+	/**
+	 * Adding door cordinates and which floor lecture room can be found to the
+	 * database table "TABLE_DOORCOORDINATES"
+	 * 
+	 * @param tableKey
+	 *            the id the coordinates and are connected to
+	 * @param door
+	 *            a door object containing information about the which door and
+	 *            which floor the lecture room can be found
+	 */
 	public void addCthDoors(int tableKey, Door door) {
 		SQLiteDatabase sqdb = this.getWritableDatabase();
 		ContentValues contentValues = new ContentValues();
 		contentValues.put(KEY_ID, tableKey);
 		contentValues.put(KEY_FLOOR, door.getFloor());
-		contentValues.put(KEY_DOOR, door.getDoor());
+		contentValues.put(KEY_DOOR, door.getDoorCoordinates());
 		sqdb.insertWithOnConflict(TABLE_DOORCOORDINATES, null, contentValues,
 				SQLiteDatabase.CONFLICT_IGNORE);
 		sqdb.close();
 	}
 
+	/**
+	 * Getter for the house name connected to the id
+	 * 
+	 * @param id
+	 *            an int, the id which all information about one building is
+	 *            connected to
+	 * @return a House object containing the house/lecture room the id is
+	 *         connected to
+	 */
 	public House getHouse(int id) {
 		SQLiteDatabase sqdb = this.getReadableDatabase();
 
@@ -127,6 +167,16 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		return house;
 	}
 
+	/**
+	 * Getter for the coordinates connected to the id
+	 * 
+	 * @param id
+	 *            an int, the id which all information about one building is
+	 *            connected to
+	 * @return a Coordinate object, containing the coordinates the id is
+	 *         connected to
+	 * 
+	 */
 	public Coordinates getCoordinates(int id) {
 		SQLiteDatabase sqdb = this.getReadableDatabase();
 		Cursor cursor = sqdb.query(TABLE_COORDINATE, new String[] { KEY_ID,
@@ -139,6 +189,16 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		return coordinates;
 	}
 
+	/**
+	 * Getter for the doorcoordinates and which floor the lecture room/house can
+	 * be found connected to the id
+	 * 
+	 * @param id
+	 *            an int, the id which all information about one building is
+	 *            connected to
+	 * @return a Door object, containing the lecture room/house coordinates and
+	 *         the floor the id is connected to
+	 */
 	public Door getDoorCoordinates(int id) {
 		SQLiteDatabase sqdb = this.getReadableDatabase();
 		Cursor cursor = sqdb.query(TABLE_DOORCOORDINATES, new String[] {
@@ -152,32 +212,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	}
 
 	/**
-	 * A method that returns the coordinates that are connected to the String
-	 * parameter
+	 * Getter for all house/lecture room that exists in the database table
+	 * TABLE_HOUSE
 	 * 
-	 * @param _idCTHplace
-	 *            A String representing the building which the coordinates are
-	 *            connected to.
-	 * @return The coordinates that the String is connected to
+	 * @return an ArrayList containing all house/lecture room that exists in the
+	 *         database table TABLE_HOUSE
 	 */
-	// public Coordinates getCoordinates(String _idCTHplace) {
-	// SQLiteDatabase db = this.getReadableDatabase();
-	//
-	// Cursor cursor = db.query(TABLE_COORDINATE, new String[] { KEY_ID,
-	// KEY_CTHPLACE, KEY_COORDINATES }, KEY_CTHPLACE + " = '"
-	// + _idCTHplace + "'", null, null, null, null, null);
-	// if (cursor != null) {
-	// cursor.moveToFirst();
-	// }
-	//
-	// Coordinates coordinates = new Coordinates(cursor.getString(1),
-	// cursor.getString(2));
-	//
-	// db.close();
-	// cursor.close();
-	// return coordinates;
-	// }
-
 	public List<House> getAllHouse() {
 		List<House> houseList = new ArrayList<House>();
 		String allHouse = "SELECT * FROM " + TABLE_HOUSE;
@@ -185,52 +225,38 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		Cursor cursor = sqdb.rawQuery(allHouse, null);
 
 		cursor.moveToFirst();
-		while (!cursor.isLast()) {
+		while (!cursor.isAfterLast()) {
 			House house = new House();
 			house.setId(Integer.parseInt(cursor.getString(0)));
 			house.setHouse(cursor.getString(1));
 			houseList.add(house);
 			cursor.moveToNext();
 		}
+
 		sqdb.close();
 		cursor.close();
 		return houseList;
 	}
-
-	public List<Door> getAllDoors() {
-		List<Door> doorList = new ArrayList<Door>();
-		String allDoors = "SELECT * FROM " + TABLE_DOORCOORDINATES;
-		SQLiteDatabase sqdb = this.getWritableDatabase();
-		Cursor cursor = sqdb.rawQuery(allDoors, null);
-
-		cursor.moveToFirst();
-		while (!cursor.isLast()) {
-			Door door = new Door();
-			door.SetFloor(cursor.getString(1));
-			door.setDoor(cursor.getString(2));
-			doorList.add(door);
-			cursor.moveToNext();
-		}
-		sqdb.close();
-		cursor.close();
-		return doorList;
-	}
-
-	public List<Coordinates> getAllCoordinates() {
-		List<Coordinates> coordinatesList = new ArrayList<Coordinates>();
-		String allCoordinates = "SELECT * FROM " + TABLE_COORDINATE;
-		SQLiteDatabase sqdb = this.getWritableDatabase();
-		Cursor cursor = sqdb.rawQuery(allCoordinates, null);
-
-		cursor.moveToFirst();
-		while (!cursor.isLast()) {
-			Coordinates coordinates = new Coordinates();
-			coordinates.setCoordinates(cursor.getString(1));
-			coordinatesList.add(coordinates);
-			cursor.moveToFirst();
-		}
-		sqdb.close();
-		cursor.close();
-		return coordinatesList;
-	}
+	/*
+	 * public List<Door> getAllDoors() { List<Door> doorList = new
+	 * ArrayList<Door>(); String allDoors = "SELECT * FROM " +
+	 * TABLE_DOORCOORDINATES; SQLiteDatabase sqdb = this.getWritableDatabase();
+	 * Cursor cursor = sqdb.rawQuery(allDoors, null);
+	 * 
+	 * cursor.moveToFirst(); while (!cursor.isLast()) { Door door = new Door();
+	 * door.SetFloor(cursor.getString(1)); door.setDoor(cursor.getString(2));
+	 * doorList.add(door); cursor.moveToNext(); } sqdb.close(); cursor.close();
+	 * return doorList; }
+	 * 
+	 * public List<Coordinates> getAllCoordinates() { List<Coordinates>
+	 * coordinatesList = new ArrayList<Coordinates>(); String allCoordinates =
+	 * "SELECT * FROM " + TABLE_COORDINATE; SQLiteDatabase sqdb =
+	 * this.getWritableDatabase(); Cursor cursor = sqdb.rawQuery(allCoordinates,
+	 * null);
+	 * 
+	 * cursor.moveToFirst(); while (!cursor.isLast()) { Coordinates coordinates
+	 * = new Coordinates(); coordinates.setCoordinates(cursor.getString(1));
+	 * coordinatesList.add(coordinates); cursor.moveToFirst(); } sqdb.close();
+	 * cursor.close(); return coordinatesList; }
+	 */
 }

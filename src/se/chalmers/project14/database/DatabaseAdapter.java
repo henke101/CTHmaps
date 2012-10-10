@@ -1,15 +1,10 @@
 package se.chalmers.project14.database;
 
-import java.util.ArrayList;
 import java.util.List;
-
 import se.chalmers.project14.main.R;
-import se.chalmers.project14.model.Coordinates;
-import se.chalmers.project14.view.HouseListItem;
-
+import se.chalmers.project14.model.House;
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,26 +12,30 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 public class DatabaseAdapter extends BaseAdapter {
+
 	private Activity activity;
-	private int layoutId;
-	private List<Coordinates> coordinateList;
+	private List<House> houseList;
 	private LayoutInflater inflater;
 
-	public DatabaseAdapter(Activity activity, int layoutId,
-			List<Coordinates> coordinateList) {//change this to House instead of Coordinates!!!!!!!
+	public DatabaseAdapter(Activity activity, List<House> houseList) {// change
+																		// this
+																		// to
+																		// House
+																		// instead
+																		// of
+																		// Coordinates!!!!!!!
 		this.activity = activity;
-		this.layoutId = layoutId;
-		this.coordinateList = coordinateList;
+		this.houseList = houseList;
 		inflater = (LayoutInflater) activity
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
 	public int getCount() {
-		return coordinateList.size();
+		return houseList.size();
 	}
 
 	public Object getItem(int position) {
-		return coordinateList.get(position);
+		return houseList.get(position);
 	}
 
 	public long getItemId(int position) {
@@ -47,10 +46,10 @@ public class DatabaseAdapter extends BaseAdapter {
 		View view = null;
 
 		if (convertView == null) {
-			view = inflater.inflate(layoutId, null);
+			view = inflater.inflate(R.layout.row, null);
 			TextView t = (TextView) view.findViewById(R.id.text123);
-			String data = coordinateList.get(position).getCoordinates();
-			t.setText(data);
+			String house = houseList.get(position).getHouse();
+			t.setText(house);
 		} else {
 			view = convertView;
 		}

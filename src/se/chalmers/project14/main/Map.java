@@ -33,17 +33,19 @@ public class Map extends MapActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_map);
 		Intent i = getIntent();
-		if(i.getStringExtra(ChooseLocationActivity.CTHBUILDING.toString()) != null){
+		if (i.getStringExtra(ChooseLocationActivity.CTHBUILDING.toString()) != null) {
 			String cthBuilding = i
 					.getStringExtra(ChooseLocationActivity.CTHBUILDING);
 			String doorCoordinates = i
 					.getStringExtra(ChooseLocationActivity.CTHDOOR_COORDINATES);
 			String cthBuildingCoordinates = i
 					.getStringExtra(ChooseLocationActivity.CTHBUILDING_COORDINATES);
-			//Set geoPoint to the coordinate of the building
+			String cthBuildingFloor = i
+					.getStringExtra(ChooseLocationActivity.CTHBUILDING_FLOOR);
+			// Set geoPoint to the coordinate of the building
 			geoPoint = new GeoPoint(57688018, 11977886);
-			
-		}else{
+
+		} else {
 			geoPoint = new GeoPoint(57688018, 11977886);
 		}
 		buttonToggle = (Button) findViewById(R.id.buttonToggle);

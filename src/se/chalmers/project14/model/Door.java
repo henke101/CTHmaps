@@ -1,5 +1,11 @@
 package se.chalmers.project14.model;
 
+/**
+ * class that represent a door
+ * 
+ * @author tomassellden
+ * 
+ */
 public class Door {
 
 	private String doorCoordinates;
@@ -18,7 +24,7 @@ public class Door {
 		this.doorCoordinates = doorCoordinates;
 	}
 
-	public String getDoor() {
+	public String getDoorCoordinates() {
 		return doorCoordinates;
 	}
 

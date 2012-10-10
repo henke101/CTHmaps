@@ -7,6 +7,7 @@ package se.chalmers.project14.model;
  * 
  */
 public class Coordinates {
+
 	private String coordinates;
 
 	public Coordinates() {
