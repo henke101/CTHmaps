@@ -87,7 +87,7 @@ public class ChooseLocationActivity extends ListActivity implements
 	 * 
 	 * @param view
 	 */
-	public void searchLocationButton(View view) {
+	public void browseDestinationButton(View view) {
 		Intent intent = new Intent(this, Map.class);
 		startActivity(intent);
 	}

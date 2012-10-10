@@ -24,10 +24,11 @@ public class Map extends MapActivity {
 	private LocationManager locManager;
 	private LocationListener locListener;
 	private MapController controller;
-	private Button buttonToggle, buttonNewDest;
+	private Button buttonToggle, buttonNewDest, buttonClear;
 	private MapView mapView;
 	private GeoPoint geoPoint;
-
+	private TouchOverlay touchOverlay;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -49,6 +50,7 @@ public class Map extends MapActivity {
 		}
 		buttonToggle = (Button) findViewById(R.id.buttonToggle);
 		buttonNewDest = (Button) findViewById(R.id.buttonNewDest);
+		buttonClear = (Button) findViewById(R.id.buttonRemoveDest);
 		buttonToggle.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
@@ -60,6 +62,13 @@ public class Map extends MapActivity {
 			public void onClick(View v) {
 				onBackPressed();
 
+			}
+		});
+		buttonClear.setOnClickListener(new OnClickListener() {
+			
+			public void onClick(View v) {
+				touchOverlay.getDestOverlay().removeDestinationMarker();
+				mapView.invalidate();
 			}
 		});
 		// Enabling zooming
@@ -92,10 +101,8 @@ public class Map extends MapActivity {
 
 		// Overlays
 		List<Overlay> mapOverlays = mapView.getOverlays();
-		Drawable destFlag = this.getResources().getDrawable(
-				R.drawable.destination_flag);
-		TouchOverlay destOverlay = new TouchOverlay(this, mapView);
-		mapOverlays.add(destOverlay);
+		touchOverlay = new TouchOverlay(this, mapView);
+		mapOverlays.add(touchOverlay);
 
 		// Adding clickable map overlays for the EDIT-house entrances
 		mapOverlays = mapView.getOverlays();

@@ -26,10 +26,12 @@ public class TouchOverlay extends Overlay {
 	private DestinationMarkerOverlay destOverlay;
 
 	public TouchOverlay(Context context, MapView mapView) {
-		super();// Fixing so that the flag is pointed
-		// to the lower left corner
+		super();
 		this.context = context;
 		this.mapView=mapView;
+		Drawable destFlag = mapView.getResources().getDrawable(R.drawable.destination_flag);
+		destOverlay = new DestinationMarkerOverlay(destFlag, mapView);
+		mapView.getOverlays().add(destOverlay);
 	}
 
 	@SuppressWarnings("deprecation")
@@ -49,7 +51,7 @@ public class TouchOverlay extends Overlay {
 			/*
 			 * Checking holdtime to be above 1000 ms and at he same position
 			 */
-			if (touchStop - touchStart > 1000 && touchStartX <= touchStopX+20 &&touchStartX >= touchStopX-20 
+			if (touchStop - touchStart > 1000 && touchStartX <= touchStopX+20 && touchStartX >= touchStopX-20 
 					&& touchStartY <= touchStopY+20 && touchStartY >= touchStopY-20) {
 				geoPoint = mapView.getProjection().fromPixels((int)touchStopX, (int)touchStopY);
 				AlertDialog options = new AlertDialog.Builder(context).create();
@@ -59,12 +61,8 @@ public class TouchOverlay extends Overlay {
 				options.setButton("Set destination", new DialogInterface.OnClickListener(){
 					public void onClick(DialogInterface dialog, int which) {						
 						//Adding a destination marker
-						Drawable destFlag = mapView.getResources().getDrawable(R.drawable.destination_flag);
-						destOverlay = new DestinationMarkerOverlay(destFlag);
-						OverlayItem overlayitem = new OverlayItem(geoPoint, "Hola, Mundo!", "I'm in Mexico City!");
-				        destOverlay.addOverlay(overlayitem);
-				        List<Overlay> destinationOverlays = mapView.getOverlays();
-				        destinationOverlays.add(destOverlay);
+						OverlayItem destinationItem = new OverlayItem(geoPoint, "Destinationmarker", "This is the chosen destination");
+						destOverlay.setDestination(destinationItem);
 				        mapView.invalidate();
 					}
 				});
@@ -79,7 +77,7 @@ public class TouchOverlay extends Overlay {
 		}
 		return false;
 	}
-	DestinationMarkerOverlay getDestOverlay(){
+	public DestinationMarkerOverlay getDestOverlay(){
 		return destOverlay;
 	}
 }

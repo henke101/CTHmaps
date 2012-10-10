@@ -40,6 +40,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/button_new_dest" />
+
+        <Button
+            android:id="@+id/buttonRemoveDest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_remove_destination" />
 
     </LinearLayout>
     	

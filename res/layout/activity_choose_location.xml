@@ -3,13 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-
+
     <Button
-        android:id="@+id/button1"
+        android:id="@+id/buttonBrowse"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="searchLocationButton"
-        android:text="@string/button_send" />
+        android:onClick="browseDestinationButton"
+        android:text="@string/button_browse" />
 
     <EditText
         android:id="@+id/search_locationText"
