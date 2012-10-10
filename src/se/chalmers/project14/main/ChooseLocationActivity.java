@@ -101,7 +101,6 @@ public class ChooseLocationActivity extends ListActivity implements
 	 */
 	public void onItemClick(AdapterView<?> arg0, View view, int listPosition,
 			long i) {
-		// HouseListItem h = (HouseListItem) view; Waat tha fuck!!! Bohn
 		House house = houseList.get(listPosition);
 		String cthBuilding = house.getHouse();
 		int houseId = house.getId();
@@ -112,6 +111,6 @@ public class ChooseLocationActivity extends ListActivity implements
 		intent.putExtra(CTHBUILDING_COORDINATES, coordinate.getCoordinates());
 		intent.putExtra(CTHBUILDING_FLOOR, door.getFloor());
 		intent.putExtra(CTHDOOR_COORDINATES, door.getDoorCoordinates());
-		// startActivity(intent);
+		startActivity(intent);
 	}
 }

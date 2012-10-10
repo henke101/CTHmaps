@@ -44,7 +44,6 @@ public class Map extends MapActivity {
 					.getStringExtra(ChooseLocationActivity.CTHBUILDING_FLOOR);
 			// Set geoPoint to the coordinate of the building
 			geoPoint = new GeoPoint(57688018, 11977886);
-
 		} else {
 			geoPoint = new GeoPoint(57688018, 11977886);
 		}
@@ -134,17 +133,6 @@ public class Map extends MapActivity {
 		// Stopping the update och GPS-status, when closing
 		// map-activity/pressing the back-button in the map-activity
 		locManager.removeUpdates(locListener);
-	}
-
-	public int[] convertStringCordinateToIntCoordinate(String coordinates) {
-
-		String[] coord = coordinates.split(",");
-		int cdr[] = new int[coordinates.length()];
-		for (int i = 0; i < coord.length; i++) {
-			cdr[i] = Integer.parseInt(coord[i]);
-
-		}
-		return cdr;
 	}
 
 }

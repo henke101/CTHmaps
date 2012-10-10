@@ -16,7 +16,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 /**
  * A class representing the database, It creates three database tables which all
  * are connected with an id, which mean that if you have an id you can get all
- * information that existsin the database. DatabaseHandler has methods so we can
+ * information that existing the database. DatabaseHandler has methods so we can
  * add and get values from our database
  * 
  * @author tomassellden
@@ -237,26 +237,4 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		cursor.close();
 		return houseList;
 	}
-	/*
-	 * public List<Door> getAllDoors() { List<Door> doorList = new
-	 * ArrayList<Door>(); String allDoors = "SELECT * FROM " +
-	 * TABLE_DOORCOORDINATES; SQLiteDatabase sqdb = this.getWritableDatabase();
-	 * Cursor cursor = sqdb.rawQuery(allDoors, null);
-	 * 
-	 * cursor.moveToFirst(); while (!cursor.isLast()) { Door door = new Door();
-	 * door.SetFloor(cursor.getString(1)); door.setDoor(cursor.getString(2));
-	 * doorList.add(door); cursor.moveToNext(); } sqdb.close(); cursor.close();
-	 * return doorList; }
-	 * 
-	 * public List<Coordinates> getAllCoordinates() { List<Coordinates>
-	 * coordinatesList = new ArrayList<Coordinates>(); String allCoordinates =
-	 * "SELECT * FROM " + TABLE_COORDINATE; SQLiteDatabase sqdb =
-	 * this.getWritableDatabase(); Cursor cursor = sqdb.rawQuery(allCoordinates,
-	 * null);
-	 * 
-	 * cursor.moveToFirst(); while (!cursor.isLast()) { Coordinates coordinates
-	 * = new Coordinates(); coordinates.setCoordinates(cursor.getString(1));
-	 * coordinatesList.add(coordinates); cursor.moveToFirst(); } sqdb.close();
-	 * cursor.close(); return coordinatesList; }
-	 */
 }
