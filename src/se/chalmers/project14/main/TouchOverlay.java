@@ -30,51 +30,54 @@ public class TouchOverlay extends Overlay {
 	private DestinationMarkerOverlay destOverlay;
 	private CoordinateParser coordinateParser = CoordinateParser.getInstance();
 
-	public TouchOverlay(Context context, MapView mapView, Intent i) {
+	public TouchOverlay(Context context, MapView mapView, Intent intent) {
 		super();
 		this.context = context;
 		this.mapView=mapView;
-		
-		if (i.getStringExtra(ChooseLocationActivity.CTHBUILDING.toString()) != null) {
-			String cthLectureRoom = i
+
+		//Checks if a specific classroom has been chosen
+		if (intent.getStringExtra(ChooseLocationActivity.CTHBUILDING.toString()) != null) {
+
+			// Retrieves info about the chosen classroom from the database
+			String cthLectureRoom = intent
 					.getStringExtra(ChooseLocationActivity.CTHLECTURE_ROOM);
-			String cthBuilding = i
+			String cthBuilding = intent
 					.getStringExtra(ChooseLocationActivity.CTHBUILDING);
-			int [] doorCoordinates = coordinateParser.parseCoordinates(i
+			int [] doorCoordinates = coordinateParser.parseCoordinates(intent
 					.getStringExtra(ChooseLocationActivity.CTHDOOR_COORDINATES));
-			int [] cthBuildingCoordinates = coordinateParser.parseCoordinates(i
-					.getStringExtra(ChooseLocationActivity.CTHBUILDING_COORDINATES));
-			int cthBuildingFloor = Integer.parseInt(i
+			/*for the moment, never used varible
+			int [] cthBuildingCoordinates = coordinateParser.parseCoordinates(intent
+			.getStringExtra(ChooseLocationActivity.CTHBUILDING_COORDINATES));*/
+			
+			int cthBuildingFloor = Integer.parseInt(intent
 					.getStringExtra(ChooseLocationActivity.CTHBUILDING_FLOOR));
+
+
+			// Creates clickable map overlays for the chosen classrooms closest entrances
+
+			Drawable buildingIcon = setBuildingIcon(cthBuilding);
+			BuildingOverlay buildingOverlay = new BuildingOverlay(buildingIcon, context);
+			for (int i=0; i<doorCoordinates.length;i +=2 ){
+				GeoPoint entranceGeoPoint = new GeoPoint(doorCoordinates[i], doorCoordinates[i+1]);
+				OverlayItem entranceOverlayItem = new OverlayItem(entranceGeoPoint,
+						"Entrance" + " " + cthBuilding, "Classrooms close to this entrance:");
+				buildingOverlay.addOverlay(entranceOverlayItem);
+				mapView.getOverlays().add(buildingOverlay);
+			}
 		}
-		
-	
-		
-		// Creates clickable map overlays for the EDIT-house entrances
-		
-		Drawable editIcon = mapView.getResources().getDrawable(R.drawable.edit);
-		BuildingOverlay editOverlay = new BuildingOverlay(editIcon, context);
-		GeoPoint edit1GeoPoint = new GeoPoint(57687808, 11979096);
-		OverlayItem edit1OverlayItem = new OverlayItem(edit1GeoPoint,
-				"Entrance EDIT huset", "Classrooms close to this entrance:");
-		editOverlay.addOverlay(edit1OverlayItem);
-		GeoPoint edit2GeoPoint = new GeoPoint(57687458, 11978455);
-		OverlayItem edit2OverlayItem = new OverlayItem(edit2GeoPoint,
-				"Entrance EDIT huset", "Classrooms close to this entrance:");
-		editOverlay.addOverlay(edit2OverlayItem);
-		GeoPoint edit3GeoPoint = new GeoPoint(57688242, 11978600);
-		OverlayItem edit3OverlayItem = new OverlayItem(edit3GeoPoint,
-				"Entrance EDIT huset", "Classrooms close to this entrance:");
-		editOverlay.addOverlay(edit3OverlayItem);
-		
-		
+
+
+
+
+
+
 		// Creates a destination flag overlay
 		Drawable destFlag = mapView.getResources().getDrawable(R.drawable.destination_flag);
 		destOverlay = new DestinationMarkerOverlay(destFlag, mapView);
-		
+
 		//Adds the created overlays
 		mapView.getOverlays().add(destOverlay);
-		mapView.getOverlays().add(editOverlay);
+
 	}
 
 
@@ -106,7 +109,7 @@ public class TouchOverlay extends Overlay {
 						//Adding a destination marker
 						OverlayItem destinationItem = new OverlayItem(geoPoint, "Destinationmarker", "This is the chosen destination");
 						destOverlay.setDestination(destinationItem);
-				        mapView.invalidate();
+						mapView.invalidate();
 					}
 				});
 				options.setPositiveButton("Back to Map", new DialogInterface.OnClickListener(){
@@ -122,5 +125,23 @@ public class TouchOverlay extends Overlay {
 	}
 	public DestinationMarkerOverlay getDestOverlay(){
 		return destOverlay;
+	}
+	private Drawable setBuildingIcon(String s){
+		if(s=="EDIT-huset"){
+			return mapView.getResources().getDrawable(R.drawable.edit);
+		}
+		else if (s== "Maskinhuset"){
+			return mapView.getResources().getDrawable(R.drawable.m);
+		}
+		else if (s== "HA"){
+			return mapView.getResources().getDrawable(R.drawable.ha);
+		}
+		else if (s== "HB"){
+			return mapView.getResources().getDrawable(R.drawable.hb);
+		}
+		else if (s== "HC"){
+			return mapView.getResources().getDrawable(R.drawable.hc);
+		}
+		return null;
 	}
 }
