@@ -37,7 +37,7 @@ public class TouchOverlay extends Overlay {
 
 		//Checks if a specific classroom has been chosen
 		if (intent.getStringExtra(ChooseLocationActivity.CTHBUILDING.toString()) != null) {
-			
+
 			// Retrieves info about the chosen classroom from the database
 			String cthLectureRoom = intent
 					.getStringExtra(ChooseLocationActivity.CTHLECTURE_ROOM);
@@ -45,14 +45,17 @@ public class TouchOverlay extends Overlay {
 					.getStringExtra(ChooseLocationActivity.CTHBUILDING);
 			int [] doorCoordinates = coordinateParser.parseCoordinates(intent
 					.getStringExtra(ChooseLocationActivity.CTHDOOR_COORDINATES));
+			/*for the moment, never used varible
 			int [] cthBuildingCoordinates = coordinateParser.parseCoordinates(intent
-					.getStringExtra(ChooseLocationActivity.CTHBUILDING_COORDINATES));
+			.getStringExtra(ChooseLocationActivity.CTHBUILDING_COORDINATES));*/
+			
 			int cthBuildingFloor = Integer.parseInt(intent
 					.getStringExtra(ChooseLocationActivity.CTHBUILDING_FLOOR));
 
+
 			// Creates clickable map overlays for the chosen classrooms closest entrances
 
-			Drawable buildingIcon = mapView.getResources().getDrawable(R.drawable.edit);
+			Drawable buildingIcon = setBuildingIcon(cthBuilding);
 			BuildingOverlay buildingOverlay = new BuildingOverlay(buildingIcon, context);
 			for (int i=0; i<doorCoordinates.length;i +=2 ){
 				GeoPoint entranceGeoPoint = new GeoPoint(doorCoordinates[i], doorCoordinates[i+1]);
@@ -62,7 +65,7 @@ public class TouchOverlay extends Overlay {
 				mapView.getOverlays().add(buildingOverlay);
 			}
 		}
-		
+
 
 
 
@@ -74,7 +77,7 @@ public class TouchOverlay extends Overlay {
 
 		//Adds the created overlays
 		mapView.getOverlays().add(destOverlay);
-		
+
 	}
 
 
@@ -122,5 +125,23 @@ public class TouchOverlay extends Overlay {
 	}
 	public DestinationMarkerOverlay getDestOverlay(){
 		return destOverlay;
+	}
+	private Drawable setBuildingIcon(String s){
+		if(s=="EDIT-huset"){
+			return mapView.getResources().getDrawable(R.drawable.edit);
+		}
+		else if (s== "Maskinhuset"){
+			return mapView.getResources().getDrawable(R.drawable.m);
+		}
+		else if (s== "HA"){
+			return mapView.getResources().getDrawable(R.drawable.ha);
+		}
+		else if (s== "HB"){
+			return mapView.getResources().getDrawable(R.drawable.hb);
+		}
+		else if (s== "HC"){
+			return mapView.getResources().getDrawable(R.drawable.hc);
+		}
+		return null;
 	}
 }
