@@ -36,9 +36,8 @@ public class Map extends MapActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_map);
-		// Retrieves info about the classroom from the database
-		Intent i = getIntent();
-	
+		
+		//Create buttons and listeners
 		buttonToggle = (Button) findViewById(R.id.buttonToggle);
 		buttonNewDest = (Button) findViewById(R.id.buttonNewDest);
 		buttonClear = (Button) findViewById(R.id.buttonRemoveDest);
@@ -62,6 +61,9 @@ public class Map extends MapActivity {
 				mapView.invalidate();
 			}
 		});
+		
+		
+		
 		// Enabling zooming
 		mapView = (MapView) findViewById(R.id.mapview);
 		mapView.setBuiltInZoomControls(true);
@@ -92,7 +94,7 @@ public class Map extends MapActivity {
 
 		// Overlays
 		List<Overlay> mapOverlays = mapView.getOverlays();
-		touchOverlay = new TouchOverlay(this, mapView, i);
+		touchOverlay = new TouchOverlay(this, mapView, getIntent());
 		mapOverlays.add(touchOverlay);
 	}
 
