@@ -36,6 +36,7 @@ public class Map extends MapActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_map);
+		// Retrieves info about the classroom from the database
 		Intent i = getIntent();
 		if (i.getStringExtra(ChooseLocationActivity.CTHBUILDING.toString()) != null) {
 			String cthBuilding = i
@@ -46,6 +47,8 @@ public class Map extends MapActivity {
 					.getStringExtra(ChooseLocationActivity.CTHBUILDING_COORDINATES));
 			int cthBuildingFloor = Integer.parseInt(i
 					.getStringExtra(ChooseLocationActivity.CTHBUILDING_FLOOR));		
+			
+			
 			// Set geoPoint to the coordinate of the building
 			
 			geoPoint = new GeoPoint(57688018, 11977886);
@@ -107,7 +110,6 @@ public class Map extends MapActivity {
 		List<Overlay> mapOverlays = mapView.getOverlays();
 		touchOverlay = new TouchOverlay(this, mapView);
 		mapOverlays.add(touchOverlay);
-
 	}
 
 	@Override

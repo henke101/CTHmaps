@@ -3,7 +3,7 @@ package utils;
 public class CoordinateParser {
 	private static final CoordinateParser parser = new CoordinateParser();
 
-	public CoordinateParser() {
+	private CoordinateParser() {
 
 	}
 	public static CoordinateParser getInstance(){

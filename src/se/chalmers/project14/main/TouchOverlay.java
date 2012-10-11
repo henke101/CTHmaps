@@ -30,6 +30,7 @@ public class TouchOverlay extends Overlay {
 		super();
 		this.context = context;
 		this.mapView=mapView;
+	
 		
 		// Creates clickable map overlays for the EDIT-house entrances
 		
