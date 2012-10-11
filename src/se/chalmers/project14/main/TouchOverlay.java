@@ -60,7 +60,7 @@ public class TouchOverlay extends Overlay {
 			for (int i=0; i<doorCoordinates.length;i +=2 ){
 				GeoPoint entranceGeoPoint = new GeoPoint(doorCoordinates[i], doorCoordinates[i+1]);
 				OverlayItem entranceOverlayItem = new OverlayItem(entranceGeoPoint,
-						"Entrance EDIT huset", "Classrooms close to this entrance:");
+						"Entrance" + " " + cthBuilding, "Classrooms close to this entrance:");
 				buildingOverlay.addOverlay(entranceOverlayItem);
 				mapView.getOverlays().add(buildingOverlay);
 			}
