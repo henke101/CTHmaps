@@ -48,7 +48,7 @@ public class TouchOverlay extends Overlay {
 			/*for the moment, never used varible
 			int [] cthBuildingCoordinates = coordinateParser.parseCoordinates(intent
 			.getStringExtra(ChooseLocationActivity.CTHBUILDING_COORDINATES));*/
-			
+
 			int cthBuildingFloor = Integer.parseInt(intent
 					.getStringExtra(ChooseLocationActivity.CTHBUILDING_FLOOR));
 
@@ -65,11 +65,6 @@ public class TouchOverlay extends Overlay {
 				mapView.getOverlays().add(buildingOverlay);
 			}
 		}
-
-
-
-
-
 
 		// Creates a destination flag overlay
 		Drawable destFlag = mapView.getResources().getDrawable(R.drawable.destination_flag);
@@ -127,21 +122,23 @@ public class TouchOverlay extends Overlay {
 		return destOverlay;
 	}
 	private Drawable setBuildingIcon(String s){
-		if(s=="EDIT-huset"){
+		if(s.equals("EDIT-huset")){
 			return mapView.getResources().getDrawable(R.drawable.edit);
 		}
-		else if (s== "Maskinhuset"){
+		else if (s.equals("Maskinhuset")){
 			return mapView.getResources().getDrawable(R.drawable.m);
 		}
-		else if (s== "HA"){
+		else if (s.equals("HA")){
 			return mapView.getResources().getDrawable(R.drawable.ha);
 		}
-		else if (s== "HB"){
+		else if (s.equals("HB")){
+			
 			return mapView.getResources().getDrawable(R.drawable.hb);
 		}
-		else if (s== "HC"){
+		else if (s.equals("HC")){
 			return mapView.getResources().getDrawable(R.drawable.hc);
 		}
-		return null;
+		
+		return null ;
 	}
 }
