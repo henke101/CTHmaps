@@ -54,7 +54,6 @@ public class TouchOverlay extends Overlay {
 
 
 			// Creates clickable map overlays for the chosen classrooms closest entrances
-
 			Drawable buildingIcon = setBuildingIcon(cthBuilding);
 			BuildingOverlay buildingOverlay = new BuildingOverlay(buildingIcon, context);
 			for (int i=0; i<doorCoordinates.length;i +=2 ){
