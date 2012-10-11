@@ -3,10 +3,13 @@ package se.chalmers.project14.main;
 import java.util.ArrayList;
 import java.util.List;
 
+import utils.CoordinateParser;
+
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
 import android.widget.Toast;
@@ -25,11 +28,26 @@ public class TouchOverlay extends Overlay {
 	private MapView mapView;
 	private GeoPoint geoPoint;
 	private DestinationMarkerOverlay destOverlay;
+	private CoordinateParser coordinateParser = CoordinateParser.getInstance();
 
-	public TouchOverlay(Context context, MapView mapView) {
+	public TouchOverlay(Context context, MapView mapView, Intent i) {
 		super();
 		this.context = context;
 		this.mapView=mapView;
+		
+		if (i.getStringExtra(ChooseLocationActivity.CTHBUILDING.toString()) != null) {
+			String cthLectureRoom = i
+					.getStringExtra(ChooseLocationActivity.CTHLECTURE_ROOM);
+			String cthBuilding = i
+					.getStringExtra(ChooseLocationActivity.CTHBUILDING);
+			int [] doorCoordinates = coordinateParser.parseCoordinates(i
+					.getStringExtra(ChooseLocationActivity.CTHDOOR_COORDINATES));
+			int [] cthBuildingCoordinates = coordinateParser.parseCoordinates(i
+					.getStringExtra(ChooseLocationActivity.CTHBUILDING_COORDINATES));
+			int cthBuildingFloor = Integer.parseInt(i
+					.getStringExtra(ChooseLocationActivity.CTHBUILDING_FLOOR));
+		}
+		
 	
 		
 		// Creates clickable map overlays for the EDIT-house entrances

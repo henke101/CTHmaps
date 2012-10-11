@@ -30,7 +30,7 @@ public class Map extends MapActivity {
 	private MapView mapView;
 	private GeoPoint geoPoint;
 	private TouchOverlay touchOverlay;
-	private CoordinateParser coordinateParser = CoordinateParser.getInstance();
+
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -38,25 +38,7 @@ public class Map extends MapActivity {
 		setContentView(R.layout.activity_map);
 		// Retrieves info about the classroom from the database
 		Intent i = getIntent();
-		if (i.getStringExtra(ChooseLocationActivity.CTHBUILDING.toString()) != null) {
-			String cthLectureRoom = i
-					.getStringExtra(ChooseLocationActivity.CTHLECTURE_ROOM);
-			String cthBuilding = i
-					.getStringExtra(ChooseLocationActivity.CTHBUILDING);
-			int [] doorCoordinates = coordinateParser.parseCoordinates(i
-					.getStringExtra(ChooseLocationActivity.CTHDOOR_COORDINATES));
-			int [] cthBuildingCoordinates = coordinateParser.parseCoordinates(i
-					.getStringExtra(ChooseLocationActivity.CTHBUILDING_COORDINATES));
-			int cthBuildingFloor = Integer.parseInt(i
-					.getStringExtra(ChooseLocationActivity.CTHBUILDING_FLOOR));		
-			
-			
-			// Set geoPoint to the coordinate of the building
-			
-			geoPoint = new GeoPoint(57688018, 11977886);
-		} else {
-			geoPoint = new GeoPoint(57688018, 11977886);
-		}
+	
 		buttonToggle = (Button) findViewById(R.id.buttonToggle);
 		buttonNewDest = (Button) findViewById(R.id.buttonNewDest);
 		buttonClear = (Button) findViewById(R.id.buttonRemoveDest);
@@ -105,12 +87,12 @@ public class Map extends MapActivity {
 		 * zoom in at a lucid level
 		 */
 		controller = mapView.getController();
-		controller.animateTo(geoPoint);
+		controller.animateTo(new GeoPoint(57688018, 11977886));
 		controller.setZoom(16);
 
 		// Overlays
 		List<Overlay> mapOverlays = mapView.getOverlays();
-		touchOverlay = new TouchOverlay(this, mapView);
+		touchOverlay = new TouchOverlay(this, mapView, i);
 		mapOverlays.add(touchOverlay);
 	}
 
