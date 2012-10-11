@@ -31,7 +31,7 @@ public class Map extends MapActivity {
 	private GeoPoint geoPoint;
 	private TouchOverlay touchOverlay;
 	private CoordinateParser coordinateParser = CoordinateParser.getInstance();
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -39,6 +39,8 @@ public class Map extends MapActivity {
 		// Retrieves info about the classroom from the database
 		Intent i = getIntent();
 		if (i.getStringExtra(ChooseLocationActivity.CTHBUILDING.toString()) != null) {
+			String cthLectureRoom = i
+					.getStringExtra(ChooseLocationActivity.CTHLECTURE_ROOM);
 			String cthBuilding = i
 					.getStringExtra(ChooseLocationActivity.CTHBUILDING);
 			int [] doorCoordinates = coordinateParser.parseCoordinates(i
@@ -72,7 +74,7 @@ public class Map extends MapActivity {
 			}
 		});
 		buttonClear.setOnClickListener(new OnClickListener() {
-			
+
 			public void onClick(View v) {
 				touchOverlay.getDestOverlay().removeDestinationMarker();
 				mapView.invalidate();
