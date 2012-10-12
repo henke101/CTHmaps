@@ -33,6 +33,7 @@ public class ChooseLocationActivity extends ListActivity implements
 	public final static String CTHBUILDING = "se.chalmers.project14.main.CTHBUILDING";
 	public final static String CTHDOOR_COORDINATES = "se.chalmers.project14.main.CTHDOOR_CTHBUILDING";
 	public final static String CTHBUILDING_FLOOR = "se.chalmers.project14.main.CTHBUILDING_FLOOR";
+	public final static String CTHLECTURE_ROOM = "se.chalmers.project14.main.CTHLECTURE_ROOM";
 
 	private DatabaseAdapter dba;
 	private ListView listview;
@@ -70,7 +71,7 @@ public class ChooseLocationActivity extends ListActivity implements
 		Collections.sort(houseList, new Comparator<House>() {
 
 			public int compare(House h1, House h2) {
-				return h1.getHouse().compareTo(h2.getHouse());
+				return h1.getLectureRoom().compareTo(h2.getLectureRoom());
 
 			}
 		});
@@ -108,10 +109,12 @@ public class ChooseLocationActivity extends ListActivity implements
 			long i) {
 		House house = houseList.get(listPosition);
 		String cthBuilding = house.getHouse();
+		String cthLectureRoom = house.getLectureRoom();
 		int houseId = house.getId();
 		Door door = db.getDoorCoordinates(houseId);
 		Coordinates coordinate = db.getCoordinates(houseId);
 		Intent intent = new Intent(this, Map.class);
+		intent.putExtra(CTHLECTURE_ROOM, cthLectureRoom);
 		intent.putExtra(CTHBUILDING, cthBuilding);
 		intent.putExtra(CTHBUILDING_COORDINATES, coordinate.getCoordinates());
 		intent.putExtra(CTHBUILDING_FLOOR, door.getFloor());

@@ -29,21 +29,22 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class DatabaseHandler extends SQLiteOpenHelper {
 
-	private static final int DATABASE_VERSION = 5;
+	private static final int DATABASE_VERSION = 6;
 	private static final String DATABASE_NAME = "cordinatesManager";
 	private static final String TABLE_COORDINATE = "CoordinateTable";
 	private static final String TABLE_HOUSE = "HouseTable";
 	private static final String TABLE_DOORCOORDINATES = "DoorTable";
 
 	private static final String KEY_ID = "_id";
-	public static final String KEY_CTHPLACE = "_idCTHplace";
+	private static final String KEY_LECTUREROOM = "_lectureRoom";
+	private static final String KEY_BUILDING = "_building";
 	private static final String KEY_COORDINATES = "_houseCoordinates";
 	private static final String KEY_FLOOR = "_floor";
 	private static final String KEY_DOOR = "_doorCoordinates";
 
 	private String CREATE_HOUSE_TABLE = "CREATE TABLE IF NOT EXISTS "
 			+ TABLE_HOUSE + "(" + KEY_ID + " INTEGER PRIMARY KEY,"
-			+ KEY_CTHPLACE + " TEXT" + ")";
+			+ KEY_LECTUREROOM + " TEXT," + KEY_BUILDING + " TEXT" + ")";
 
 	private String CREATE_COORDINATES_TABLE = "CREATE TABLE IF NOT EXISTS "
 			+ TABLE_COORDINATE + "(" + KEY_ID + " INTEGER PRIMARY KEY,"
@@ -97,7 +98,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		ContentValues contentValues = new ContentValues();
 		int tableKey = house.getId();
 		contentValues.put(KEY_ID, tableKey);
-		contentValues.put(KEY_CTHPLACE, house.getHouse());
+		contentValues.put(KEY_LECTUREROOM, house.getLectureRoom());
+		contentValues.put(KEY_BUILDING, house.getHouse());
+		// contenValues.put()
 		sqdb.insertWithOnConflict(TABLE_HOUSE, null, contentValues,
 				SQLiteDatabase.CONFLICT_IGNORE);
 		sqdb.close();
@@ -163,7 +166,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		SQLiteDatabase sqdb = this.getReadableDatabase();
 
 		Cursor cursor = sqdb.query(TABLE_HOUSE, new String[] { KEY_ID,
-				KEY_CTHPLACE }, KEY_ID + "=?",
+				KEY_LECTUREROOM, KEY_BUILDING }, KEY_ID + "=?",
 				new String[] { String.valueOf(id) }, null, null, null, null);
 		if (cursor != null) {
 			cursor.moveToFirst();
@@ -234,6 +237,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 			House house = new House();
 			house.setId(Integer.parseInt(cursor.getString(0)));
 			house.setHouse(cursor.getString(1));
+			house.setLectureRoom(cursor.getString(2));
 			houseList.add(house);
 			cursor.moveToNext();
 		}

@@ -14,6 +14,7 @@ package se.chalmers.project14.model;
 public class House {
 
 	private String house;
+	private String lectureRoom;
 	private int id;
 
 	public House() {
@@ -24,9 +25,10 @@ public class House {
 		this.house = house;
 	}
 
-	public House(int id, String house) {
+	public House(int id, String house, String lectureRoom) {
 		this.id = id;
 		this.house = house;
+		this.lectureRoom = lectureRoom;
 	}
 
 	public void setId(int id) {
@@ -45,4 +47,11 @@ public class House {
 		return house;
 	}
 
+	public void setLectureRoom(String lectureRoom) {
+		this.lectureRoom = lectureRoom;
+	}
+
+	public String getLectureRoom() {
+		return lectureRoom;
+	}
 }

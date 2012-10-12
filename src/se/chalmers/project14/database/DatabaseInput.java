@@ -25,6 +25,7 @@ import android.content.res.AssetManager;
  * 
  */
 public class DatabaseInput {
+
 	private Context context;
 
 	public DatabaseInput(Context context) {
@@ -59,9 +60,10 @@ public class DatabaseInput {
 		DatabaseHandler db = new DatabaseHandler(context);
 		String[] coordinateInput = coordinateLine.split(":");
 		int coordinateKey = Integer.parseInt(coordinateInput[0]);
-		House house = new House(coordinateKey, coordinateInput[1]);
-		Coordinates coordinates = new Coordinates(coordinateInput[2]);
-		Door door = new Door(coordinateInput[3], coordinateInput[4]);
+		House house = new House(coordinateKey, coordinateInput[1],
+				coordinateInput[2]);
+		Coordinates coordinates = new Coordinates(coordinateInput[3]);
+		Door door = new Door(coordinateInput[4], coordinateInput[5]);
 		db.addCthHouse(house, coordinates, door);
 	}
 }
