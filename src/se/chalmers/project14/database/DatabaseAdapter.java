@@ -1,5 +1,10 @@
 package se.chalmers.project14.database;
 
+/*
+ * Copyright (c) 2012 ICRL
+ * See the file license.txt for copying permission.
+ */
+
 import java.util.List;
 import se.chalmers.project14.main.R;
 import se.chalmers.project14.model.House;

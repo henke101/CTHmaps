@@ -1,5 +1,10 @@
 package se.chalmers.project14.model;
 
+/*
+ * Copyright (c) 2012 ICRL
+ * See the file license.txt for copying permission.
+ */
+
 /**
  * class that represent a house
  * 

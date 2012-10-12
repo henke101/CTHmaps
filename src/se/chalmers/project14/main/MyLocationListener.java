@@ -1,5 +1,10 @@
 package se.chalmers.project14.main;
 
+/*
+ * Copyright (c) 2012 ICRL
+ * See the file license.txt for copying permission.
+ */
+
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;

@@ -1,5 +1,10 @@
 package se.chalmers.project14.database;
 
+/*
+ * Copyright (c) 2012 ICRL
+ * See the file license.txt for copying permission.
+ */
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
