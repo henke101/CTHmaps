@@ -1,5 +1,10 @@
 package utils;
 
+/*
+ * Copyright (c) 2012 ICRL
+ * See the file license.txt for copying permission.
+ */
+
 public class CoordinateParser {
 	private static final CoordinateParser parser = new CoordinateParser();
 
