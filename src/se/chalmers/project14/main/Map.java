@@ -28,8 +28,8 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 public class Map extends MapActivity {
-	private LocationManager locManager;
-	private LocationListener locListener;
+//	private LocationManager locManager;
+//	private LocationListener locListener;
 	private MapController controller;
 	private Button buttonToggle, buttonNewDest, buttonClear;
 	private MapView mapView;
@@ -73,21 +73,21 @@ public class Map extends MapActivity {
 		mapView = (MapView) findViewById(R.id.mapview);
 		mapView.setBuiltInZoomControls(true);
 
-		/* Using the LocationManager class to obtain GPS-location */
-		locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-		locListener = new MyLocationListener(this);
-		locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0,
-				locListener);
-
-		/*
-		 * Using the MyLocationOverlay-class to add users current position to
-		 * map-view
-		 */
-		MyLocationOverlay myLocationOverlay = new MyLocationOverlay(this,
-				mapView);
-		mapView.getOverlays().add(myLocationOverlay);
-		myLocationOverlay.enableMyLocation();
-		myLocationOverlay.enableCompass(); // Adding a compass to the map
+//		/* Using the LocationManager class to obtain GPS-location */
+//		locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+//		locListener = new MyLocationListener(this);
+//		locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0,
+//				locListener);
+//
+//		/*
+//		 * Using the MyLocationOverlay-class to add users current position to
+//		 * map-view
+//		 */
+//		MyLocationOverlay myLocationOverlay = new MyLocationOverlay(this,
+//				mapView);
+//		mapView.getOverlays().add(myLocationOverlay);
+//		myLocationOverlay.enableMyLocation();
+//		myLocationOverlay.enableCompass(); // Adding a compass to the map
 
 		/*
 		 * Using the controller to pan in to the EDIT-house's coordinates and to
@@ -99,7 +99,7 @@ public class Map extends MapActivity {
 
 		// Overlays
 		List<Overlay> mapOverlays = mapView.getOverlays();
-		touchOverlay = new TouchOverlay(this, mapView, getIntent(), myLocationOverlay);
+		touchOverlay = new TouchOverlay(this, mapView, getIntent());
 		mapOverlays.add(touchOverlay);
 	}
 
@@ -119,7 +119,7 @@ public class Map extends MapActivity {
 		super.onBackPressed();
 		// Stopping the update och GPS-status, when closing
 		// map-activity/pressing the back-button in the map-activity
-		locManager.removeUpdates(locListener);
+		//locManager.removeUpdates(locListener);
 	}
 
 }

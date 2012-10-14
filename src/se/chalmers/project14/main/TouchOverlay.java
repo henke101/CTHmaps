@@ -16,6 +16,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.Toast;
@@ -25,6 +27,7 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
+import com.google.android.maps.MyLocationOverlay;
 
 public class TouchOverlay extends Overlay {
 	//private ArrayList<OverlayItem> mOverlays = new ArrayList<OverlayItem>();
@@ -37,12 +40,14 @@ public class TouchOverlay extends Overlay {
 	private DestinationMarkerOverlay sourceOverlay, destOverlay;
 	private CoordinateParser coordinateParser = CoordinateParser.getInstance();
 	private MyLocationOverlay myLocationOverlay;
+	
+	private LocationManager locManager;
+	private LocationListener locListener;
 
-	public TouchOverlay(Context context, MapView mapView, Intent intent, MyLocationOverlay myLocationOverlay) {
+	public TouchOverlay(Context context, MapView mapView, Intent intent) {
 		super();
 		this.context = context;
 		this.mapView=mapView;
-		this.myLocationOverlay=myLocationOverlay;
 
 		//Checks if a specific classroom has been chosen
 		if (intent.getStringExtra(ChooseLocationActivity.CTHBUILDING.toString()) != null) {
@@ -74,13 +79,28 @@ public class TouchOverlay extends Overlay {
 			}
 		}
 		
+		/* Using the LocationManager class to obtain GPS-location */
+		locManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+		locListener = new MyLocationListener(context);
+		locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0,
+				locListener);
+
+		/*
+		 * Using the MyLocationOverlay-class to add users current position to
+		 * map-view
+		 */
+		myLocationOverlay = new MyLocationOverlay(context,
+				mapView);
+		mapView.getOverlays().add(myLocationOverlay);
+		myLocationOverlay.enableMyLocation();
+		myLocationOverlay.enableCompass(); // Adding a compass to the map
+		
 		//Sets myLastGeoPoint to a value (used if GPS-signal is not established)
 		myLastGeoPoint = new GeoPoint(57688018, 11977886);
 		
 		try{
 			myGeoPoint = myLocationOverlay.getMyLocation();	
 			Toast.makeText(context, "try: " + myGeoPoint.getLatitudeE6() + "." , Toast.LENGTH_SHORT).show();
-			System.out.println("try: " + myGeoPoint.getLatitudeE6() + ".");
 			Log.d("tag", "try: " + myGeoPoint.getLatitudeE6() + ".");
 		} 
 		//sets my location to a value if GPS-signal is not achieved
