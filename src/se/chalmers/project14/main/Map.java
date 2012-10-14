@@ -99,7 +99,7 @@ public class Map extends MapActivity {
 
 		// Overlays
 		List<Overlay> mapOverlays = mapView.getOverlays();
-		touchOverlay = new TouchOverlay(this, mapView, getIntent());
+		touchOverlay = new TouchOverlay(this, mapView, getIntent(), myLocationOverlay);
 		mapOverlays.add(touchOverlay);
 	}
 

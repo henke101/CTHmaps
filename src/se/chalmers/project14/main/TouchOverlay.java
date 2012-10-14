@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.MapView;
+import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
 
@@ -31,14 +32,16 @@ public class TouchOverlay extends Overlay {
 	private float touchStartX = 1, touchStartY = 2, touchStopX = 3,
 			touchStopY = 4;
 	private MapView mapView;
-	private GeoPoint geoPoint;
-	private DestinationMarkerOverlay destOverlay;
+	private GeoPoint myGeoPoint, myLastGeoPoint, destGeoPoint;
+	private DestinationMarkerOverlay sourceOverlay, destOverlay;
 	private CoordinateParser coordinateParser = CoordinateParser.getInstance();
+	private MyLocationOverlay myLocationOverlay;
 
-	public TouchOverlay(Context context, MapView mapView, Intent intent) {
+	public TouchOverlay(Context context, MapView mapView, Intent intent, MyLocationOverlay myLocationOverlay) {
 		super();
 		this.context = context;
 		this.mapView=mapView;
+		this.myLocationOverlay=myLocationOverlay;
 
 		//Checks if a specific classroom has been chosen
 		if (intent.getStringExtra(ChooseLocationActivity.CTHBUILDING.toString()) != null) {
@@ -69,13 +72,34 @@ public class TouchOverlay extends Overlay {
 				mapView.getOverlays().add(buildingOverlay);
 			}
 		}
+		
+		//Sets myLastGeoPoint to a value (used if GPS-signal is not established)
+		myLastGeoPoint = new GeoPoint(57688018, 11977886);
+		
+		try{
+			myGeoPoint = myLocationOverlay.getMyLocation();
+		} 
+		//sets my location to a value if GPS-signal is not achieved
+		catch (NullPointerException e){
+			myGeoPoint = myLastGeoPoint;
+		}
 
+		// Creates a position-marker avatar
+		Drawable avatar = mapView.getResources().getDrawable(R.drawable.anton);
+		sourceOverlay = new DestinationMarkerOverlay(avatar, mapView);
+		
 		// Creates a destination flag overlay
 		Drawable destFlag = mapView.getResources().getDrawable(R.drawable.destination_flag);
 		destOverlay = new DestinationMarkerOverlay(destFlag, mapView);
 
-		//Adds the created overlays
+		//Adds the created overlays		
+		mapView.getOverlays().add(sourceOverlay);
 		mapView.getOverlays().add(destOverlay);
+		
+		//
+		OverlayItem sourceItem = new OverlayItem(myGeoPoint, "Locationmarker", "This is the recent location");
+		sourceOverlay.setDestination(sourceItem);
+		mapView.invalidate();
 
 	}
 
@@ -98,15 +122,15 @@ public class TouchOverlay extends Overlay {
 			 */
 			if (touchStop - touchStart > 1000 && touchStartX <= touchStopX+20 && touchStartX >= touchStopX-20 
 					&& touchStartY <= touchStopY+20 && touchStartY >= touchStopY-20) {
-				geoPoint = mapView.getProjection().fromPixels((int)touchStopX, (int)touchStopY);
+				destGeoPoint = mapView.getProjection().fromPixels((int)touchStopX, (int)touchStopY);
 				AlertDialog.Builder options = new AlertDialog.Builder(context);
 				options.setTitle("Options");
-				options.setMessage("Coordinates:\nLatitude: " + geoPoint.getLatitudeE6()/1E6 + "\nLongitude: " 
-						+ geoPoint.getLongitudeE6()/1E6 + "\n\nWhat do you want to do?");
+				options.setMessage("Coordinates:\nLatitude: " + destGeoPoint.getLatitudeE6()/1E6 + "\nLongitude: " 
+						+ destGeoPoint.getLongitudeE6()/1E6 + "\n\nWhat do you want to do?");
 				options.setNegativeButton("Set destination", new DialogInterface.OnClickListener(){
 					public void onClick(DialogInterface dialog, int which) {						
 						//Adding a destination marker
-						OverlayItem destinationItem = new OverlayItem(geoPoint, "Destinationmarker", "This is the chosen destination");
+						OverlayItem destinationItem = new OverlayItem(destGeoPoint, "Destinationmarker", "This is the chosen destination");
 						destOverlay.setDestination(destinationItem);
 						mapView.invalidate();
 					}
