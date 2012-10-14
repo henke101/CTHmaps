@@ -16,6 +16,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.Toast;
 import com.google.android.maps.GeoPoint;
@@ -77,29 +78,34 @@ public class TouchOverlay extends Overlay {
 		myLastGeoPoint = new GeoPoint(57688018, 11977886);
 		
 		try{
-			myGeoPoint = myLocationOverlay.getMyLocation();
+			myGeoPoint = myLocationOverlay.getMyLocation();	
+			Toast.makeText(context, "try: " + myGeoPoint.getLatitudeE6() + "." , Toast.LENGTH_SHORT).show();
+			System.out.println("try: " + myGeoPoint.getLatitudeE6() + ".");
+			Log.d("tag", "try: " + myGeoPoint.getLatitudeE6() + ".");
 		} 
 		//sets my location to a value if GPS-signal is not achieved
 		catch (NullPointerException e){
 			myGeoPoint = myLastGeoPoint;
+			Toast.makeText(context, "catch", Toast.LENGTH_SHORT).show();
+			Log.d("tag", "catch: " + myGeoPoint.getLatitudeE6() + ".");
 		}
-
-		// Creates a position-marker avatar
-		Drawable avatar = mapView.getResources().getDrawable(R.drawable.anton);
-		sourceOverlay = new DestinationMarkerOverlay(avatar, mapView);
+//
+//		// Creates a position-marker avatar
+//		Drawable avatar = mapView.getResources().getDrawable(R.drawable.anton);
+//		sourceOverlay = new DestinationMarkerOverlay(avatar, mapView);
 		
 		// Creates a destination flag overlay
 		Drawable destFlag = mapView.getResources().getDrawable(R.drawable.destination_flag);
 		destOverlay = new DestinationMarkerOverlay(destFlag, mapView);
 
 		//Adds the created overlays		
-		mapView.getOverlays().add(sourceOverlay);
+//		mapView.getOverlays().add(sourceOverlay);
 		mapView.getOverlays().add(destOverlay);
-		
-		//
-		OverlayItem sourceItem = new OverlayItem(myGeoPoint, "Locationmarker", "This is the recent location");
-		sourceOverlay.setDestination(sourceItem);
-		mapView.invalidate();
+//		
+//		//
+//		OverlayItem sourceItem = new OverlayItem(myGeoPoint, "Locationmarker", "This is the recent location");
+//		sourceOverlay.setDestination(sourceItem);
+//		mapView.invalidate();
 
 	}
 
