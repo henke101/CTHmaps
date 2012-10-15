@@ -136,7 +136,7 @@ public class TouchOverlay extends Overlay implements LocationListener {
 					public void onClick(DialogInterface dialog, int which) {						
 						//Adding a destination marker
 						OverlayItem destinationItem = new OverlayItem(destGeoPoint, "Destinationmarker", "This is the chosen destination");
-						destOverlay.setDestination(destinationItem);
+						destOverlay.setMarker(destinationItem);
 						mapView.invalidate();
 					}
 				});
@@ -186,7 +186,7 @@ public class TouchOverlay extends Overlay implements LocationListener {
 		
 		myGeoPoint = new GeoPoint(lat, lng);
 		OverlayItem sourceItem = new OverlayItem(myGeoPoint, "Locationmarker", "This is the recent location");
-		sourceOverlay.setDestination(sourceItem);
+		sourceOverlay.setMarker(sourceItem);
 		mapView.invalidate();
 		
 	}

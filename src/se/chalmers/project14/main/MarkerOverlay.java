@@ -12,7 +12,7 @@ import com.google.android.maps.OverlayItem;
 
 public class MarkerOverlay extends ItemizedOverlay{
 	private MapView mapView;
-	private OverlayItem dest;
+	private OverlayItem markerItem;
 	public MarkerOverlay(Drawable marker, MapView mapView) {
 		/* Fixing so that the flag is pointed to the lower left corner*/
 		super(boundCenterBottom(marker));
@@ -22,12 +22,12 @@ public class MarkerOverlay extends ItemizedOverlay{
 
 	@Override
 	protected OverlayItem createItem(int i) {
-		return dest;
+		return markerItem;
 	}
 
 	@Override
 	public int size() {
-		if(dest==null){
+		if(markerItem==null){
 			return 0;
 		}
 		else{
@@ -36,13 +36,13 @@ public class MarkerOverlay extends ItemizedOverlay{
 	}
 	
 	//Putting out an item (a flagmarker)
-	public void setDestination(OverlayItem dest){
-		this.dest = dest;
+	public void setMarker(OverlayItem markerItem){
+		this.markerItem = markerItem;
 		populate();
 	}
 
 	public void removeDestinationMarker() {
-		dest=null;
+		markerItem=null;
 		populate();
 	}
 }
