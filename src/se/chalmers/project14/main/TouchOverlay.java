@@ -39,7 +39,7 @@ public class TouchOverlay extends Overlay implements LocationListener {
 			touchStopY = 4;
 	private MapView mapView;
 	private GeoPoint myGeoPoint, myLastGeoPoint, destGeoPoint;
-	private DestinationMarkerOverlay sourceOverlay, destOverlay;
+	private MarkerOverlay sourceOverlay, destOverlay;
 	private CoordinateParser coordinateParser = CoordinateParser.getInstance();
 	private MyLocationOverlay myLocationOverlay;
 	
@@ -94,34 +94,18 @@ public class TouchOverlay extends Overlay implements LocationListener {
 		mapView.getOverlays().add(myLocationOverlay);
 		myLocationOverlay.enableMyLocation();
 		myLocationOverlay.enableCompass(); // Adding a compass to the map
-		
-		//Sets myLastGeoPoint to a value (used if GPS-signal is not established)
-		myLastGeoPoint = new GeoPoint(57688018, 11977886);
-//		
-//			myGeoPoint = myLocationOverlay.getMyLocation();	
-//			if(myGeoPoint==null){
-//				myGeoPoint = myLastGeoPoint;
-//				Toast.makeText(context, "catch", Toast.LENGTH_SHORT).show();
-//				Log.d("tag", "catch: " + myGeoPoint.getLatitudeE6() + ".");
-//			}else{
-//				Toast.makeText(context, "try: " + myGeoPoint.getLatitudeE6() + "." , Toast.LENGTH_SHORT).show();
-//				Log.d("tag", "try: " + myGeoPoint.getLatitudeE6() + ".");
-//			}
-
-		//sets my location to a value if GPS-signal is not achieved
 
 		// Creates a position-marker avatar
 		Drawable avatar = mapView.getResources().getDrawable(R.drawable.anton);
-		sourceOverlay = new DestinationMarkerOverlay(avatar, mapView);
+		sourceOverlay = new MarkerOverlay(avatar, mapView);
 		
 		// Creates a destination flag overlay
 		Drawable destFlag = mapView.getResources().getDrawable(R.drawable.destination_flag);
-		destOverlay = new DestinationMarkerOverlay(destFlag, mapView);
+		destOverlay = new MarkerOverlay(destFlag, mapView);
 
 		//Adds the created overlays		
 		mapView.getOverlays().add(sourceOverlay);
 		mapView.getOverlays().add(destOverlay);	
-
 	}
 
 
@@ -167,7 +151,7 @@ public class TouchOverlay extends Overlay implements LocationListener {
 		}
 		return false;
 	}
-	public DestinationMarkerOverlay getDestOverlay(){
+	public MarkerOverlay getDestOverlay(){
 		return destOverlay;
 	}
 	private Drawable setBuildingIcon(String s){

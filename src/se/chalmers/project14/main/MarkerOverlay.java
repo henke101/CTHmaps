@@ -10,10 +10,10 @@ import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
 
-public class DestinationMarkerOverlay extends ItemizedOverlay{
+public class MarkerOverlay extends ItemizedOverlay{
 	private MapView mapView;
 	private OverlayItem dest;
-	public DestinationMarkerOverlay(Drawable marker, MapView mapView) {
+	public MarkerOverlay(Drawable marker, MapView mapView) {
 		/* Fixing so that the flag is pointed to the lower left corner*/
 		super(boundCenterBottom(marker));
 		this.mapView=mapView;
