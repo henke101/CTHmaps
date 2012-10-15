@@ -67,8 +67,6 @@ public class Map extends MapActivity {
 			}
 		});
 		
-		
-		
 		// Enabling zooming
 		mapView = (MapView) findViewById(R.id.mapview);
 		mapView.setBuiltInZoomControls(true);
