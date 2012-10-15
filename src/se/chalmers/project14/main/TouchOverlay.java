@@ -5,6 +5,7 @@ package se.chalmers.project14.main;
  * See the file license.txt for copying permission.
  */
 
+import java.security.acl.LastOwnerException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +16,11 @@ import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
@@ -30,6 +36,7 @@ import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
 import com.google.android.maps.MyLocationOverlay;
+import com.google.android.maps.Projection;
 
 public class TouchOverlay extends Overlay implements LocationListener {
 	//private ArrayList<OverlayItem> mOverlays = new ArrayList<OverlayItem>();
@@ -42,13 +49,17 @@ public class TouchOverlay extends Overlay implements LocationListener {
 	private MarkerOverlay sourceOverlay, destOverlay;
 	private CoordinateParser coordinateParser = CoordinateParser.getInstance();
 	private MyLocationOverlay myLocationOverlay;
-	
+
 	private LocationManager locManager;
+
+	private Projection projection;
+	private boolean drawRoute = false, drawFrom = false, drawTo = false;
 
 	public TouchOverlay(Context context, MapView mapView, Intent intent) {
 		super();
 		this.context = context;
 		this.mapView=mapView;
+		projection = mapView.getProjection();
 
 		//Checks if a specific classroom has been chosen
 		if (intent.getStringExtra(ChooseLocationActivity.CTHBUILDING.toString()) != null) {
@@ -79,7 +90,7 @@ public class TouchOverlay extends Overlay implements LocationListener {
 				mapView.getOverlays().add(buildingOverlay);
 			}
 		}
-		
+
 		/* Using the LocationManager class to obtain GPS-location */
 		locManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 		locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0,
@@ -98,7 +109,7 @@ public class TouchOverlay extends Overlay implements LocationListener {
 		// Creates a position-marker avatar
 		Drawable avatar = mapView.getResources().getDrawable(R.drawable.anton);
 		sourceOverlay = new MarkerOverlay(avatar, mapView);
-		
+
 		// Creates a destination flag overlay
 		Drawable destFlag = mapView.getResources().getDrawable(R.drawable.destination_flag);
 		destOverlay = new MarkerOverlay(destFlag, mapView);
@@ -138,6 +149,7 @@ public class TouchOverlay extends Overlay implements LocationListener {
 						OverlayItem destinationItem = new OverlayItem(destGeoPoint, "Destinationmarker", "This is the chosen destination");
 						destOverlay.setMarker(destinationItem);
 						mapView.invalidate();
+						drawTo = true;
 					}
 				});
 				options.setPositiveButton("Back to Map", new DialogInterface.OnClickListener(){
@@ -165,34 +177,35 @@ public class TouchOverlay extends Overlay implements LocationListener {
 			return mapView.getResources().getDrawable(R.drawable.ha);
 		}
 		else if (s.equals("HB")){
-			
+
 			return mapView.getResources().getDrawable(R.drawable.hb);
 		}
 		else if (s.equals("HC")){
 			return mapView.getResources().getDrawable(R.drawable.hc);
 		}
-		
+
 		return null ;
 	}
-	
+
 	public void onLocationChanged(Location location) {
 		String text = "Min nuvarande position är: \nLatitud: " + location.getLatitude() + 
 				"\nLongitud: " + location.getLongitude();		
 		Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
-		
+
 		int lat = (int) (location.getLatitude() * 1E6);
 		int lng = (int) (location.getLongitude() * 1E6);
-		
-		
+
+
 		myGeoPoint = new GeoPoint(lat, lng);
 		OverlayItem sourceItem = new OverlayItem(myGeoPoint, "Locationmarker", "This is the recent location");
 		sourceOverlay.setMarker(sourceItem);
 		mapView.invalidate();
-		
+		drawFrom = true;
 	}
 
 	public void onProviderDisabled(String provider) {
 		Toast.makeText(context, "GPS Disabled", Toast.LENGTH_SHORT).show();
+		//drawFrom=false;
 	}
 
 	public void onProviderEnabled(String provider) {
@@ -201,11 +214,46 @@ public class TouchOverlay extends Overlay implements LocationListener {
 
 	public void onStatusChanged(String provider, int status, Bundle extras) {
 	}
-	
+
 	public void onBackPressed() {
 		// Stopping the update och GPS-status, when closing
 		// map-activity/pressing the back-button in the map-activity
 		locManager.removeUpdates(this);
+	}
+
+	//Drawing the line
+	public void draw(Canvas canvas, MapView mapview, boolean shadow){
+		super.draw(canvas, mapView, shadow);
+
+		//Customizing the paint-brush
+		Paint mPaint = new Paint();
+		mPaint.setDither(true);
+		mPaint.setColor(Color.RED);
+		mPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+		mPaint.setStrokeJoin(Paint.Join.ROUND);
+		mPaint.setStrokeCap(Paint.Cap.ROUND);
+		mPaint.setStrokeWidth(4);
+
+//		//GeoPoints
+//
+//		GeoPoint gP1 = new GeoPoint(34159000,73220000);//starting point Abbottabad
+//		GeoPoint gP2 = new GeoPoint(33695043,73050000);//End point Islamabad
+
+		//Points
+		Point p1 = new Point();
+		Point p2 = new Point();
+		Path path1 = new Path();
+
+		if(myGeoPoint!=null && destGeoPoint!=null){
+			projection.toPixels(myGeoPoint, p1);//converting to Points
+			projection.toPixels(destGeoPoint, p2);
+			path1.moveTo(p1.x, p1.y);//Moving to Abbottabad location
+			path1.lineTo(p2.x,p2.y);//Path till Islamabad
+		}
+		
+		if(drawFrom==true && drawTo==true){
+			canvas.drawPath(path1, mPaint);//Actually drawing the path from Abbottabad to Islamabad
+		}
 	}
 
 }

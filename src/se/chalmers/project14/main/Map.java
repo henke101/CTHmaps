@@ -83,7 +83,7 @@ public class Map extends MapActivity {
 		controller = mapView.getController();
 		controller.animateTo(new GeoPoint(57688018, 11977886));
 		controller.setZoom(16);
-
+		
 		// Overlays
 		List<Overlay> mapOverlays = mapView.getOverlays();
 		touchOverlay = new TouchOverlay(this, mapView, getIntent());
