@@ -28,8 +28,6 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 public class Map extends MapActivity {
-//	private LocationManager locManager;
-//	private LocationListener locListener;
 	private MapController controller;
 	private Button buttonToggle, buttonNewDest, buttonClear;
 	private MapView mapView;
@@ -94,14 +92,6 @@ public class Map extends MapActivity {
 	@Override
 	protected boolean isRouteDisplayed() {
 		return false;
-	}
-
-	@Override
-	public void onBackPressed() {
-		super.onBackPressed();
-		// Stopping the update och GPS-status, when closing
-		// map-activity/pressing the back-button in the map-activity
-		//locManager.removeUpdates(locListener);
 	}
 
 }

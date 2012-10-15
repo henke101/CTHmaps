@@ -201,5 +201,11 @@ public class TouchOverlay extends Overlay implements LocationListener {
 
 	public void onStatusChanged(String provider, int status, Bundle extras) {
 	}
+	
+	public void onBackPressed() {
+		// Stopping the update och GPS-status, when closing
+		// map-activity/pressing the back-button in the map-activity
+		locManager.removeUpdates(this);
+	}
 
 }
