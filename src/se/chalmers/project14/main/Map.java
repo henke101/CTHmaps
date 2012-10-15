@@ -73,22 +73,6 @@ public class Map extends MapActivity {
 		mapView = (MapView) findViewById(R.id.mapview);
 		mapView.setBuiltInZoomControls(true);
 
-//		/* Using the LocationManager class to obtain GPS-location */
-//		locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-//		locListener = new MyLocationListener(this);
-//		locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0,
-//				locListener);
-//
-//		/*
-//		 * Using the MyLocationOverlay-class to add users current position to
-//		 * map-view
-//		 */
-//		MyLocationOverlay myLocationOverlay = new MyLocationOverlay(this,
-//				mapView);
-//		mapView.getOverlays().add(myLocationOverlay);
-//		myLocationOverlay.enableMyLocation();
-//		myLocationOverlay.enableCompass(); // Adding a compass to the map
-
 		/*
 		 * Using the controller to pan in to the EDIT-house's coordinates and to
 		 * zoom in at a lucid level
