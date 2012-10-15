@@ -6,9 +6,7 @@ package se.chalmers.project14.main;
  */
 
 import java.util.List;
-
 import utils.CoordinateParser;
-
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
@@ -33,7 +31,6 @@ public class Map extends MapActivity {
 	private MapView mapView;
 	private GeoPoint geoPoint;
 	private TouchOverlay touchOverlay;
-
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

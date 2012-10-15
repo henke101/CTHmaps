@@ -45,15 +45,12 @@ public class TouchOverlay extends Overlay implements LocationListener {
 	private float touchStartX = 1, touchStartY = 2, touchStopX = 3,
 			touchStopY = 4;
 	private MapView mapView;
-	private GeoPoint myGeoPoint, myLastGeoPoint, destGeoPoint;
+	private GeoPoint myGeoPoint, destGeoPoint, focusedGeoPoint;
 	private MarkerOverlay sourceOverlay, destOverlay;
 	private CoordinateParser coordinateParser = CoordinateParser.getInstance();
 	private MyLocationOverlay myLocationOverlay;
-
 	private LocationManager locManager;
-
 	private Projection projection;
-	private boolean drawRoute = false, drawFrom = false, drawTo = false;
 
 	public TouchOverlay(Context context, MapView mapView, Intent intent) {
 		super();
@@ -138,18 +135,19 @@ public class TouchOverlay extends Overlay implements LocationListener {
 			 */
 			if (touchStop - touchStart > 1000 && touchStartX <= touchStopX+20 && touchStartX >= touchStopX-20 
 					&& touchStartY <= touchStopY+20 && touchStartY >= touchStopY-20) {
-				destGeoPoint = mapView.getProjection().fromPixels((int)touchStopX, (int)touchStopY);
+				focusedGeoPoint = mapView.getProjection().fromPixels((int)touchStopX, (int)touchStopY);
 				AlertDialog.Builder options = new AlertDialog.Builder(context);
 				options.setTitle("Options");
-				options.setMessage("Coordinates:\nLatitude: " + destGeoPoint.getLatitudeE6()/1E6 + "\nLongitude: " 
-						+ destGeoPoint.getLongitudeE6()/1E6 + "\n\nWhat do you want to do?");
+				options.setMessage("Coordinates:\nLatitude: " + focusedGeoPoint.getLatitudeE6()/1E6 + "\nLongitude: " 
+						+ focusedGeoPoint.getLongitudeE6()/1E6 + "\n\nWhat do you want to do?");
 				options.setNegativeButton("Set destination", new DialogInterface.OnClickListener(){
 					public void onClick(DialogInterface dialog, int which) {						
+						//updating the destination-GeoPoint
+						destGeoPoint = mapView.getProjection().fromPixels((int)touchStopX, (int)touchStopY);
 						//Adding a destination marker
 						OverlayItem destinationItem = new OverlayItem(destGeoPoint, "Destinationmarker", "This is the chosen destination");
 						destOverlay.setMarker(destinationItem);
 						mapView.invalidate();
-						drawTo = true;
 					}
 				});
 				options.setPositiveButton("Back to Map", new DialogInterface.OnClickListener(){
@@ -200,7 +198,6 @@ public class TouchOverlay extends Overlay implements LocationListener {
 		OverlayItem sourceItem = new OverlayItem(myGeoPoint, "Locationmarker", "This is the recent location");
 		sourceOverlay.setMarker(sourceItem);
 		mapView.invalidate();
-		drawFrom = true;
 	}
 
 	public void onProviderDisabled(String provider) {
@@ -234,26 +231,18 @@ public class TouchOverlay extends Overlay implements LocationListener {
 		mPaint.setStrokeCap(Paint.Cap.ROUND);
 		mPaint.setStrokeWidth(4);
 
-//		//GeoPoints
-//
-//		GeoPoint gP1 = new GeoPoint(34159000,73220000);//starting point Abbottabad
-//		GeoPoint gP2 = new GeoPoint(33695043,73050000);//End point Islamabad
-
 		//Points
-		Point p1 = new Point();
-		Point p2 = new Point();
+		Point myPoint = new Point();
+		Point destPoint = new Point();
 		Path path1 = new Path();
 
 		if(myGeoPoint!=null && destGeoPoint!=null){
-			projection.toPixels(myGeoPoint, p1);//converting to Points
-			projection.toPixels(destGeoPoint, p2);
-			path1.moveTo(p1.x, p1.y);//Moving to Abbottabad location
-			path1.lineTo(p2.x,p2.y);//Path till Islamabad
-		}
-		
-		if(drawFrom==true && drawTo==true){
-			canvas.drawPath(path1, mPaint);//Actually drawing the path from Abbottabad to Islamabad
-		}
+			projection.toPixels(myGeoPoint, myPoint);//converting GeoPoints to Points
+			projection.toPixels(destGeoPoint, destPoint);
+			path1.moveTo(myPoint.x, myPoint.y);//Moving to myPoint (my location)
+			path1.lineTo(destPoint.x,destPoint.y);//Path to destPoint (my destination)
+			canvas.drawPath(path1, mPaint);//Drawing the path
+		}	
 	}
 
 }
