@@ -16,8 +16,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.Toast;
@@ -29,7 +31,7 @@ import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
 import com.google.android.maps.MyLocationOverlay;
 
-public class TouchOverlay extends Overlay {
+public class TouchOverlay extends Overlay implements LocationListener {
 	//private ArrayList<OverlayItem> mOverlays = new ArrayList<OverlayItem>();
 	private Context context;
 	private long touchStart, touchStop;
@@ -42,7 +44,6 @@ public class TouchOverlay extends Overlay {
 	private MyLocationOverlay myLocationOverlay;
 	
 	private LocationManager locManager;
-	private LocationListener locListener;
 
 	public TouchOverlay(Context context, MapView mapView, Intent intent) {
 		super();
@@ -81,9 +82,8 @@ public class TouchOverlay extends Overlay {
 		
 		/* Using the LocationManager class to obtain GPS-location */
 		locManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-		locListener = new MyLocationListener(context);
 		locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0,
-				locListener);
+				this);
 
 		/*
 		 * Using the MyLocationOverlay-class to add users current position to
@@ -97,35 +97,30 @@ public class TouchOverlay extends Overlay {
 		
 		//Sets myLastGeoPoint to a value (used if GPS-signal is not established)
 		myLastGeoPoint = new GeoPoint(57688018, 11977886);
-		
-		try{
-			myGeoPoint = myLocationOverlay.getMyLocation();	
-			Toast.makeText(context, "try: " + myGeoPoint.getLatitudeE6() + "." , Toast.LENGTH_SHORT).show();
-			Log.d("tag", "try: " + myGeoPoint.getLatitudeE6() + ".");
-		} 
+//		
+//			myGeoPoint = myLocationOverlay.getMyLocation();	
+//			if(myGeoPoint==null){
+//				myGeoPoint = myLastGeoPoint;
+//				Toast.makeText(context, "catch", Toast.LENGTH_SHORT).show();
+//				Log.d("tag", "catch: " + myGeoPoint.getLatitudeE6() + ".");
+//			}else{
+//				Toast.makeText(context, "try: " + myGeoPoint.getLatitudeE6() + "." , Toast.LENGTH_SHORT).show();
+//				Log.d("tag", "try: " + myGeoPoint.getLatitudeE6() + ".");
+//			}
+
 		//sets my location to a value if GPS-signal is not achieved
-		catch (NullPointerException e){
-			myGeoPoint = myLastGeoPoint;
-			Toast.makeText(context, "catch", Toast.LENGTH_SHORT).show();
-			Log.d("tag", "catch: " + myGeoPoint.getLatitudeE6() + ".");
-		}
-//
-//		// Creates a position-marker avatar
-//		Drawable avatar = mapView.getResources().getDrawable(R.drawable.anton);
-//		sourceOverlay = new DestinationMarkerOverlay(avatar, mapView);
+
+		// Creates a position-marker avatar
+		Drawable avatar = mapView.getResources().getDrawable(R.drawable.anton);
+		sourceOverlay = new DestinationMarkerOverlay(avatar, mapView);
 		
 		// Creates a destination flag overlay
 		Drawable destFlag = mapView.getResources().getDrawable(R.drawable.destination_flag);
 		destOverlay = new DestinationMarkerOverlay(destFlag, mapView);
 
 		//Adds the created overlays		
-//		mapView.getOverlays().add(sourceOverlay);
-		mapView.getOverlays().add(destOverlay);
-//		
-//		//
-//		OverlayItem sourceItem = new OverlayItem(myGeoPoint, "Locationmarker", "This is the recent location");
-//		sourceOverlay.setDestination(sourceItem);
-//		mapView.invalidate();
+		mapView.getOverlays().add(sourceOverlay);
+		mapView.getOverlays().add(destOverlay);	
 
 	}
 
@@ -195,4 +190,32 @@ public class TouchOverlay extends Overlay {
 		
 		return null ;
 	}
+	
+	public void onLocationChanged(Location location) {
+		String text = "Min nuvarande position är: \nLatitud: " + location.getLatitude() + 
+				"\nLongitud: " + location.getLongitude();		
+		Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+		
+		int lat = (int) (location.getLatitude() * 1E6);
+		int lng = (int) (location.getLongitude() * 1E6);
+		
+		
+		myGeoPoint = new GeoPoint(lat, lng);
+		OverlayItem sourceItem = new OverlayItem(myGeoPoint, "Locationmarker", "This is the recent location");
+		sourceOverlay.setDestination(sourceItem);
+		mapView.invalidate();
+		
+	}
+
+	public void onProviderDisabled(String provider) {
+		Toast.makeText(context, "GPS Disabled", Toast.LENGTH_SHORT).show();
+	}
+
+	public void onProviderEnabled(String provider) {
+		Toast.makeText(context, "GPS Enabled", Toast.LENGTH_SHORT).show();
+	}
+
+	public void onStatusChanged(String provider, int status, Bundle extras) {
+	}
+
 }
