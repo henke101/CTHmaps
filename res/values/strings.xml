@@ -7,6 +7,7 @@
     <string name="title_activity_main">CTHmaps</string>
     <string name="button_new_dest">New Destination</string>
     <string name="button_toggle">Toggle</string>
+    <string name="button_center">Center</string>
     <string name="button_browse">Browse destination</string>
     <string name="button_remove_destination">Clear</string>
     <string name="hello_world">Hello world!</string>

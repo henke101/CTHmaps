@@ -29,7 +29,7 @@ import android.widget.Button;
 
 public class Map extends MapActivity {
 	private MapController controller;
-	private Button buttonToggle, buttonNewDest, buttonClear;
+	private Button buttonToggle, buttonCenter, buttonNewDest, buttonClear;
 	private MapView mapView;
 	private GeoPoint geoPoint;
 	private TouchOverlay touchOverlay;
@@ -42,12 +42,19 @@ public class Map extends MapActivity {
 		
 		//Create buttons and listeners
 		buttonToggle = (Button) findViewById(R.id.buttonToggle);
+		buttonCenter = (Button) findViewById(R.id.buttonCenter);
 		buttonNewDest = (Button) findViewById(R.id.buttonNewDest);
 		buttonClear = (Button) findViewById(R.id.buttonRemoveDest);
 		buttonToggle.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
 				mapView.setSatellite(!mapView.isSatellite());
+			}
+		});
+		buttonCenter.setOnClickListener(new OnClickListener() {
+			
+			public void onClick(View v) {
+				controller.animateTo(new GeoPoint(57688018, 11977886));
 			}
 		});
 		buttonNewDest.setOnClickListener(new OnClickListener() {
