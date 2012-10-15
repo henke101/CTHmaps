@@ -1,5 +1,8 @@
 package se.chalmers.project14.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /*
  * Copyright (c) 2012 ICRL
  * See the file license.txt for copying permission.
@@ -14,15 +17,15 @@ package se.chalmers.project14.model;
 public class Door {
 
 	private String doorCoordinates;
-	private String floor;
+	private String building;
 
 	public Door() {
 		// empty constructor
 	}
 
-	public Door(String doorCoordinates, String floor) {
+	public Door(String doorCoordinates, String building) {
 		this.doorCoordinates = doorCoordinates;
-		this.floor = floor;
+		this.building = building;
 	}
 
 	public void setDoor(String doorCoordinates) {
@@ -33,12 +36,13 @@ public class Door {
 		return doorCoordinates;
 	}
 
-	public void SetFloor(String floor) {
-		this.floor = floor;
+	public void setBuilding(String building) {
+		this.building = building;
 	}
 
-	public String getFloor() {
-		return floor;
+	public String getBuilding() {
+		return building;
+
 	}
 
 }
