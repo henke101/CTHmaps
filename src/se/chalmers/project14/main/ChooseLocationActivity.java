@@ -121,5 +121,6 @@ public class ChooseLocationActivity extends ListActivity implements
 		intent.putExtra(CTHBUILDING, door.getBuilding());
 		intent.putExtra(CTHDOOR_COORDINATES, door.getDoorCoordinates());
 		startActivity(intent);
+		
 	}
 }
