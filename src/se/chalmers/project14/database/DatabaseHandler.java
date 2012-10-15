@@ -267,8 +267,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 			doorAndBuildingList.add(door);
 			cursor.moveToNext();
 		}
-		Door door = new Door();
-		door.setListDoor(doorAndBuildingList);
 		sqdb.close();
 		cursor.close();
 		return doorAndBuildingList;
