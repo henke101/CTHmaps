@@ -57,6 +57,7 @@ public class TouchOverlay extends Overlay implements LocationListener {
 
 	private LocationManager locManager;
 	private Projection projection;
+	private boolean useGpsData;
 
 	public TouchOverlay(Context context, MapView mapView, Intent intent) {
 		super();
@@ -176,18 +177,24 @@ public class TouchOverlay extends Overlay implements LocationListener {
 	}
 
 	public void onLocationChanged(Location location) {
-		String text = "Min nuvarande position är: \nLatitud: " + location.getLatitude() + 
-				"\nLongitud: " + location.getLongitude();		
-		Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
 
-		int lat = (int) (location.getLatitude() * 1E6);
-		int lng = (int) (location.getLongitude() * 1E6);
+		if(useGpsData){
+			String text = "Min nuvarande position är: \nLatitud: " + location.getLatitude() + 
+					"\nLongitud: " + location.getLongitude();		
+			Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+
+			int lat = (int) (location.getLatitude() * 1E6);
+			int lng = (int) (location.getLongitude() * 1E6);
 
 
-		myGeoPoint = new GeoPoint(lat, lng);
-		OverlayItem sourceItem = new OverlayItem(myGeoPoint, "Locationmarker", "This is the recent location");
-		sourceOverlay.setMarker(sourceItem);
-		mapView.invalidate();
+			myGeoPoint = new GeoPoint(lat, lng);
+			OverlayItem sourceItem = new OverlayItem(myGeoPoint, "Locationmarker", "This is the recent location");
+			sourceOverlay.setMarker(sourceItem);
+			mapView.invalidate();
+		}
+		else{
+			
+		}
 
 	}
 
@@ -244,7 +251,7 @@ public class TouchOverlay extends Overlay implements LocationListener {
 		List<Door> haDoors = new ArrayList<Door>();
 		List<Door> hbDoors = new ArrayList<Door>();
 		List<Door> hcDoors = new ArrayList<Door>();
-		
+
 		// Splits the list of doors into a list of each building
 		for(int i=0; i<doors.size();i++){
 			if(doors.get(i).getBuilding().equals("EDIT-huset")){
@@ -272,9 +279,9 @@ public class TouchOverlay extends Overlay implements LocationListener {
 	}
 
 	private BuildingOverlay generateBuildingOverlay(List<Door> doors){
-		
+
 		int [] doorCoordinates = coordinateParser.parseCoordinatesFromDoor(doors);
-		
+
 		// Creates clickable map overlays for the chosen classrooms closest entrances
 		Drawable buildingIcon = setBuildingIcon(doors.get(0).getBuilding());
 		BuildingOverlay buildingOverlay = new BuildingOverlay(buildingIcon, context);
@@ -311,6 +318,9 @@ public class TouchOverlay extends Overlay implements LocationListener {
 			path1.lineTo(destPoint.x,destPoint.y);//Path to destPoint (my destination)
 			canvas.drawPath(path1, mPaint);//Drawing the path
 		}	
+	}
+	public void toggleUseGpsData(){
+		useGpsData = !useGpsData;
 	}
 
 }
