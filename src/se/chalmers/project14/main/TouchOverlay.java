@@ -58,6 +58,7 @@ public class TouchOverlay extends Overlay implements LocationListener {
 	private LocationManager locManager;
 	private Projection projection;
 	private boolean useGpsData = true;
+	private int [] doorCoordinates;
 
 	public TouchOverlay(Context context, MapView mapView, Intent intent) {
 		super();
@@ -337,6 +338,16 @@ public class TouchOverlay extends Overlay implements LocationListener {
 		else{
 			Toast.makeText(context, useGps + "OFF", Toast.LENGTH_SHORT).show();
 		}
+	}
+	@Override
+	public boolean onTap(GeoPoint p, MapView mapView){
+		for(int i=0; i<doorCoordinates.length;i +=2 )
+		if(){
+			
+		}
+		
+		return useGpsData;
+		
 	}
 
 }
