@@ -26,6 +26,14 @@
             </intent-filter>
         </activity>
         <activity
+            android:name="utils.Options"
+            android:label="@string/menu_settings">
+            <intent-filter >
+                <action android:name="se.chalmers.project14.utils.Options"/>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>    
+        <activity
             android:name=".Splash"
             android:label="@string/title_activity_main"
             android:noHistory="true" >

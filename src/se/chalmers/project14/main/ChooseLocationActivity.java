@@ -15,10 +15,12 @@ import se.chalmers.project14.database.DatabaseHandler;
 import se.chalmers.project14.model.Coordinates;
 import se.chalmers.project14.model.Door;
 import se.chalmers.project14.model.House;
+import utils.Options;
 import android.os.Bundle;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -27,7 +29,7 @@ import android.support.v4.app.NavUtils;
 import android.widget.AdapterView.OnItemClickListener;
 
 public class ChooseLocationActivity extends ListActivity implements
-		OnItemClickListener {
+OnItemClickListener {
 
 	public final static String CTHBUILDING_COORDINATES = "se.chalmers.project14.main.CTHBUILDING_COORDINATES";
 	public final static String CTHBUILDING = "se.chalmers.project14.main.CTHBUILDING";
@@ -57,9 +59,21 @@ public class ChooseLocationActivity extends ListActivity implements
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.activity_choose_location, menu);
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.menu_options, menu);
 		return true;
 	}
+
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+
+		startActivity(new Intent(this, Options.class));
+		return true;
+
+
+	}
+
 
 	/**
 	 * Sorting an list in containing house object by alfabethic order
@@ -75,16 +89,6 @@ public class ChooseLocationActivity extends ListActivity implements
 
 			}
 		});
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case android.R.id.home:
-			NavUtils.navigateUpFromSameTask(this);
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
 	}
 
 	/**
