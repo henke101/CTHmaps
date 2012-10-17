@@ -27,7 +27,7 @@ import android.widget.Button;
 
 public class Map extends MapActivity {
 	private MapController controller;
-	private Button buttonToggle, buttonCenter, buttonNewDest, buttonClear;
+	private Button buttonToggle, buttonCenter, buttonNewDest, buttonClear, buttonManualPosition;
 	private MapView mapView;
 	private GeoPoint geoPoint;
 	private TouchOverlay touchOverlay;
@@ -42,6 +42,7 @@ public class Map extends MapActivity {
 		buttonCenter = (Button) findViewById(R.id.buttonCenter);
 		buttonNewDest = (Button) findViewById(R.id.buttonNewDest);
 		buttonClear = (Button) findViewById(R.id.buttonRemoveDest);
+		buttonManualPosition = (Button) findViewById(R.id.buttonManualPosition);
 		buttonToggle.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
@@ -66,6 +67,12 @@ public class Map extends MapActivity {
 			public void onClick(View v) {
 				touchOverlay.getDestOverlay().removeDestinationMarker();
 				mapView.invalidate();
+			}
+		});
+		buttonManualPosition.setOnClickListener(new OnClickListener() {
+			
+			public void onClick(View v) {
+				touchOverlay.toggleUseGpsData();
 			}
 		});
 		

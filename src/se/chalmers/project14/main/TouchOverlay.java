@@ -57,7 +57,7 @@ public class TouchOverlay extends Overlay implements LocationListener {
 
 	private LocationManager locManager;
 	private Projection projection;
-	private boolean useGpsData;
+	private boolean useGpsData = true;
 
 	public TouchOverlay(Context context, MapView mapView, Intent intent) {
 		super();
@@ -142,9 +142,24 @@ public class TouchOverlay extends Overlay implements LocationListener {
 						mapView.invalidate();
 					}
 				});
+				options.setNeutralButton("Set location", new DialogInterface.OnClickListener(){
+					public void onClick(DialogInterface dialog, int which) {
+						if(!useGpsData){
+							//myGeoPoint set from coordinates on focus
+							myGeoPoint = mapView.getProjection().fromPixels((int)touchStopX, (int)touchStopY);
+							//Adding a location marker at the manually set position
+							OverlayItem sourceItem = new OverlayItem(myGeoPoint, "Locationmarker", "This is the recent location");
+							sourceOverlay.setMarker(sourceItem);
+							mapView.invalidate();
+						}
+						else{
+							Toast.makeText(context, "Turn of GPS-location to set manual position", Toast.LENGTH_SHORT).show();
+						}
+					}
+				});
 				options.setPositiveButton("Back to Map", new DialogInterface.OnClickListener(){
 					public void onClick(DialogInterface dialog, int which) {
-						Toast.makeText(context, "Test2", Toast.LENGTH_SHORT).show();
+						Toast.makeText(context, "Back to map", Toast.LENGTH_SHORT).show();
 					}
 				});
 				options.show();
@@ -186,22 +201,19 @@ public class TouchOverlay extends Overlay implements LocationListener {
 			int lat = (int) (location.getLatitude() * 1E6);
 			int lng = (int) (location.getLongitude() * 1E6);
 
-
 			myGeoPoint = new GeoPoint(lat, lng);
 			OverlayItem sourceItem = new OverlayItem(myGeoPoint, "Locationmarker", "This is the recent location");
 			sourceOverlay.setMarker(sourceItem);
 			mapView.invalidate();
 		}
 		else{ //if GPS-data is not used the location is set manually
-			String text = "Manually set location";
-			Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+			Toast.makeText(context, "Manually set location", Toast.LENGTH_SHORT).show();
 		}
 
 	}
 
 	public void onProviderDisabled(String provider) {
 		Toast.makeText(context, "GPS Disabled", Toast.LENGTH_SHORT).show();
-		//drawFrom=false;
 	}
 
 	public void onProviderEnabled(String provider) {
@@ -320,8 +332,16 @@ public class TouchOverlay extends Overlay implements LocationListener {
 			canvas.drawPath(path1, mPaint);//Drawing the path
 		}	
 	}
+	//Method to toggle the use of GPS-data on and off
 	public void toggleUseGpsData(){
 		useGpsData = !useGpsData;
+		String useGps = "The use of GPS-data is turned: ";
+		if(useGpsData){
+			Toast.makeText(context, useGps + "ON", Toast.LENGTH_SHORT).show();
+		}
+		else{
+			Toast.makeText(context, useGps + "OFF", Toast.LENGTH_SHORT).show();
+		}
 	}
 
 }

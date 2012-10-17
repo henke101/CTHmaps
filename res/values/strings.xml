@@ -5,10 +5,11 @@
     <string name="recentPlacesVisited">The ten recent places you visited</string>
     <string name="menu_settings">Settings</string>
     <string name="title_activity_main">CTHmaps</string>
-    <string name="button_new_dest">New Destination</string>
-    <string name="button_toggle">Toggle</string>
+    <string name="button_new_dest">New Dest</string>
+    <string name="button_toggle">Sat</string>
     <string name="button_center">Center</string>
     <string name="button_browse">Browse destination</string>
+    <string name="button_manual_position">GPS-toggle</string>
     <string name="button_remove_destination">Clear</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_floor_viewer">FloorViewer</string>
