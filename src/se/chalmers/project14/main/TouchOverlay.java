@@ -5,9 +5,15 @@ package se.chalmers.project14.main;
  * See the file license.txt for copying permission.
  */
 
+import java.security.acl.LastOwnerException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
+import se.chalmers.project14.database.DatabaseHandler;
+import se.chalmers.project14.model.Door;
 import utils.CoordinateParser;
 
 import android.app.AlertDialog;
@@ -15,68 +21,90 @@ import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.Point;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.Toast;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.MapView;
+import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
+import com.google.android.maps.MyLocationOverlay;
+import com.google.android.maps.Projection;
 
-public class TouchOverlay extends Overlay {
+public class TouchOverlay extends Overlay implements LocationListener {
 	//private ArrayList<OverlayItem> mOverlays = new ArrayList<OverlayItem>();
 	private Context context;
 	private long touchStart, touchStop;
 	private float touchStartX = 1, touchStartY = 2, touchStopX = 3,
 			touchStopY = 4;
 	private MapView mapView;
-	private GeoPoint geoPoint;
-	private DestinationMarkerOverlay destOverlay;
+	private GeoPoint myGeoPoint, destGeoPoint, focusedGeoPoint;
+	private MarkerOverlay sourceOverlay, destOverlay;
 	private CoordinateParser coordinateParser = CoordinateParser.getInstance();
+	private MyLocationOverlay myLocationOverlay;
+
+	private LocationManager locManager;
+	private Projection projection;
 
 	public TouchOverlay(Context context, MapView mapView, Intent intent) {
 		super();
 		this.context = context;
 		this.mapView=mapView;
+		projection = mapView.getProjection();
 
 		//Checks if a specific classroom has been chosen
 		if (intent.getStringExtra(ChooseLocationActivity.CTHBUILDING.toString()) != null) {
 
-			// Retrieves info about the chosen classroom from the database
-			String cthLectureRoom = intent
-					.getStringExtra(ChooseLocationActivity.CTHLECTURE_ROOM);
-			String cthBuilding = intent
-					.getStringExtra(ChooseLocationActivity.CTHBUILDING);
-			int [] doorCoordinates = coordinateParser.parseCoordinates(intent
-					.getStringExtra(ChooseLocationActivity.CTHDOOR_COORDINATES));
-			/*for the moment, never used varible
-			int [] cthBuildingCoordinates = coordinateParser.parseCoordinates(intent
-			.getStringExtra(ChooseLocationActivity.CTHBUILDING_COORDINATES));*/
+			drawChosenEntrances(intent);
 
-			int cthBuildingFloor = Integer.parseInt(intent
-					.getStringExtra(ChooseLocationActivity.CTHBUILDING_FLOOR));
-
-
-			// Creates clickable map overlays for the chosen classrooms closest entrances
-			Drawable buildingIcon = setBuildingIcon(cthBuilding);
-			BuildingOverlay buildingOverlay = new BuildingOverlay(buildingIcon, context);
-			for (int i=0; i<doorCoordinates.length;i +=2 ){
-				GeoPoint entranceGeoPoint = new GeoPoint(doorCoordinates[i], doorCoordinates[i+1]);
-				OverlayItem entranceOverlayItem = new OverlayItem(entranceGeoPoint,
-						"Entrance" + " " + cthBuilding, "Classrooms close to this entrance:");
-				buildingOverlay.addOverlay(entranceOverlayItem);
-				mapView.getOverlays().add(buildingOverlay);
-			}
 		}
+
+		else{
+
+			drawAllEntrances(intent);
+
+		}
+
+
+
+		/* Using the LocationManager class to obtain GPS-location */
+		locManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+		locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0,
+				this);
+
+		/*
+		 * Using the MyLocationOverlay-class to add users current position to
+		 * map-view
+		 */
+		myLocationOverlay = new MyLocationOverlay(context,
+				mapView);
+		mapView.getOverlays().add(myLocationOverlay);
+		myLocationOverlay.enableMyLocation();
+		myLocationOverlay.enableCompass(); // Adding a compass to the map
+
+		// Creates a position-marker avatar
+		Drawable avatar = mapView.getResources().getDrawable(R.drawable.anton);
+		sourceOverlay = new MarkerOverlay(avatar, mapView);
 
 		// Creates a destination flag overlay
 		Drawable destFlag = mapView.getResources().getDrawable(R.drawable.destination_flag);
-		destOverlay = new DestinationMarkerOverlay(destFlag, mapView);
+		destOverlay = new MarkerOverlay(destFlag, mapView);
 
-		//Adds the created overlays
-		mapView.getOverlays().add(destOverlay);
-
+		//Adds the created overlays		
+		mapView.getOverlays().add(sourceOverlay);
+		mapView.getOverlays().add(destOverlay);	
 	}
 
 
@@ -98,16 +126,18 @@ public class TouchOverlay extends Overlay {
 			 */
 			if (touchStop - touchStart > 1000 && touchStartX <= touchStopX+20 && touchStartX >= touchStopX-20 
 					&& touchStartY <= touchStopY+20 && touchStartY >= touchStopY-20) {
-				geoPoint = mapView.getProjection().fromPixels((int)touchStopX, (int)touchStopY);
+				focusedGeoPoint = mapView.getProjection().fromPixels((int)touchStopX, (int)touchStopY);
 				AlertDialog.Builder options = new AlertDialog.Builder(context);
 				options.setTitle("Options");
-				options.setMessage("Coordinates:\nLatitude: " + geoPoint.getLatitudeE6()/1E6 + "\nLongitude: " 
-						+ geoPoint.getLongitudeE6()/1E6 + "\n\nWhat do you want to do?");
+				options.setMessage("Coordinates:\nLatitude: " + focusedGeoPoint.getLatitudeE6()/1E6 + "\nLongitude: " 
+						+ focusedGeoPoint.getLongitudeE6()/1E6 + "\n\nWhat do you want to do?");
 				options.setNegativeButton("Set destination", new DialogInterface.OnClickListener(){
 					public void onClick(DialogInterface dialog, int which) {						
+						//updating the destination-GeoPoint
+						destGeoPoint = mapView.getProjection().fromPixels((int)touchStopX, (int)touchStopY);
 						//Adding a destination marker
-						OverlayItem destinationItem = new OverlayItem(geoPoint, "Destinationmarker", "This is the chosen destination");
-						destOverlay.setDestination(destinationItem);
+						OverlayItem destinationItem = new OverlayItem(destGeoPoint, "Destinationmarker", "This is the chosen destination");
+						destOverlay.setMarker(destinationItem);
 						mapView.invalidate();
 					}
 				});
@@ -122,7 +152,7 @@ public class TouchOverlay extends Overlay {
 		}
 		return false;
 	}
-	public DestinationMarkerOverlay getDestOverlay(){
+	public MarkerOverlay getDestOverlay(){
 		return destOverlay;
 	}
 	private Drawable setBuildingIcon(String s){
@@ -136,13 +166,151 @@ public class TouchOverlay extends Overlay {
 			return mapView.getResources().getDrawable(R.drawable.ha);
 		}
 		else if (s.equals("HB")){
-			
+
 			return mapView.getResources().getDrawable(R.drawable.hb);
 		}
 		else if (s.equals("HC")){
 			return mapView.getResources().getDrawable(R.drawable.hc);
 		}
-		
 		return null ;
 	}
+
+	public void onLocationChanged(Location location) {
+		String text = "Min nuvarande position är: \nLatitud: " + location.getLatitude() + 
+				"\nLongitud: " + location.getLongitude();		
+		Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+
+		int lat = (int) (location.getLatitude() * 1E6);
+		int lng = (int) (location.getLongitude() * 1E6);
+
+
+		myGeoPoint = new GeoPoint(lat, lng);
+		OverlayItem sourceItem = new OverlayItem(myGeoPoint, "Locationmarker", "This is the recent location");
+		sourceOverlay.setMarker(sourceItem);
+		mapView.invalidate();
+
+	}
+
+	public void onProviderDisabled(String provider) {
+		Toast.makeText(context, "GPS Disabled", Toast.LENGTH_SHORT).show();
+		//drawFrom=false;
+	}
+
+	public void onProviderEnabled(String provider) {
+		Toast.makeText(context, "GPS Enabled", Toast.LENGTH_SHORT).show();
+	}
+
+	public void onStatusChanged(String provider, int status, Bundle extras) {
+	}
+
+	public void onBackPressed() {
+		// Stopping the update och GPS-status, when closing
+		// map-activity/pressing the back-button in the map-activity
+		locManager.removeUpdates(this);
+	}
+	private void drawChosenEntrances (Intent intent) {
+		// Retrieves info about the chosen classroom from the database
+		String cthLectureRoom = intent
+				.getStringExtra(ChooseLocationActivity.CTHLECTURE_ROOM);
+		String cthBuilding = intent
+				.getStringExtra(ChooseLocationActivity.CTHBUILDING);
+		int [] doorCoordinates = coordinateParser.parseCoordinatesFromString(intent
+				.getStringExtra(ChooseLocationActivity.CTHDOOR_COORDINATES));
+		/*for the moment, never used varible
+		int [] cthBuildingCoordinates = coordinateParser.parseCoordinates(intent
+		.getStringExtra(ChooseLocationActivity.CTHBUILDING_COORDINATES));*/
+
+		int cthBuildingFloor = Integer.parseInt(intent
+				.getStringExtra(ChooseLocationActivity.CTHBUILDING_FLOOR));
+
+
+		// Creates clickable map overlays for the chosen classrooms closest entrances
+		Drawable buildingIcon = setBuildingIcon(cthBuilding);
+		BuildingOverlay buildingOverlay = new BuildingOverlay(buildingIcon, context);
+		for (int i=0; i<doorCoordinates.length;i +=2 ){
+			GeoPoint entranceGeoPoint = new GeoPoint(doorCoordinates[i], doorCoordinates[i+1]);
+			OverlayItem entranceOverlayItem = new OverlayItem(entranceGeoPoint,
+					"Entrance" + " " + cthBuilding, "Classrooms close to this entrance:");
+			buildingOverlay.addOverlay(entranceOverlayItem);
+			mapView.getOverlays().add(buildingOverlay);
+		}
+	}
+	private void drawAllEntrances(Intent intent){
+
+		DatabaseHandler db = new DatabaseHandler(context);
+		List<Door> doors =  db.getAllDoorsAndBuildings();
+		List<Door> editDoors = new ArrayList<Door>();
+		List<Door> maskinDoors = new ArrayList<Door>();
+		List<Door> haDoors = new ArrayList<Door>();
+		List<Door> hbDoors = new ArrayList<Door>();
+		List<Door> hcDoors = new ArrayList<Door>();
+		
+		// Splits the list of doors into a list of each building
+		for(int i=0; i<doors.size();i++){
+			if(doors.get(i).getBuilding().equals("EDIT-huset")){
+				editDoors.add(doors.get(i));
+			}
+			else if (doors.get(i).getBuilding().equals("Maskinhuset")){
+				maskinDoors.add(doors.get(i));
+			}
+			else if (doors.get(i).getBuilding().equals("HA")){
+				haDoors.add(doors.get(i));
+			}
+			else if (doors.get(i).getBuilding().equals("HB")){
+				hbDoors.add(doors.get(i));
+			}
+			else if (doors.get(i).getBuilding().equals("HC")){
+				hcDoors.add(doors.get(i));
+			}
+		}
+		//Adds the overlay into the mapview				
+		mapView.getOverlays().add(generateBuildingOverlay(editDoors));
+		mapView.getOverlays().add(generateBuildingOverlay(maskinDoors));
+		mapView.getOverlays().add(generateBuildingOverlay(haDoors));
+		mapView.getOverlays().add(generateBuildingOverlay(hbDoors));
+		mapView.getOverlays().add(generateBuildingOverlay(hcDoors));
+	}
+
+	private BuildingOverlay generateBuildingOverlay(List<Door> doors){
+		
+		int [] doorCoordinates = coordinateParser.parseCoordinatesFromDoor(doors);
+		
+		// Creates clickable map overlays for the chosen classrooms closest entrances
+		Drawable buildingIcon = setBuildingIcon(doors.get(0).getBuilding());
+		BuildingOverlay buildingOverlay = new BuildingOverlay(buildingIcon, context);
+		for (int i=0; i<doorCoordinates.length;i +=2 ){
+			GeoPoint entranceGeoPoint = new GeoPoint(doorCoordinates[i], doorCoordinates[i+1]);
+			OverlayItem entranceOverlayItem = new OverlayItem(entranceGeoPoint,
+					"Entrance" + " " + (doors.get(0).getBuilding()), "Classrooms close to this entrance:");
+			buildingOverlay.addOverlay(entranceOverlayItem);
+		}
+		return buildingOverlay;
+	}
+	//Drawing the line
+	public void draw(Canvas canvas, MapView mapview, boolean shadow){
+		super.draw(canvas, mapView, shadow);
+
+		//Customizing the paint-brush
+		Paint mPaint = new Paint();
+		mPaint.setDither(true);
+		mPaint.setColor(Color.RED);
+		mPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+		mPaint.setStrokeJoin(Paint.Join.ROUND);
+		mPaint.setStrokeCap(Paint.Cap.ROUND);
+		mPaint.setStrokeWidth(4);
+
+		//Points
+		Point myPoint = new Point();
+		Point destPoint = new Point();
+		Path path1 = new Path();
+
+		if(myGeoPoint!=null && destGeoPoint!=null){
+			projection.toPixels(myGeoPoint, myPoint);//converting GeoPoints to Points
+			projection.toPixels(destGeoPoint, destPoint);
+			path1.moveTo(myPoint.x, myPoint.y);//Moving to myPoint (my location)
+			path1.lineTo(destPoint.x,destPoint.y);//Path to destPoint (my destination)
+			canvas.drawPath(path1, mPaint);//Drawing the path
+		}	
+	}
+
 }

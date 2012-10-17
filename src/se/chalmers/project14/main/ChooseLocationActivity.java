@@ -18,6 +18,7 @@ import se.chalmers.project14.model.House;
 import android.os.Bundle;
 import android.app.ListActivity;
 import android.content.Intent;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -47,7 +48,7 @@ public class ChooseLocationActivity extends ListActivity implements
 		listview = getListView();
 		db = new DatabaseHandler(this);
 		houseList = new ArrayList<House>();
-		houseList = db.getAllHouse();
+		houseList = db.getAllLectureRoom();
 		sortCoordinateList(houseList);
 		dba = new DatabaseAdapter(this, houseList);
 		setListAdapter(dba);
@@ -108,17 +109,18 @@ public class ChooseLocationActivity extends ListActivity implements
 	public void onItemClick(AdapterView<?> arg0, View view, int listPosition,
 			long i) {
 		House house = houseList.get(listPosition);
-		String cthBuilding = house.getHouse();
+		String cthFloor = house.getFloor(); // våning check
 		String cthLectureRoom = house.getLectureRoom();
 		int houseId = house.getId();
 		Door door = db.getDoorCoordinates(houseId);
 		Coordinates coordinate = db.getCoordinates(houseId);
 		Intent intent = new Intent(this, Map.class);
 		intent.putExtra(CTHLECTURE_ROOM, cthLectureRoom);
-		intent.putExtra(CTHBUILDING, cthBuilding);
+		intent.putExtra(CTHBUILDING_FLOOR, cthFloor);
 		intent.putExtra(CTHBUILDING_COORDINATES, coordinate.getCoordinates());
-		intent.putExtra(CTHBUILDING_FLOOR, door.getFloor());
+		intent.putExtra(CTHBUILDING, door.getBuilding());
 		intent.putExtra(CTHDOOR_COORDINATES, door.getDoorCoordinates());
 		startActivity(intent);
+		
 	}
 }

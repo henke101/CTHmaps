@@ -6,9 +6,7 @@ package se.chalmers.project14.main;
  */
 
 import java.util.List;
-
 import utils.CoordinateParser;
-
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
@@ -28,14 +26,11 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 public class Map extends MapActivity {
-	private LocationManager locManager;
-	private LocationListener locListener;
 	private MapController controller;
-	private Button buttonToggle, buttonNewDest, buttonClear;
+	private Button buttonToggle, buttonCenter, buttonNewDest, buttonClear;
 	private MapView mapView;
 	private GeoPoint geoPoint;
 	private TouchOverlay touchOverlay;
-
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -44,12 +39,19 @@ public class Map extends MapActivity {
 		
 		//Create buttons and listeners
 		buttonToggle = (Button) findViewById(R.id.buttonToggle);
+		buttonCenter = (Button) findViewById(R.id.buttonCenter);
 		buttonNewDest = (Button) findViewById(R.id.buttonNewDest);
 		buttonClear = (Button) findViewById(R.id.buttonRemoveDest);
 		buttonToggle.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
 				mapView.setSatellite(!mapView.isSatellite());
+			}
+		});
+		buttonCenter.setOnClickListener(new OnClickListener() {
+			
+			public void onClick(View v) {
+				controller.animateTo(new GeoPoint(57688018, 11977886));
 			}
 		});
 		buttonNewDest.setOnClickListener(new OnClickListener() {
@@ -67,27 +69,9 @@ public class Map extends MapActivity {
 			}
 		});
 		
-		
-		
 		// Enabling zooming
 		mapView = (MapView) findViewById(R.id.mapview);
 		mapView.setBuiltInZoomControls(true);
-
-		/* Using the LocationManager class to obtain GPS-location */
-		locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-		locListener = new MyLocationListener(this);
-		locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0,
-				locListener);
-
-		/*
-		 * Using the MyLocationOverlay-class to add users current position to
-		 * map-view
-		 */
-		MyLocationOverlay myLocationOverlay = new MyLocationOverlay(this,
-				mapView);
-		mapView.getOverlays().add(myLocationOverlay);
-		myLocationOverlay.enableMyLocation();
-		myLocationOverlay.enableCompass(); // Adding a compass to the map
 
 		/*
 		 * Using the controller to pan in to the EDIT-house's coordinates and to
@@ -96,7 +80,7 @@ public class Map extends MapActivity {
 		controller = mapView.getController();
 		controller.animateTo(new GeoPoint(57688018, 11977886));
 		controller.setZoom(16);
-
+		
 		// Overlays
 		List<Overlay> mapOverlays = mapView.getOverlays();
 		touchOverlay = new TouchOverlay(this, mapView, getIntent());
@@ -112,14 +96,6 @@ public class Map extends MapActivity {
 	@Override
 	protected boolean isRouteDisplayed() {
 		return false;
-	}
-
-	@Override
-	public void onBackPressed() {
-		super.onBackPressed();
-		// Stopping the update och GPS-status, when closing
-		// map-activity/pressing the back-button in the map-activity
-		locManager.removeUpdates(locListener);
 	}
 
 }
