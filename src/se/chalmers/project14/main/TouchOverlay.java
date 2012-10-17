@@ -67,18 +67,12 @@ public class TouchOverlay extends Overlay implements LocationListener {
 
 		//Checks if a specific classroom has been chosen
 		if (intent.getStringExtra(ChooseLocationActivity.CTHBUILDING.toString()) != null) {
-
 			drawChosenEntrances(intent);
-
 		}
 
 		else{
-
 			drawAllEntrances(intent);
-
 		}
-
-
 
 		/* Using the LocationManager class to obtain GPS-location */
 		locManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
@@ -107,7 +101,6 @@ public class TouchOverlay extends Overlay implements LocationListener {
 		mapView.getOverlays().add(sourceOverlay);
 		mapView.getOverlays().add(destOverlay);	
 	}
-
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event, MapView m) {
@@ -194,14 +187,17 @@ public class TouchOverlay extends Overlay implements LocationListener {
 	public void onLocationChanged(Location location) {
 
 		if(useGpsData){ //if GPS-data is used the location is set automatically
+			//TODO Make the the location-toast optional by a choice in settings
 			String text = "Min nuvarande position är: \nLatitud: " + location.getLatitude() + 
 					"\nLongitud: " + location.getLongitude();		
 			Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
 
+			//Obtaining the latitude and longitude
 			int lat = (int) (location.getLatitude() * 1E6);
 			int lng = (int) (location.getLongitude() * 1E6);
-
+			//myGeoPoint is being set by the collected longitude and latitude
 			myGeoPoint = new GeoPoint(lat, lng);
+			//Adding a location marker at the obtained geoPoint
 			OverlayItem sourceItem = new OverlayItem(myGeoPoint, "Locationmarker", "This is the recent location");
 			sourceOverlay.setMarker(sourceItem);
 			mapView.invalidate();
@@ -209,7 +205,6 @@ public class TouchOverlay extends Overlay implements LocationListener {
 		else{ //if GPS-data is not used the location is set manually
 			Toast.makeText(context, "Manually set location", Toast.LENGTH_SHORT).show();
 		}
-
 	}
 
 	public void onProviderDisabled(String provider) {

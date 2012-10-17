@@ -52,13 +52,13 @@
             android:id="@+id/buttonManualPosition"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/button_manual_position" />
-
+            android:text="@string/button_manual_position" />
         <Button
             android:id="@+id/buttonRemoveDest"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/button_remove_destination" />
+        
 
     </LinearLayout>
     	
