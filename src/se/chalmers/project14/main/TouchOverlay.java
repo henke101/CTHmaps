@@ -178,7 +178,7 @@ public class TouchOverlay extends Overlay implements LocationListener {
 
 	public void onLocationChanged(Location location) {
 
-		if(useGpsData){
+		if(useGpsData){ //if GPS-data is used the location is set automatically
 			String text = "Min nuvarande position är: \nLatitud: " + location.getLatitude() + 
 					"\nLongitud: " + location.getLongitude();		
 			Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
@@ -192,8 +192,9 @@ public class TouchOverlay extends Overlay implements LocationListener {
 			sourceOverlay.setMarker(sourceItem);
 			mapView.invalidate();
 		}
-		else{
-			
+		else{ //if GPS-data is not used the location is set manually
+			String text = "Manually set location";
+			Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
 		}
 
 	}
