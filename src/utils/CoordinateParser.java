@@ -1,7 +1,7 @@
 package utils;
 
 /*
- * Copyright (c) 2012 ICRL
+ * Copyright (c) 2012 Henrik Andersson, Anton Palmqvist, Tomas Selldén and Marcus Tyrén
  * See the file license.txt for copying permission.
  */
 
