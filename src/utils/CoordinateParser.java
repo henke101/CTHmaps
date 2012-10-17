@@ -1,7 +1,14 @@
 package utils;
 
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+
+import se.chalmers.project14.model.Door;
+
 /*
- * Copyright (c) 2012 ICRL
+ * Copyright (c) 2012 Henrik Andersson, Anton Palmqvist, Tomas Selldén and Marcus Tyrén
  * See the file license.txt for copying permission.
  */
 
@@ -15,12 +22,38 @@ public class CoordinateParser {
 			return parser;
 	}
 
-	public int [] parseCoordinates(String s){
+	public int [] parseCoordinatesFromString(String s){
 		String [] coordinatesString = s.split(",");
-		int [] CoordinatesInt = new int[coordinatesString.length];
+		int [] coordinatesInt = new int[coordinatesString.length];
 		for (int i=0; i<coordinatesString.length; i++){
-			CoordinatesInt[i] = Integer.parseInt(coordinatesString[i]);
+			coordinatesInt[i] = Integer.parseInt(coordinatesString[i]);
 		}		
-		return CoordinatesInt;
+		return coordinatesInt;
+	}
+	
+
+	public int [] parseCoordinatesFromDoor(List<Door> doors){
+			String s = doors.get(0).getDoorCoordinates();
+			
+			for(int i=0; i<doors.size();i++){
+				s= s + "," + doors.get(i).getDoorCoordinates();
+			}
+			return parseCoordinatesFromString(s);
+	}
+		
+	
+	public HashSet<Integer> parseCoordinatesToSet(String s){
+		int [] arr = parseCoordinatesFromString(s);
+		HashSet<Integer> set = new HashSet<Integer>();
+		for (int i=0; i<arr.length; i+=2){
+			set.add(arr[i]);
+			set.add(arr[i+1]);
+		}
+		Iterator<Integer> iterator = set.iterator();
+		while(iterator.hasNext()){
+			System.out.println(iterator.next());
+		}
+		
+		return set;
 	}
 }

@@ -1,7 +1,7 @@
 package se.chalmers.project14.main;
 
 /*
- * Copyright (c) 2012 ICRL
+ * Copyright (c) 2012 Henrik Andersson, Anton Palmqvist, Tomas Selldén and Marcus Tyrén
  * See the file license.txt for copying permission.
  */
 
@@ -19,6 +19,7 @@ import utils.Options;
 import android.os.Bundle;
 import android.app.ListActivity;
 import android.content.Intent;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -49,7 +50,7 @@ OnItemClickListener {
 		listview = getListView();
 		db = new DatabaseHandler(this);
 		houseList = new ArrayList<House>();
-		houseList = db.getAllHouse();
+		houseList = db.getAllLectureRoom();
 		sortCoordinateList(houseList);
 		dba = new DatabaseAdapter(this, houseList);
 		setListAdapter(dba);
@@ -112,17 +113,18 @@ OnItemClickListener {
 	public void onItemClick(AdapterView<?> arg0, View view, int listPosition,
 			long i) {
 		House house = houseList.get(listPosition);
-		String cthBuilding = house.getHouse();
+		String cthFloor = house.getFloor(); // vŒning check
 		String cthLectureRoom = house.getLectureRoom();
 		int houseId = house.getId();
 		Door door = db.getDoorCoordinates(houseId);
 		Coordinates coordinate = db.getCoordinates(houseId);
 		Intent intent = new Intent(this, Map.class);
 		intent.putExtra(CTHLECTURE_ROOM, cthLectureRoom);
-		intent.putExtra(CTHBUILDING, cthBuilding);
+		intent.putExtra(CTHBUILDING_FLOOR, cthFloor);
 		intent.putExtra(CTHBUILDING_COORDINATES, coordinate.getCoordinates());
-		intent.putExtra(CTHBUILDING_FLOOR, door.getFloor());
+		intent.putExtra(CTHBUILDING, door.getBuilding());
 		intent.putExtra(CTHDOOR_COORDINATES, door.getDoorCoordinates());
 		startActivity(intent);
+		
 	}
 }
