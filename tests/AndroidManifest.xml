@@ -4,8 +4,10 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
-    <uses-sdk android:minSdkVersion="8" />
-<!-- hej -->
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="15" />
+    
     <instrumentation
         android:name="android.test.InstrumentationTestRunner"
         android:targetPackage="se.chalmers.project14.main" />

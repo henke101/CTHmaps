@@ -1,5 +1,11 @@
 package se.chalmers.project14.test;
 
-public class Test {
-	//hejsan!!!!
+import junit.framework.TestCase;
+
+public class Test extends TestCase{
+	
+	
+	public void test() {
+		fail("Should fail");
+	}
 }
