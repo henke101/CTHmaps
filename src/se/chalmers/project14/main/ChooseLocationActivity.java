@@ -71,8 +71,6 @@ OnItemClickListener {
 
 		startActivity(new Intent(this, Options.class));
 		return true;
-
-
 	}
 
 

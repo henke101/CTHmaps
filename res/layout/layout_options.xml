@@ -11,4 +11,11 @@
         android:text="Nu är du i Options"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
+    <CheckBox
+        android:id="@+id/checkBox1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:checked="false"
+        android:text="Set satellite view as default" />
+
 </LinearLayout>

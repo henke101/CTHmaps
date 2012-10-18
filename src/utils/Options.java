@@ -1,37 +1,44 @@
 package utils;
 
+/*
+ * Copyright (c) 2012 Henrik Andersson, Anton Palmqvist, Tomas Selldén and Marcus Tyrén
+ * See the file license.txt for copying permission.
+ */
+
+import com.google.android.maps.MapView;
+
 import se.chalmers.project14.main.R;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 public class Options extends Activity {
-
+	
+	private MapView mapView;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		/** Called when the activity is first created. */
 		setContentView(R.layout.layout_options);
 		super.onCreate(savedInstanceState);
-	}
-//	@Override
-//	public boolean onCreateOptionsMenu(Menu menu) {
-//		MenuInflater inflater = getMenuInflater();
-//	    inflater.inflate(R.menu.menu_options, menu);
-//	    return true;
-//	}
-//	@Override
-//	public boolean onOptionsItemSelected(MenuItem item) {
-//		switch (item.getItemId()) {
-//	    case R.id.options:
-//	    startActivity(new Intent(this, Options.class));
-//	    return true;
-//	    default:
-//		}
-//		return super.onOptionsItemSelected(item);
-//	}
+		
+//		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+//		
+//		StringBuilder builder = new StringBuilder();
+//		builder.append("\n" + sharedPrefs.getBoolean("perform_updates", false));
 
+	}
+	public boolean checkBox(View view){
+		if(true){
+			mapView.setSatellite(true);
+		}
+		return false;	
+	}
 }
