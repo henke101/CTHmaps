@@ -1,5 +1,10 @@
 package se.chalmers.project14.database;
 
+/*
+ * Copyright (c) 2012 Henrik Andersson, Anton Palmqvist, Tomas Selldén and Marcus Tyrén
+ * See the file license.txt for copying permission.
+ */
+
 import java.util.List;
 import se.chalmers.project14.main.R;
 import se.chalmers.project14.model.House;
@@ -48,7 +53,7 @@ public class DatabaseAdapter extends BaseAdapter {
 		if (convertView == null) {
 			view = inflater.inflate(R.layout.row, null);
 			TextView t = (TextView) view.findViewById(R.id.text123);
-			String house = houseList.get(position).getHouse();
+			String house = houseList.get(position).getLectureRoom();
 			t.setText(house);
 		} else {
 			view = convertView;

@@ -1,5 +1,10 @@
 package se.chalmers.project14.model;
 
+/*
+ * Copyright (c) 2012 Henrik Andersson, Anton Palmqvist, Tomas Selldén and Marcus Tyrén
+ * See the file license.txt for copying permission.
+ */
+
 /**
  * Class that represent a coordinate.
  * 

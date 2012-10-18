@@ -1,5 +1,10 @@
 package se.chalmers.project14.model;
 
+/*
+ * Copyright (c) 2012 Henrik Andersson, Anton Palmqvist, Tomas Selldén and Marcus Tyrén
+ * See the file license.txt for copying permission.
+ */
+
 /**
  * class that represent a house
  * 
@@ -8,20 +13,22 @@ package se.chalmers.project14.model;
  */
 public class House {
 
-	private String house;
+	private String floor;
+	private String lectureRoom;
 	private int id;
 
 	public House() {
 		// empty constructor
 	}
 
-	public House(String house) {
-		this.house = house;
+	public House(String lectureRoom) {
+		this.lectureRoom = lectureRoom;
 	}
 
-	public House(int id, String house) {
+	public House(int id, String lectureRoom, String floor) {
 		this.id = id;
-		this.house = house;
+		this.floor = floor;
+		this.lectureRoom = lectureRoom;
 	}
 
 	public void setId(int id) {
@@ -32,12 +39,19 @@ public class House {
 		return id;
 	}
 
-	public void setHouse(String house) {
-		this.house = house;
+	public void setLectureRoom(String lectureRoom) {
+		this.lectureRoom = lectureRoom;
 	}
 
-	public String getHouse() {
-		return house;
+	public String getLectureRoom() {
+		return lectureRoom;
 	}
 
+	public void SetFloor(String floor) {
+		this.floor = floor;
+	}
+
+	public String getFloor() {
+		return floor;
+	}
 }

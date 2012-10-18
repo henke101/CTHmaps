@@ -1,5 +1,10 @@
 package se.chalmers.project14.main;
 
+/*
+ * Copyright (c) 2012 Henrik Andersson, Anton Palmqvist, Tomas Selldén and Marcus Tyrén
+ * See the file license.txt for copying permission.
+ */
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -13,6 +18,7 @@ import se.chalmers.project14.model.House;
 import android.os.Bundle;
 import android.app.ListActivity;
 import android.content.Intent;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,6 +34,7 @@ public class ChooseLocationActivity extends ListActivity implements
 	public final static String CTHBUILDING = "se.chalmers.project14.main.CTHBUILDING";
 	public final static String CTHDOOR_COORDINATES = "se.chalmers.project14.main.CTHDOOR_CTHBUILDING";
 	public final static String CTHBUILDING_FLOOR = "se.chalmers.project14.main.CTHBUILDING_FLOOR";
+	public final static String CTHLECTURE_ROOM = "se.chalmers.project14.main.CTHLECTURE_ROOM";
 
 	private DatabaseAdapter dba;
 	private ListView listview;
@@ -41,7 +48,7 @@ public class ChooseLocationActivity extends ListActivity implements
 		listview = getListView();
 		db = new DatabaseHandler(this);
 		houseList = new ArrayList<House>();
-		houseList = db.getAllHouse();
+		houseList = db.getAllLectureRoom();
 		sortCoordinateList(houseList);
 		dba = new DatabaseAdapter(this, houseList);
 		setListAdapter(dba);
@@ -65,7 +72,7 @@ public class ChooseLocationActivity extends ListActivity implements
 		Collections.sort(houseList, new Comparator<House>() {
 
 			public int compare(House h1, House h2) {
-				return h1.getHouse().compareTo(h2.getHouse());
+				return h1.getLectureRoom().compareTo(h2.getLectureRoom());
 
 			}
 		});
@@ -102,15 +109,18 @@ public class ChooseLocationActivity extends ListActivity implements
 	public void onItemClick(AdapterView<?> arg0, View view, int listPosition,
 			long i) {
 		House house = houseList.get(listPosition);
-		String cthBuilding = house.getHouse();
+		String cthFloor = house.getFloor(); // vŒning check
+		String cthLectureRoom = house.getLectureRoom();
 		int houseId = house.getId();
 		Door door = db.getDoorCoordinates(houseId);
 		Coordinates coordinate = db.getCoordinates(houseId);
 		Intent intent = new Intent(this, Map.class);
-		intent.putExtra(CTHBUILDING, cthBuilding);
+		intent.putExtra(CTHLECTURE_ROOM, cthLectureRoom);
+		intent.putExtra(CTHBUILDING_FLOOR, cthFloor);
 		intent.putExtra(CTHBUILDING_COORDINATES, coordinate.getCoordinates());
-		intent.putExtra(CTHBUILDING_FLOOR, door.getFloor());
+		intent.putExtra(CTHBUILDING, door.getBuilding());
 		intent.putExtra(CTHDOOR_COORDINATES, door.getDoorCoordinates());
 		startActivity(intent);
+		
 	}
 }

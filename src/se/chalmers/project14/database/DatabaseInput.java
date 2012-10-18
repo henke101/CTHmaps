@@ -1,5 +1,10 @@
 package se.chalmers.project14.database;
 
+/*
+ * Copyright (c) 2012 Henrik Andersson, Anton Palmqvist, Tomas Selldén and Marcus Tyrén
+ * See the file license.txt for copying permission.
+ */
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,6 +25,7 @@ import android.content.res.AssetManager;
  * 
  */
 public class DatabaseInput {
+
 	private Context context;
 
 	public DatabaseInput(Context context) {
@@ -54,9 +60,10 @@ public class DatabaseInput {
 		DatabaseHandler db = new DatabaseHandler(context);
 		String[] coordinateInput = coordinateLine.split(":");
 		int coordinateKey = Integer.parseInt(coordinateInput[0]);
-		House house = new House(coordinateKey, coordinateInput[1]);
-		Coordinates coordinates = new Coordinates(coordinateInput[2]);
-		Door door = new Door(coordinateInput[3], coordinateInput[4]);
+		House house = new House(coordinateKey, coordinateInput[1],
+				coordinateInput[2]);
+		Coordinates coordinates = new Coordinates(coordinateInput[3]);
+		Door door = new Door(coordinateInput[4], coordinateInput[5]);
 		db.addCthHouse(house, coordinates, door);
 	}
 }
