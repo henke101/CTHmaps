@@ -3,6 +3,10 @@ package se.chalmers.project14.test;
 import se.chalmers.project14.model.House;
 import junit.framework.TestCase;
 
+/*
+ * A simple test class testing the getters and setter for class House
+ */
+
 public class TestHouse extends TestCase {
 
 	private House house = new House();

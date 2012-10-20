@@ -3,6 +3,10 @@ package se.chalmers.project14.test;
 import se.chalmers.project14.model.Coordinates;
 import junit.framework.TestCase;
 
+/*
+ * A simple test class testing the getters and setter for class Coordinates
+ */
+
 public class TestCoordinates extends TestCase {
 
 	private Coordinates coordinate = new Coordinates();
