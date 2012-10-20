@@ -57,7 +57,7 @@ public class DatabaseInput {
 	 *            a String representing a row line from the file Coordinates.txt
 	 */
 	private void addCoordinatesToDatabase(String coordinateLine) {
-		DatabaseHandler db = new DatabaseHandler(context);
+		DatabaseStorage db = new DatabaseHandler(context);
 		String[] coordinateInput = coordinateLine.split(":");
 		int coordinateKey = Integer.parseInt(coordinateInput[0]);
 		House house = new House(coordinateKey, coordinateInput[1],

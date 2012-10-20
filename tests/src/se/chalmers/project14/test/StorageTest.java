@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import se.chalmers.project14.database.DatabaseHandler;
+import se.chalmers.project14.database.DatabaseStorage;
 import se.chalmers.project14.model.Coordinates;
 import se.chalmers.project14.model.Door;
 import se.chalmers.project14.model.House;
@@ -13,7 +14,7 @@ import android.test.RenamingDelegatingContext;
 public class StorageTest extends AndroidTestCase {
 
 	private static final String TEST_FILE_PREFIX = "test_";
-	DatabaseHandler db;
+	private DatabaseStorage db;
 	private int databaseId = 1;
 
 	@Override
