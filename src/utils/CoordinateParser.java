@@ -32,10 +32,10 @@ public class CoordinateParser {
 	}
 	
 
-	public int [] parseCoordinatesFromDoor(List<Door> doors){
+	public int [] parseCoordinatesFromDoors(List<Door> doors){
 			String s = doors.get(0).getDoorCoordinates();
 			
-			for(int i=0; i<doors.size();i++){
+			for(int i=1; i<doors.size();i++){
 				s= s + "," + doors.get(i).getDoorCoordinates();
 			}
 			return parseCoordinatesFromString(s);

@@ -288,7 +288,7 @@ public class TouchOverlay extends Overlay implements LocationListener {
 
 	private BuildingOverlay generateBuildingOverlay(List<Door> doors){
 
-		int [] doorCoordinates = coordinateParser.parseCoordinatesFromDoor(doors);
+		int [] doorCoordinates = coordinateParser.parseCoordinatesFromDoors(doors);
 
 		// Creates clickable map overlays for the chosen classrooms closest entrances
 		Drawable buildingIcon = setBuildingIcon(doors.get(0).getBuilding());
