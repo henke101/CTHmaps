@@ -1,11 +1,94 @@
 package se.chalmers.project14.test;
 
-import junit.framework.TestCase;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Test extends TestCase{
-	
-	
-	public void test() {
-		fail("Should fail");
+import se.chalmers.project14.database.DatabaseHandler;
+import se.chalmers.project14.model.Coordinates;
+import se.chalmers.project14.model.Door;
+import se.chalmers.project14.model.House;
+import android.test.AndroidTestCase;
+import android.test.RenamingDelegatingContext;
+
+public class Test extends AndroidTestCase {
+
+	private static final String TEST_FILE_PREFIX = "test_";
+	DatabaseHandler db;
+	private int databaseId = 1;
+
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		RenamingDelegatingContext context = new RenamingDelegatingContext(
+				getContext(), TEST_FILE_PREFIX);
+		db = new DatabaseHandler(context);
+		// Creating three door, House and Coordinates object so We can test the
+		// database getters
+		Door door = new Door("Edithuset", "11111,11111");
+		House house = new House(databaseId, "ES51", "5");
+		Coordinates coordinate = new Coordinates("2222,2222");
+		Door doorTwo = new Door("MaskinHuset", "121212,121212");
+		Door doorThree = new Door("Edithuset", "333333,33333");
+		House houseTwo = new House(2, "Bulten", "2");
+		House houseThree = new House(3, "3201", "3");
+		db.addCthHouse(house, coordinate, door);
+		db.addCthHouse(houseTwo, coordinate, doorTwo);
+		db.addCthHouse(houseThree, coordinate, doorThree);
+
+	}
+
+	public void testDatabaseGetCoordinates() {
+		Coordinates coordinate = db.getCoordinates(databaseId);
+		String expectedResult = "2222,2222";
+		String databaseCoordinate = coordinate.getCoordinates();
+		assertEquals(expectedResult, databaseCoordinate);
+	}
+
+	public void testDatabaseGetDoor() {
+		Door door = db.getDoorCoordinates(databaseId);
+		String expectedResult = "Edithuset,11111,11111";
+		String databaseDoorCoordinates = door.getBuilding() + ","
+				+ door.getDoorCoordinates();
+		assertEquals(expectedResult, databaseDoorCoordinates);
+	}
+
+	public void testDatabaseGetHouse() {
+		House house = db.getHouse(databaseId);
+		String expectedResult = "ES51";
+		String databaseHouse = house.getLectureRoom();
+		assertEquals(expectedResult, databaseHouse);
+	}
+
+	public void testDatabaseAllDorsAndBuildings() {
+		List<Door> doorAndBuildingList = db.getAllDoorsAndBuildings();
+		List<Door> expectedList = new ArrayList<Door>();
+		expectedList.add(new Door("11111,11111", "Edithuset"));
+		expectedList.add(new Door("121212,121212", "MaskinHuset"));
+		expectedList.add(new Door("333333,33333", "Edithuset"));
+		assertEquals(expectedList.size(), doorAndBuildingList.size());
+		for (int i = 0; i < expectedList.size(); i++) {
+			assertEquals(expectedList.get(i).getBuilding(), doorAndBuildingList
+					.get(i).getBuilding());
+			assertEquals(expectedList.get(i).getDoorCoordinates(),
+					doorAndBuildingList.get(i).getDoorCoordinates());
+		}
+
+	}
+
+	public void testDatabaseAllLectureRoom() {
+		List<House> allLectureRoom = db.getAllLectureRoom();
+		List<House> expectedList = new ArrayList<House>();
+		expectedList.add(new House(databaseId, "ES51", "5"));
+		expectedList.add(new House(2, "Bulten", "2"));
+		expectedList.add(new House(3, "3201", "3"));
+		assertEquals(expectedList.size(), allLectureRoom.size());
+		for (int i = 0; i < expectedList.size(); i++) {
+			assertEquals(expectedList.get(i).getId(), allLectureRoom.get(i)
+					.getId());
+			assertEquals(expectedList.get(i).getFloor(), allLectureRoom.get(i)
+					.getFloor());
+			assertEquals(expectedList.get(i).getLectureRoom(), allLectureRoom
+					.get(i).getLectureRoom());
+		}
 	}
 }
