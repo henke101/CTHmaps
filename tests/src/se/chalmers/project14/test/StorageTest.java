@@ -10,7 +10,7 @@ import se.chalmers.project14.model.House;
 import android.test.AndroidTestCase;
 import android.test.RenamingDelegatingContext;
 
-public class Test extends AndroidTestCase {
+public class StorageTest extends AndroidTestCase {
 
 	private static final String TEST_FILE_PREFIX = "test_";
 	DatabaseHandler db;
@@ -37,6 +37,10 @@ public class Test extends AndroidTestCase {
 
 	}
 
+	/*
+	 * Getting the coordinate from test database and create an expected value
+	 * and compare these with each other
+	 */
 	public void testDatabaseGetCoordinates() {
 		Coordinates coordinate = db.getCoordinates(databaseId);
 		String expectedResult = "2222,2222";
@@ -44,6 +48,10 @@ public class Test extends AndroidTestCase {
 		assertEquals(expectedResult, databaseCoordinate);
 	}
 
+	/*
+	 * Getting the doorCoordinates and building from test database and create an
+	 * expected value and compare these with each other
+	 */
 	public void testDatabaseGetDoor() {
 		Door door = db.getDoorCoordinates(databaseId);
 		String expectedResult = "Edithuset,11111,11111";
@@ -52,6 +60,10 @@ public class Test extends AndroidTestCase {
 		assertEquals(expectedResult, databaseDoorCoordinates);
 	}
 
+	/*
+	 * Getting the lectureroom from test database and create an expected value
+	 * and compare these with each other
+	 */
 	public void testDatabaseGetHouse() {
 		House house = db.getHouse(databaseId);
 		String expectedResult = "ES51";
@@ -59,6 +71,10 @@ public class Test extends AndroidTestCase {
 		assertEquals(expectedResult, databaseHouse);
 	}
 
+	/*
+	 * Getting a list with all Doors and Buildings from test database and
+	 * creates an expected list and compare these with each other
+	 */
 	public void testDatabaseAllDorsAndBuildings() {
 		List<Door> doorAndBuildingList = db.getAllDoorsAndBuildings();
 		List<Door> expectedList = new ArrayList<Door>();
@@ -75,6 +91,10 @@ public class Test extends AndroidTestCase {
 
 	}
 
+	/*
+	 * Getting a list with all lecturerooms and floors and create an expected
+	 * value and compare these with each other
+	 */
 	public void testDatabaseAllLectureRoom() {
 		List<House> allLectureRoom = db.getAllLectureRoom();
 		List<House> expectedList = new ArrayList<House>();
