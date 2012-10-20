@@ -5,7 +5,7 @@ import se.chalmers.project14.model.Door;
 
 public class TestCoordinates extends TestCase {
 
-	private Door door;
+	private Door door = new Door();
 
 	public void testGetDoors() {
 		door.setDoor("121212,121212");
