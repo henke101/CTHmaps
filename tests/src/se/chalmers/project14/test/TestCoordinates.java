@@ -1,23 +1,16 @@
 package se.chalmers.project14.test;
 
+import se.chalmers.project14.model.Coordinates;
 import junit.framework.TestCase;
-import se.chalmers.project14.model.Door;
 
 public class TestCoordinates extends TestCase {
 
-	private Door door = new Door();
+	private Coordinates coordinate = new Coordinates();
 
-	public void testGetDoors() {
-		door.setDoor("121212,121212");
-		String getDoor = door.getDoorCoordinates();
-		String expectedResult = "121212,121212";
-		assertEquals(expectedResult, getDoor);
-	}
-
-	public void testGetBuilding() {
-		door.setBuilding("Maskinhuset");
-		String getBuilding = door.getBuilding();
-		String expectedResult = "Maskinhuset";
-		assertEquals(expectedResult, getBuilding);
+	public void testCoordinates() {
+		coordinate.setCoordinates("10101010,32323232");
+		String getCoordinate = coordinate.getCoordinates();
+		String expectedResult = "10101010,32323232";
+		assertEquals(expectedResult, getCoordinate);
 	}
 }
