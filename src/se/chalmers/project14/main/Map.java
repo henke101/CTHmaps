@@ -30,7 +30,7 @@ public class Map extends MapActivity {
 	private Button buttonToggle, buttonCenter, buttonNewDest, buttonClear, buttonManualPosition;
 	private MapView mapView;
 	private GeoPoint geoPoint;
-	private TouchOverlay touchOverlay;
+	private OverlayHolder touchOverlay;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -90,7 +90,7 @@ public class Map extends MapActivity {
 		
 		// Overlays
 		List<Overlay> mapOverlays = mapView.getOverlays();
-		touchOverlay = new TouchOverlay(this, mapView, getIntent());
+		touchOverlay = new OverlayHolder(this, mapView, getIntent());
 		mapOverlays.add(touchOverlay);
 	}
 
