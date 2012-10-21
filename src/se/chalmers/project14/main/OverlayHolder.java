@@ -36,6 +36,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.widget.Toast;
 import com.google.android.maps.GeoPoint;
@@ -338,12 +339,7 @@ public class OverlayHolder extends Overlay implements LocationListener{
 
 	public void onStatusChanged(String provider, int status, Bundle extras) {
 	}
-
-	public void onBackPressed() {
-		// Stopping the update och GPS-status, when closing
-		// map-activity/pressing the back-button in the map-activity
-		locManager.removeUpdates(this);
-	}
+	
 	private void drawChosenEntrances (Intent intent) {
 		// Retrieves info about the chosen classroom from the database
 		String cthLectureRoom = intent
@@ -447,7 +443,9 @@ public class OverlayHolder extends Overlay implements LocationListener{
 			canvas.drawPath(path1, mPaint);//Drawing the path
 		}	
 	}
-	//Method to toggle the use of GPS-data on and off
+	/**
+	 * Method to toggle the use of GPS-data on and off.
+	 */
 	public void toggleUseGpsData(){
 		useGpsData = !useGpsData;
 		String useGps = "The use of GPS-data is turned: ";
@@ -457,5 +455,11 @@ public class OverlayHolder extends Overlay implements LocationListener{
 		else{
 			Toast.makeText(context, useGps + "OFF", Toast.LENGTH_SHORT).show();
 		}
+	}
+	/**
+	 * Method that removes the receiving of updates of from the GPS.
+	 */
+	public void stopGpsUpdates(){
+		locManager.removeUpdates(this);
 	}
 }

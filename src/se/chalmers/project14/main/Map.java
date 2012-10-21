@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -30,7 +31,7 @@ public class Map extends MapActivity {
 	private Button buttonToggle, buttonCenter, buttonNewDest, buttonClear, buttonManualPosition;
 	private MapView mapView;
 	private GeoPoint geoPoint;
-	private OverlayHolder touchOverlay;
+	private OverlayHolder overlayHolder;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -65,14 +66,14 @@ public class Map extends MapActivity {
 		buttonClear.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
-				touchOverlay.getDestOverlay().removeDestinationMarker();
+				overlayHolder.getDestOverlay().removeDestinationMarker();
 				mapView.invalidate();
 			}
 		});
 		buttonManualPosition.setOnClickListener(new OnClickListener() {
 			
 			public void onClick(View v) {
-				touchOverlay.toggleUseGpsData();
+				overlayHolder.toggleUseGpsData();
 			}
 		});
 		
@@ -90,8 +91,8 @@ public class Map extends MapActivity {
 		
 		// Overlays
 		List<Overlay> mapOverlays = mapView.getOverlays();
-		touchOverlay = new OverlayHolder(this, mapView, getIntent());
-		mapOverlays.add(touchOverlay);
+		overlayHolder = new OverlayHolder(this, mapView, getIntent());
+		mapOverlays.add(overlayHolder);
 	}
 
 	@Override
@@ -104,5 +105,10 @@ public class Map extends MapActivity {
 	protected boolean isRouteDisplayed() {
 		return false;
 	}
-
+	
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		overlayHolder.stopGpsUpdates();
+	}
 }
