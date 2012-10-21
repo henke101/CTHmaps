@@ -1,14 +1,9 @@
 package se.chalmers.project14.test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-
-import android.util.Log;
-import junit.*;
 import junit.framework.Assert;
 import junit.framework.TestCase;
-
 import se.chalmers.project14.model.Door;
 import utils.CoordinateParser;
 
@@ -45,9 +40,11 @@ public class TestCoordinateParser extends TestCase {
 		int[] actualCoordinates = parser.parseCoordinatesFromDoors(doors);
 		
 		for (int i = 0;i<expectedCoordinates.length;i++){
-			assertEquals(expectedCoordinates[i], actualCoordinates[i]);
-			
-		}
+			assertEquals(expectedCoordinates[i], actualCoordinates[i]);	
+		}	
+	}
+	
+	public void testParseCoordinatesToSet(){
 		
 	}
 }

@@ -279,26 +279,33 @@ public class TouchOverlay extends Overlay implements LocationListener {
 			}
 		}
 		//Adds the overlay into the mapview				
-		mapView.getOverlays().add(generateBuildingOverlay(editDoors));
+		
 		mapView.getOverlays().add(generateBuildingOverlay(maskinDoors));
 		mapView.getOverlays().add(generateBuildingOverlay(haDoors));
 		mapView.getOverlays().add(generateBuildingOverlay(hbDoors));
 		mapView.getOverlays().add(generateBuildingOverlay(hcDoors));
+		mapView.getOverlays().add(generateBuildingOverlay(editDoors));
 	}
 
 	private BuildingOverlay generateBuildingOverlay(List<Door> doors){
 
-		int [] doorCoordinates = coordinateParser.parseCoordinatesFromDoors(doors);
+		Set<Integer> doorCoordinates = coordinateParser.parseCoordinatesToSetFromDoors(doors);
 
 		// Creates clickable map overlays for the chosen classrooms closest entrances
 		Drawable buildingIcon = setBuildingIcon(doors.get(0).getBuilding());
 		BuildingOverlay buildingOverlay = new BuildingOverlay(buildingIcon, context);
-		for (int i=0; i<doorCoordinates.length;i +=2 ){
-			GeoPoint entranceGeoPoint = new GeoPoint(doorCoordinates[i], doorCoordinates[i+1]);
+		Iterator<Integer> iterator = doorCoordinates.iterator();
+		while (iterator.hasNext()){
+			int lat = iterator.next();
+			int lon = iterator.next();
+			GeoPoint entranceGeoPoint = new GeoPoint(lat, lon);
 			OverlayItem entranceOverlayItem = new OverlayItem(entranceGeoPoint,
 					"Entrance" + " " + (doors.get(0).getBuilding()), "Classrooms close to this entrance:");
 			buildingOverlay.addOverlay(entranceOverlayItem);
+			System.out.println(entranceGeoPoint.getLatitudeE6()+ " "+ entranceGeoPoint.getLongitudeE6());
+			System.out.println(lat+ " " +lon);
 		}
+		System.out.println(buildingOverlay.size());
 		return buildingOverlay;
 	}
 	//Drawing the line
