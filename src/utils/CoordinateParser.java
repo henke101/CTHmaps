@@ -52,15 +52,9 @@ public class CoordinateParser {
 			int lon = array[i];	
 			int lat = array[i+1];
 			set.add(lat);
-			set.add(lon);
-			Iterator<Integer> iter = set.iterator();
-			
-			
+			set.add(lon);	
 		}
-		/*Iterator<Integer> iterator = set.iterator();
-		while (iterator.hasNext()){
-			System.out.println(iterator.next() + "!!");
-		}*/
+	
 		return set;
 	}
 	
