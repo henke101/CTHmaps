@@ -42,20 +42,5 @@ public class CoordinateParser {
 			}
 			return parseCoordinatesFromString(s);
 	}
-		
-	
-	public HashSet<Integer> parseCoordinatesToSet(String s){
-		int [] array = parseCoordinatesFromString(s);
-		
-		HashSet<Integer> set = new HashSet<Integer>();
-		for (int i=0; i<array.length; i=i+2){
-			int lon = array[i];	
-			int lat = array[i+1];
-			set.add(lat);
-			set.add(lon);	
-		}
-	
-		return set;
-	}
 	
 }
