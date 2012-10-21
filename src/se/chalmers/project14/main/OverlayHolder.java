@@ -135,7 +135,7 @@ public class OverlayHolder extends Overlay implements LocationListener{
 	 * Containg all touchrelated events. The time of the press is calculated and determining 
 	 * if it is a longpress or a tap making an action accordingly.
 	 * @param event event to get data such as time and position of the press
-	 * @param m mapview
+	 * @param m MapView
 	 */
 	@Override
 	public boolean onTouchEvent(MotionEvent event, MapView m) {
@@ -340,6 +340,7 @@ public class OverlayHolder extends Overlay implements LocationListener{
 	public void onStatusChanged(String provider, int status, Bundle extras) {
 	}
 	
+	//TODO Henke lägger till javadoc
 	private void drawChosenEntrances (Intent intent) {
 		// Retrieves info about the chosen classroom from the database
 		String cthLectureRoom = intent
@@ -402,6 +403,7 @@ public class OverlayHolder extends Overlay implements LocationListener{
 		mapView.getOverlays().add(generateBuildingOverlay(hcDoors));
 	}
 
+	//TODO Henke fixar javadoc
 	private BuildingOverlay generateBuildingOverlay(List<Door> doors){
 
 		doorCoordinates = coordinateParser.parseCoordinatesFromDoor(doors);
