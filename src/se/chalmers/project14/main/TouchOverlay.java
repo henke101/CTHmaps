@@ -144,7 +144,6 @@ public class TouchOverlay extends Overlay implements LocationListener{
 			touchTimer.cancel();
 			holding=false;
 			if(event.getEventTime()-touchTimeDown<=200){//Checking that press is below 200 ms, aka a tap
-				Log.d("teeeeeeeeeest", "msg");
 				launchDoorFunctions();
 			}
 			return true;
@@ -186,6 +185,7 @@ public class TouchOverlay extends Overlay implements LocationListener{
 					}
 				});
 				buildingOptions.show();
+				break;
 			}
 		}
 	}
