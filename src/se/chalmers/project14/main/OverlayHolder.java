@@ -135,7 +135,6 @@ public class OverlayHolder extends Overlay implements LocationListener{
 				mapView);
 		mapView.getOverlays().add(myLocationOverlay);
 		myLocationOverlay.enableCompass(); // Adding a compass to the map
-		myLocationOverlay.enableMyLocation();
 
 		// Creates a position-marker avatar
 		Drawable avatar = mapView.getResources().getDrawable(R.drawable.anton);
