@@ -60,13 +60,12 @@ public class Map extends MapActivity {
 
 			public void onClick(View v) {
 				onBackPressed();
-
 			}
 		});
 		buttonClear.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
-				overlayHolder.getDestOverlay().removeDestinationMarker();
+				overlayHolder.resetDestination();
 				mapView.invalidate();
 			}
 		});
