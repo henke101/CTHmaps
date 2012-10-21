@@ -5,6 +5,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import android.util.Log;
+
 import se.chalmers.project14.model.Door;
 
 /*
@@ -32,10 +34,10 @@ public class CoordinateParser {
 	}
 	
 
-	public int [] parseCoordinatesFromDoor(List<Door> doors){
+	public int [] parseCoordinatesFromDoors(List<Door> doors){
 			String s = doors.get(0).getDoorCoordinates();
 			
-			for(int i=0; i<doors.size();i++){
+			for(int i=1; i<doors.size();i++){
 				s= s + "," + doors.get(i).getDoorCoordinates();
 			}
 			return parseCoordinatesFromString(s);
@@ -43,17 +45,26 @@ public class CoordinateParser {
 		
 	
 	public HashSet<Integer> parseCoordinatesToSet(String s){
-		int [] arr = parseCoordinatesFromString(s);
-		HashSet<Integer> set = new HashSet<Integer>();
-		for (int i=0; i<arr.length; i+=2){
-			set.add(arr[i]);
-			set.add(arr[i+1]);
-		}
-		Iterator<Integer> iterator = set.iterator();
-		while(iterator.hasNext()){
-			System.out.println(iterator.next());
-		}
+		int [] array = parseCoordinatesFromString(s);
 		
+		HashSet<Integer> set = new HashSet<Integer>();
+		for (int i=0; i<array.length; i=i+2){
+			int lon = array[i];	
+			int lat = array[i+1];
+			set.add(lat);
+			set.add(lon);	
+		}
+	
 		return set;
+	}
+	
+	public HashSet<Integer> parseCoordinatesToSetFromDoors(List<Door> doors){
+		String s = doors.get(0).getDoorCoordinates();
+		
+		for(int i=1; i<doors.size();i++){
+			s= s + "," + doors.get(i).getDoorCoordinates();
+		}
+		return parseCoordinatesToSet(s);
+
 	}
 }

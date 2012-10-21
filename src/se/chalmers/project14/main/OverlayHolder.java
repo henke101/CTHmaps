@@ -14,6 +14,8 @@ import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import org.xml.sax.Parser;
+
 import se.chalmers.project14.database.DatabaseHandler;
 import se.chalmers.project14.model.Door;
 import utils.CoordinateParser;
@@ -75,13 +77,21 @@ public class OverlayHolder extends Overlay implements LocationListener{
 	private MarkerOverlay sourceOverlay, destOverlay;
 	private CoordinateParser coordinateParser = CoordinateParser.getInstance();
 	private MyLocationOverlay myLocationOverlay;
-
+	private boolean isClassroomChosen=false;
 	private LocationManager locManager;
 	private Projection projection;
 	private boolean useGpsData = true;
-	private int [] doorCoordinates;
 	private Timer touchTimer;
 	private boolean holding;
+	private DatabaseHandler db;
+	private List<Door> doors;
+	private List<Door> editDoors;
+	private List<Door> maskinDoors;
+	private List<Door> haDoors;
+	private List<Door> hbDoors;
+	private List<Door> hcDoors;
+	private String chosenBuildingName;
+	private int [] chosenBuildingCoordinates;
 
 	/**
 	 * Creates an instance of the OverlayHolder.
@@ -94,9 +104,17 @@ public class OverlayHolder extends Overlay implements LocationListener{
 		this.context = context;
 		this.mapView=mapView;
 		projection = mapView.getProjection();
+		db = new DatabaseHandler(context);
+		doors =  db.getAllDoorsAndBuildings();
+		editDoors = new ArrayList<Door>();
+		maskinDoors = new ArrayList<Door>();
+		haDoors = new ArrayList<Door>();
+		hbDoors = new ArrayList<Door>();
+		hcDoors = new ArrayList<Door>();
 
 		//Checks if a specific classroom has been chosen
 		if (intent.getStringExtra(ChooseLocationActivity.CTHBUILDING.toString()) != null) {
+			isClassroomChosen = true;
 			drawChosenEntrances(intent);
 		}
 
@@ -173,7 +191,21 @@ public class OverlayHolder extends Overlay implements LocationListener{
 			touchTimer.cancel();
 			holding=false;
 			if(event.getEventTime()-touchTimeDown<=200){//Checking that press is below 200 ms, aka a tap
-				launchDoorFunctions();
+				boolean isDoorFound = false;
+				while (!isDoorFound){
+					if(isClassroomChosen){
+						isDoorFound = launchDoorFunctions(chosenBuildingName, chosenBuildingCoordinates);
+					}
+					else{
+					isDoorFound = launchDoorFunctions(haDoors);
+					isDoorFound = launchDoorFunctions(hbDoors);
+					isDoorFound = launchDoorFunctions(hcDoors);
+					isDoorFound = launchDoorFunctions(editDoors);
+					isDoorFound = launchDoorFunctions(maskinDoors);
+					}
+					
+					isDoorFound = true;
+				}
 			}
 			return true;
 		}
@@ -182,18 +214,27 @@ public class OverlayHolder extends Overlay implements LocationListener{
 	/**
 	 * Method that launches a dialog for the door that is clicked on.
 	 */
-	private void launchDoorFunctions(){
-		for(int i=0; i<doorCoordinates.length; i+=2 ){
-			GeoPoint doorGeoPoint = new GeoPoint(doorCoordinates[i], doorCoordinates[i+1]);
+	private boolean launchDoorFunctions(List<Door> doors){
+		String buildingName = doors.get(0).getBuilding();
+		int [] doorCoordinates = coordinateParser.parseCoordinatesFromDoors(doors);
+		return launchDoorFunctions(buildingName, doorCoordinates);
+	}
+	
+	/**
+	 * Method that launches a dialog for the door that is clicked on.
+	 */
+	private boolean launchDoorFunctions(String building, int [] coordinates){
+		for(int i=0; i<coordinates.length; i+=2 ){
+			GeoPoint doorGeoPoint = new GeoPoint(coordinates[i], coordinates[i+1]);
 			Point doorPoint = new Point();
 			projection.toPixels(doorGeoPoint, doorPoint);//converting the doors GeoPoints to Points
 			if(isSameFocus(doorPoint.x, doorPoint.y)){
 				AlertDialog.Builder buildingOptions = new AlertDialog.Builder(context);
 				buildingOptions.setTitle("Building options");
-				buildingOptions.setMessage("Skriv vilken byggnad jag tryckt på!!!!!");
+				buildingOptions.setMessage("Entrance to " + building);
 				buildingOptions.setNegativeButton("Go back to map", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
-					// do nothing and go back to mapview
+						// do nothing and go back to mapview
 					}
 				});
 				buildingOptions.setNeutralButton("Enter Building", new DialogInterface.OnClickListener() {
@@ -214,10 +255,13 @@ public class OverlayHolder extends Overlay implements LocationListener{
 					}
 				});
 				buildingOptions.show();
-				break;
+				return true;
 			}
+
 		}
+		return false;
 	}
+	
 	/**
 	 * Checking if the finger has been kept in the same position as on down press.
 	 * @param touchStopX The x-wise position focused on down press
@@ -346,9 +390,9 @@ public class OverlayHolder extends Overlay implements LocationListener{
 		// Retrieves info about the chosen classroom from the database
 		String cthLectureRoom = intent
 				.getStringExtra(ChooseLocationActivity.CTHLECTURE_ROOM);
-		String cthBuilding = intent
+		chosenBuildingName = intent
 				.getStringExtra(ChooseLocationActivity.CTHBUILDING);
-		doorCoordinates = coordinateParser.parseCoordinatesFromString(intent
+		chosenBuildingCoordinates = coordinateParser.parseCoordinatesFromString(intent
 				.getStringExtra(ChooseLocationActivity.CTHDOOR_COORDINATES));
 		/*for the moment, never used varible
 		int [] cthBuildingCoordinates = coordinateParser.parseCoordinates(intent
@@ -358,25 +402,17 @@ public class OverlayHolder extends Overlay implements LocationListener{
 				.getStringExtra(ChooseLocationActivity.CTHBUILDING_FLOOR));
 
 		// Creates clickable map overlays for the chosen classrooms closest entrances
-		Drawable buildingIcon = setBuildingIcon(cthBuilding);
+		Drawable buildingIcon = setBuildingIcon(chosenBuildingName);
 		BuildingOverlay buildingOverlay = new BuildingOverlay(buildingIcon, context);
-		for (int i=0; i<doorCoordinates.length;i +=2 ){
-			GeoPoint entranceGeoPoint = new GeoPoint(doorCoordinates[i], doorCoordinates[i+1]);
+		for (int i=0; i<chosenBuildingCoordinates.length;i +=2 ){
+			GeoPoint entranceGeoPoint = new GeoPoint(chosenBuildingCoordinates[i], chosenBuildingCoordinates[i+1]);
 			OverlayItem entranceOverlayItem = new OverlayItem(entranceGeoPoint,
-					"Entrance" + " " + cthBuilding, "Classrooms close to this entrance:");
+					"Entrance" + " " + chosenBuildingName, "Classrooms close to this entrance:");
 			buildingOverlay.addOverlay(entranceOverlayItem);
 			mapView.getOverlays().add(buildingOverlay);
 		}
 	}
 	private void drawAllEntrances(Intent intent){
-
-		DatabaseHandler db = new DatabaseHandler(context);
-		List<Door> doors =  db.getAllDoorsAndBuildings();
-		List<Door> editDoors = new ArrayList<Door>();
-		List<Door> maskinDoors = new ArrayList<Door>();
-		List<Door> haDoors = new ArrayList<Door>();
-		List<Door> hbDoors = new ArrayList<Door>();
-		List<Door> hcDoors = new ArrayList<Door>();
 
 		// Splits the list of doors into a list of each building
 		for(int i=0; i<doors.size();i++){
@@ -397,27 +433,32 @@ public class OverlayHolder extends Overlay implements LocationListener{
 			}
 		}
 		//Adds the overlay into the mapview				
-		mapView.getOverlays().add(generateBuildingOverlay(editDoors));
+
 		mapView.getOverlays().add(generateBuildingOverlay(maskinDoors));
 		mapView.getOverlays().add(generateBuildingOverlay(haDoors));
 		mapView.getOverlays().add(generateBuildingOverlay(hbDoors));
 		mapView.getOverlays().add(generateBuildingOverlay(hcDoors));
+		mapView.getOverlays().add(generateBuildingOverlay(editDoors));
 	}
 
 	//TODO Henke fixar javadoc
 	private BuildingOverlay generateBuildingOverlay(List<Door> doors){
 
-		doorCoordinates = coordinateParser.parseCoordinatesFromDoor(doors);
+		int [] doorCoordinates = coordinateParser.parseCoordinatesFromDoors(doors);
+
 
 		// Creates clickable map overlays for the chosen classrooms closest entrances
 		Drawable buildingIcon = setBuildingIcon(doors.get(0).getBuilding());
 		BuildingOverlay buildingOverlay = new BuildingOverlay(buildingIcon, context);
-		for (int i=0; i<doorCoordinates.length;i +=2 ){
+
+		for(int i = 0; i<doorCoordinates.length;i=i+2){
 			GeoPoint entranceGeoPoint = new GeoPoint(doorCoordinates[i], doorCoordinates[i+1]);
 			OverlayItem entranceOverlayItem = new OverlayItem(entranceGeoPoint,
 					"Entrance" + " " + (doors.get(0).getBuilding()), "Classrooms close to this entrance:");
 			buildingOverlay.addOverlay(entranceOverlayItem);
+
 		}
+		System.out.println(buildingOverlay.size());
 		return buildingOverlay;
 	}
 	
