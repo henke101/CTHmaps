@@ -58,13 +58,4 @@ public class CoordinateParser {
 		return set;
 	}
 	
-	public HashSet<Integer> parseCoordinatesToSetFromDoors(List<Door> doors){
-		String s = doors.get(0).getDoorCoordinates();
-		
-		for(int i=1; i<doors.size();i++){
-			s= s + "," + doors.get(i).getDoorCoordinates();
-		}
-		return parseCoordinatesToSet(s);
-
-	}
 }
