@@ -143,42 +143,51 @@ public class TouchOverlay extends Overlay implements LocationListener{
 		else if (event.getAction() == MotionEvent.ACTION_UP) {
 			touchTimer.cancel();
 			holding=false;
-			if(event.getEventTime()-touchTimeDown<=200){
+			if(event.getEventTime()-touchTimeDown<=200){//Checking that press is below 200 ms, aka a tap
 				Log.d("teeeeeeeeeest", "msg");
+				launchBuildingFunctions();
 			}
 			return true;
-
-			/*
-			 * Checking holdtime to be above 1000 ms and at he same position
-			 */
-
 		}
 		return false;
 	}
-	@Override
-	public boolean onTap(GeoPoint tappedGeoPoint, MapView mapView){
+	private void launchBuildingFunctions(){
 		for(int i=0; i<doorCoordinates.length; i+=2 ){
-			Log.i("tag", "" + doorCoordinates[i]);
-			Log.i("tag", "" + doorCoordinates[i+1]);
 			GeoPoint doorGeoPoint = new GeoPoint(doorCoordinates[i], doorCoordinates[i+1]);
-		}
-		//			if(tappedGeoPoint.getLatitudeE6()){
-		//				Toast.makeText(context, "TJOHOOO!", Toast.LENGTH_SHORT).show();
-		//			}
-		((Activity) context).runOnUiThread(new Runnable() {//Needed to run in UI-thread
-			public void run(){
-//				launchMapFunctions();
-				Log.d("LLLLLLLLLLoooooooooooooool", "msg");
+			Point doorPoint = new Point();
+			projection.toPixels(doorGeoPoint, doorPoint);//converting the doors GeoPoints to Points
+			if(isSameFocus(doorPoint.x, doorPoint.y)){
+				Log.d("dörr hittad", "msg");
 			}
-		});
-		Log.d("loooooooooooooool", "msg");
-		Toast.makeText(context, tappedGeoPoint.getLatitudeE6() + "; " + tappedGeoPoint.getLongitudeE6(), Toast.LENGTH_SHORT).show();
-		//			OverlayItem sourceItem = new OverlayItem(g, "Locationmarker", "This is the recent location");
-		//			sourceOverlay.setMarker(sourceItem);
-		//			mapView.invalidate();
-		//}
-		return true;
+		}
 	}
+	
+//	@Override
+//	public boolean onTap(GeoPoint tappedGeoPoint, MapView mapView){
+//		for(int i=0; i<doorCoordinates.length; i+=2 ){
+//			Log.i("tag", "" + doorCoordinates[i]);
+//			Log.i("tag", "" + doorCoordinates[i+1]);
+//			GeoPoint doorGeoPoint = new GeoPoint(doorCoordinates[i], doorCoordinates[i+1]);
+//			Point doorPoint = new Point();
+//			projection.toPixels(doorGeoPoint, doorPoint);//converting the doors GeoPoints to Points
+//		}
+//		//			if(tappedGeoPoint.getLatitudeE6()){
+//		//				Toast.makeText(context, "TJOHOOO!", Toast.LENGTH_SHORT).show();
+//		//			}
+//		((Activity) context).runOnUiThread(new Runnable() {//Needed to run in UI-thread
+//			public void run(){
+////				launchMapFunctions();
+//				Log.d("LLLLLLLLLLoooooooooooooool", "msg");
+//			}
+//		});
+//		Log.d("loooooooooooooool", "msg");
+//		Toast.makeText(context, tappedGeoPoint.getLatitudeE6() + "; " + tappedGeoPoint.getLongitudeE6(), Toast.LENGTH_SHORT).show();
+//		//			OverlayItem sourceItem = new OverlayItem(g, "Locationmarker", "This is the recent location");
+//		//			sourceOverlay.setMarker(sourceItem);
+//		//			mapView.invalidate();
+//		//}
+//		return true;
+//	}
 	/**
 	 * Checking if the finger has been kept in the same position as on down press.
 	 * @param touchStopX
