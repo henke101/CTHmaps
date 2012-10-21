@@ -38,6 +38,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.widget.Toast;
 import com.google.android.maps.GeoPoint;
@@ -49,8 +50,22 @@ import com.google.android.maps.OverlayItem;
 import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.Projection;
 
+/**
+ * 
+ *Class containing and managing the overlays containing information such as location, 
+ *destination and buildings. Also handling all touchrelated actions of the mapview.
+ *These touchevents are managing and updating the overlays, for example changing the 
+ *route if the destination is changed.
+ * 
+ * @version
+ * 
+ *          0.2 21 Oktober 2012
+ * @author
+ * 
+ *         Anton Palmqvist and Henrik Andersson
+ */
 
-public class TouchOverlay extends Overlay implements LocationListener{
+public class OverlayHolder extends Overlay implements LocationListener{
 	//private ArrayList<OverlayItem> mOverlays = new ArrayList<OverlayItem>();
 	private Context context;
 	private long touchStart;
@@ -77,7 +92,13 @@ public class TouchOverlay extends Overlay implements LocationListener{
 	private String chosenBuildingName;
 	private int [] chosenBuildingCoordinates;
 
-	public TouchOverlay(Context context, MapView mapView, Intent intent) {
+	/**
+	 * Creates an instance of the OverlayHolder.
+	 * @param context
+	 * @param mapView
+	 * @param intent
+	 */
+	public OverlayHolder(Context context, MapView mapView, Intent intent) {
 		super();
 		this.context = context;
 		this.mapView=mapView;
@@ -89,9 +110,6 @@ public class TouchOverlay extends Overlay implements LocationListener{
 		haDoors = new ArrayList<Door>();
 		hbDoors = new ArrayList<Door>();
 		hcDoors = new ArrayList<Door>();
-
-		touchTimer = new Timer();
-	
 
 		//Checks if a specific classroom has been chosen
 		if (intent.getStringExtra(ChooseLocationActivity.CTHBUILDING.toString()) != null) {
@@ -128,19 +146,28 @@ public class TouchOverlay extends Overlay implements LocationListener{
 
 		//Adds the created overlays		
 		mapView.getOverlays().add(sourceOverlay);
-		mapView.getOverlays().add(destOverlay);	
+		mapView.getOverlays().add(destOverlay);
 	}
 
+	/**
+	 * Containg all touchrelated events. The time of the press is calculated and determining 
+	 * if it is a longpress or a tap making an action accordingly.
+	 * @param event event to get data such as time and position of the press
+	 * @param m MapView
+	 */
 	@Override
 	public boolean onTouchEvent(MotionEvent event, MapView m) {
-		// when user touches the screen
+		// When user touches the screen
 		holding=true;
 		if (event.getAction() == MotionEvent.ACTION_DOWN) {
 			touchX = event.getX(); //The position of the finger
 			touchY = event.getY();
-			touchTimeDown = event.getEventTime();
+			touchTimeDown = event.getEventTime(); //The time of the down press
+			/*
+			 * Creating a timer scheduling a delayed startup after 600 ms pressed on the view
+			 */
 			touchTimer = new Timer();
-			touchTimer.schedule(new TimerTask(){ //Creating a timer scheduling a delayed startup after 600 ms pressed on the view
+			touchTimer.schedule(new TimerTask(){ 
 				public void run(){
 					if(holding){
 						((Activity) context).runOnUiThread(new Runnable() {//Needed to run in UI-thread
@@ -155,10 +182,10 @@ public class TouchOverlay extends Overlay implements LocationListener{
 		//When moving or not moving the finger on the screen, in the middle of pressing and releasing
 		else if (event.getAction() == MotionEvent.ACTION_MOVE) {
 			if(!isSameFocus(event.getX(), event.getY())){
-				holding=false;
+				holding=false; //if the finger is moved the action is no longer consider a hold
 			}
 		}
-		// when screen is released
+		// When screen is released
 		else if (event.getAction() == MotionEvent.ACTION_UP) {
 			touchTimer.cancel();
 			holding=false;
@@ -236,9 +263,9 @@ public class TouchOverlay extends Overlay implements LocationListener{
 	
 	/**
 	 * Checking if the finger has been kept in the same position as on down press.
-	 * @param touchStopX
-	 * @param touchStopY
-	 * @return True if still at same position.
+	 * @param touchStopX The x-wise position focused on down press
+	 * @param touchStopY The y-wise position focused on down press
+	 * @return True if still at same position, given the tolerance of +/-20 pixels
 	 */
 	private boolean isSameFocus(float touchStopX, float touchStopY){
 		if(touchX <= touchStopX+20 && touchX >= touchStopX-20 
@@ -249,6 +276,9 @@ public class TouchOverlay extends Overlay implements LocationListener{
 			return false;
 		}
 	}
+	/**
+	 * Method that launches a dialog for the position being clicked on.
+	 */
 	private void launchMapFunctions(){
 		focusedGeoPoint = mapView.getProjection().fromPixels((int)touchX, (int)touchY);
 		AlertDialog.Builder options = new AlertDialog.Builder(context);
@@ -287,9 +317,15 @@ public class TouchOverlay extends Overlay implements LocationListener{
 		});
 		options.show();
 	}
+	/**
+	 * Method for getting the destination overlay
+	 * @return destination overlay
+	 */
 	public MarkerOverlay getDestOverlay(){
 		return destOverlay;
 	}
+
+	//TODO Henke fixar Javadoc
 	private Drawable setBuildingIcon(String s){
 		if(s.equals("EDIT-huset")){
 			return mapView.getResources().getDrawable(R.drawable.edit);
@@ -310,6 +346,10 @@ public class TouchOverlay extends Overlay implements LocationListener{
 		return null ;
 	}
 
+	/**
+	 * Method invoked if the location is updated by the GPS.
+	 * @param location the updated location obtained by the GPS
+	 */
 	public void onLocationChanged(Location location) {
 
 		if(useGpsData){ //if GPS-data is used the location is set automatically
@@ -332,7 +372,7 @@ public class TouchOverlay extends Overlay implements LocationListener{
 			Toast.makeText(context, "Manually set location", Toast.LENGTH_SHORT).show();
 		}
 	}
-
+	
 	public void onProviderDisabled(String provider) {
 		Toast.makeText(context, "GPS Disabled", Toast.LENGTH_SHORT).show();
 	}
@@ -343,12 +383,8 @@ public class TouchOverlay extends Overlay implements LocationListener{
 
 	public void onStatusChanged(String provider, int status, Bundle extras) {
 	}
-
-	public void onBackPressed() {
-		// Stopping the update och GPS-status, when closing
-		// map-activity/pressing the back-button in the map-activity
-		locManager.removeUpdates(this);
-	}
+	
+	//TODO Henke lägger till javadoc
 	private void drawChosenEntrances (Intent intent) {
 		// Retrieves info about the chosen classroom from the database
 		String cthLectureRoom = intent
@@ -363,7 +399,6 @@ public class TouchOverlay extends Overlay implements LocationListener{
 
 		int cthBuildingFloor = Integer.parseInt(intent
 				.getStringExtra(ChooseLocationActivity.CTHBUILDING_FLOOR));
-
 
 		// Creates clickable map overlays for the chosen classrooms closest entrances
 		Drawable buildingIcon = setBuildingIcon(chosenBuildingName);
@@ -405,6 +440,7 @@ public class TouchOverlay extends Overlay implements LocationListener{
 		mapView.getOverlays().add(generateBuildingOverlay(editDoors));
 	}
 
+	//TODO Henke fixar javadoc
 	private BuildingOverlay generateBuildingOverlay(List<Door> doors){
 
 		int [] doorCoordinates = coordinateParser.parseCoordinatesFromDoors(doors);
@@ -450,7 +486,9 @@ public class TouchOverlay extends Overlay implements LocationListener{
 			canvas.drawPath(path1, mPaint);//Drawing the path
 		}	
 	}
-	//Method to toggle the use of GPS-data on and off
+	/**
+	 * Method to toggle the use of GPS-data on and off.
+	 */
 	public void toggleUseGpsData(){
 		useGpsData = !useGpsData;
 		String useGps = "The use of GPS-data is turned: ";
@@ -460,5 +498,11 @@ public class TouchOverlay extends Overlay implements LocationListener{
 		else{
 			Toast.makeText(context, useGps + "OFF", Toast.LENGTH_SHORT).show();
 		}
+	}
+	/**
+	 * Method that removes the receiving of updates of from the GPS.
+	 */
+	public void stopGpsUpdates(){
+		locManager.removeUpdates(this);
 	}
 }
