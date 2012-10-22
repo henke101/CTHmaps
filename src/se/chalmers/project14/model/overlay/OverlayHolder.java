@@ -70,6 +70,7 @@ import com.google.android.maps.Projection;
 
 public class OverlayHolder extends Overlay implements LocationListener {
 	// private ArrayList<OverlayItem> mOverlays = new ArrayList<OverlayItem>();
+	public static final String CHOSEN_BUILDING = "se.chalmers.project14.model.overlay.CHOSEN_BUILDING";
 	private Context context;
 	private long touchStart;
 	private float touchX, touchY;
@@ -249,7 +250,7 @@ public class OverlayHolder extends Overlay implements LocationListener {
 	/**
 	 * Method that launches a dialog for the door that is clicked on.
 	 */
-	private boolean launchDoorFunctions(String building, int[] coordinates) {
+	private boolean launchDoorFunctions(final String building, int[] coordinates) {
 		for (int i = 0; i < coordinates.length; i += 2) {
 			GeoPoint doorGeoPoint = new GeoPoint(coordinates[i],
 					coordinates[i + 1]);
@@ -280,16 +281,17 @@ public class OverlayHolder extends Overlay implements LocationListener {
 				});
 				buildingOptions.setNeutralButton("Enter building",
 						new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog,
-							int which) {
-						// The Indoorview of the building of the chosen
-						// door is opened
-						Intent intent = new Intent(
-								context,
-								se.chalmers.project14.activities.FloorViewer.class);
-						context.startActivity(intent);
-					}
-				});
+							public void onClick(DialogInterface dialog,
+									int which) {
+								// The Indoorview of the building of the chosen
+								// door is opened
+								Intent intent = new Intent(
+										context,
+										se.chalmers.project14.activities.FloorViewer.class);
+								intent.putExtra(CHOSEN_BUILDING, building);
+								context.startActivity(intent);
+							}
+						});
 				buildingOptions.setNegativeButton("Go back to map",
 						new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog,

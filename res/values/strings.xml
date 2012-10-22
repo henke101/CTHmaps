@@ -16,5 +16,10 @@
     <string name="floorOne">Våning 1</string>
     <string name="floorTwo">Våning 2</string>
     <string name="sampleBuilding">Exempelbyggnad</string>
+    <string name="edit">EDIT-huset</string>
+    <string name="maskin">Maskinhuset</string>
+    <string name="ha">HA salar</string>
+    <string name="hb">HB salar</string>
+    <string name="hc">HC salar</string>
 
 </resources>
