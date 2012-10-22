@@ -1,4 +1,4 @@
-package se.chalmers.project14.main;
+package se.chalmers.project14.activities;
 
 /*
  * Copyright (c) 2012 Henrik Andersson, Anton Palmqvist, Tomas Selldén and Marcus Tyrén
@@ -6,7 +6,10 @@ package se.chalmers.project14.main;
  */
 
 import java.util.List;
-import utils.CoordinateParser;
+import se.chalmers.project14.utils.Options;
+import se.chalmers.project14.activities.R;
+import se.chalmers.project14.model.overlay.OverlayHolder;
+import se.chalmers.project14.utils.CoordinateParser;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
@@ -22,9 +25,12 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
 
 public class Map extends MapActivity {
 	private MapController controller;
@@ -44,6 +50,7 @@ public class Map extends MapActivity {
 		buttonCenter = (Button) findViewById(R.id.buttonCenter);
 		buttonToggleSat = (Button) findViewById(R.id.buttonToggleSat);
 		buttonToggleGpsPosition = (Button) findViewById(R.id.buttonToggleGpsPosition);
+		
 		buttonNewDest.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
@@ -76,6 +83,7 @@ public class Map extends MapActivity {
 			}
 		});
 		
+
 		// Enabling zooming
 		mapView = (MapView) findViewById(R.id.mapview);
 		mapView.setBuiltInZoomControls(true);
@@ -96,8 +104,19 @@ public class Map extends MapActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.activity_main, menu);
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.menu_options, menu);
 		return true;
+	}
+
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+
+		startActivity(new Intent(this, Options.class));
+		return true;
+
+
 	}
 
 	@Override

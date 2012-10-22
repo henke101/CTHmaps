@@ -1,4 +1,4 @@
-package se.chalmers.project14.main;
+package se.chalmers.project14.activities;
 
 /*
  * Copyright (c) 2012 Henrik Andersson, Anton Palmqvist, Tomas Selldén and Marcus Tyrén
@@ -10,16 +10,22 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import se.chalmers.project14.database.DatabaseAdapter;
-import se.chalmers.project14.database.DatabaseHandler;
-import se.chalmers.project14.database.DatabaseStorage;
+import se.chalmers.project14.activities.R;
 import se.chalmers.project14.model.Coordinates;
 import se.chalmers.project14.model.Door;
 import se.chalmers.project14.model.House;
+import se.chalmers.project14.utils.Options;
+import se.chalmers.project14.model.storage.DatabaseAdapter;
+import se.chalmers.project14.model.storage.DatabaseHandler;
+import se.chalmers.project14.model.storage.DatabaseStorage;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -28,13 +34,13 @@ import android.support.v4.app.NavUtils;
 import android.widget.AdapterView.OnItemClickListener;
 
 public class ChooseLocationActivity extends ListActivity implements
-		OnItemClickListener {
+OnItemClickListener {
 
-	public final static String CTHBUILDING_COORDINATES = "se.chalmers.project14.main.CTHBUILDING_COORDINATES";
-	public final static String CTHBUILDING = "se.chalmers.project14.main.CTHBUILDING";
-	public final static String CTHDOOR_COORDINATES = "se.chalmers.project14.main.CTHDOOR_CTHBUILDING";
-	public final static String CTHBUILDING_FLOOR = "se.chalmers.project14.main.CTHBUILDING_FLOOR";
-	public final static String CTHLECTURE_ROOM = "se.chalmers.project14.main.CTHLECTURE_ROOM";
+	public final static String CTHBUILDING_COORDINATES = "se.chalmers.project14.activities.CTHBUILDING_COORDINATES";
+	public final static String CTHBUILDING = "se.chalmers.project14.activities.CTHBUILDING";
+	public final static String CTHDOOR_COORDINATES = "se.chalmers.project14.activities.CTHDOOR_CTHBUILDING";
+	public final static String CTHBUILDING_FLOOR = "se.chalmers.project14.activities.CTHBUILDING_FLOOR";
+	public final static String CTHLECTURE_ROOM = "se.chalmers.project14.activities.CTHLECTURE_ROOM";
 
 	private DatabaseAdapter dba;
 	private ListView listview;
@@ -58,9 +64,19 @@ public class ChooseLocationActivity extends ListActivity implements
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.activity_choose_location, menu);
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.menu_options, menu);
 		return true;
 	}
+
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+
+		startActivity(new Intent(this, Options.class));
+		return true;
+	}
+
 
 	/**
 	 * Sorting an list in containing house object by alfabethic order
@@ -76,16 +92,6 @@ public class ChooseLocationActivity extends ListActivity implements
 
 			}
 		});
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case android.R.id.home:
-			NavUtils.navigateUpFromSameTask(this);
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
 	}
 
 	/**

@@ -1,4 +1,4 @@
-package se.chalmers.project14.main;
+package se.chalmers.project14.activities;
 
 /*
  * Copyright (c) 2012 Henrik Andersson, Anton Palmqvist, Tomas Selldén and Marcus Tyrén
@@ -7,7 +7,8 @@ package se.chalmers.project14.main;
 
 import java.io.IOException;
 
-import se.chalmers.project14.database.DatabaseInput;
+import se.chalmers.project14.activities.R;
+import se.chalmers.project14.model.storage.DatabaseInput;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,7 +33,7 @@ public class Splash extends Activity {
 					e.printStackTrace();
 				} finally {
 					Intent openMain = new Intent(
-							"se.chalmers.project14.main.ChooseLocationActivity");
+							"se.chalmers.project14.activities.ChooseLocationActivity");
 					startActivity(openMain);
 				}
 			}
