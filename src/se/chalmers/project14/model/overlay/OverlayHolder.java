@@ -436,7 +436,6 @@ public class OverlayHolder extends Overlay implements LocationListener {
 	public void onProviderEnabled(String provider) {
 		Toast.makeText(context, "GPS Enabled", Toast.LENGTH_SHORT).show();
 	}
-
 	public void onStatusChanged(String provider, int status, Bundle extras) {
 	}
 
