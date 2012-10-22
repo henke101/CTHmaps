@@ -253,7 +253,7 @@ public class OverlayHolder extends Overlay implements LocationListener {
 	/**
 	 * Method that launches a dialog for the door that is clicked on.
 	 */
-	private boolean launchDoorFunctions(String building, int[] coordinates) {
+	private boolean launchDoorFunctions(final String building, int[] coordinates) {
 		for (int i = 0; i < coordinates.length; i += 2) {
 			GeoPoint doorGeoPoint = new GeoPoint(coordinates[i],
 					coordinates[i + 1]);
@@ -282,7 +282,7 @@ public class OverlayHolder extends Overlay implements LocationListener {
 								Intent intent = new Intent(
 										context,
 										se.chalmers.project14.activities.FloorViewer.class);
-								intent.putExtra(CHOSEN_BUILDING, chosenBuildingName);
+								intent.putExtra(CHOSEN_BUILDING, building);
 								context.startActivity(intent);
 							}
 						});

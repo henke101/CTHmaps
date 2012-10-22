@@ -31,9 +31,7 @@ public class FloorViewer extends Activity {
 		super.onCreate(savedInstanceState);
 		String building = getIntent().getStringExtra(OverlayHolder.CHOSEN_BUILDING);
 		
-		//initialize(building);
-		setContentView(R.layout.edit_view);
-		floorFlipper = (ViewFlipper) findViewById(R.id.editFlipper);
+		initialize(building);
 		System.out.println(building);
 				
 		swipeHandler = new SwipeHandler(floorFlipper);
@@ -51,23 +49,23 @@ public class FloorViewer extends Activity {
 
 	private void initialize(String building) {
 		if (building.equals("EDIT-huset")){
-			setContentView(R.layout.edit_view);
+			setContentView(R.layout.edit_viewer);
 			floorFlipper = (ViewFlipper) findViewById(R.id.editFlipper);
 		}
 		else if (building.equals("Maskinhuset")){
-			setContentView(R.layout.maskin_view);
+			setContentView(R.layout.maskin_viewer);
 			floorFlipper = (ViewFlipper) findViewById(R.id.maskinFlipper);
 		}
 		else if (building.equals("HA")){
-			setContentView(R.layout.ha_view);
+			setContentView(R.layout.ha_viewer);
 			floorFlipper = (ViewFlipper) findViewById(R.id.haFlipper);
 		}
 		else if (building.equals("HB")){
-			setContentView(R.layout.hb_view);
+			setContentView(R.layout.hb_viewer);
 			floorFlipper = (ViewFlipper) findViewById(R.id.hbFlipper);
 		}
 		else if (building.equals("HC")){
-			setContentView(R.layout.hc_view);
+			setContentView(R.layout.hc_viewer);
 			floorFlipper = (ViewFlipper) findViewById(R.id.hcFlipper);
 		}
 
