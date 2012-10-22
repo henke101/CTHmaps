@@ -411,13 +411,8 @@ public class OverlayHolder extends Overlay implements LocationListener {
 	public void onLocationChanged(Location location) {
 
 		if (useGpsData) { // if GPS-data is used the location is set
-			// automatically
-			// TODO Make the the location-toast optional by a choice in settings
-			//			String text = "Min nuvarande position är: \nLatitud: "
-			//					+ location.getLatitude() + "\nLongitud: "
-			//					+ location.getLongitude();
-			//			Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
-
+						  // automatically
+		
 			// Obtaining the latitude and longitude
 			int lat = (int) (location.getLatitude() * 1E6);
 			int lng = (int) (location.getLongitude() * 1E6);
@@ -441,7 +436,6 @@ public class OverlayHolder extends Overlay implements LocationListener {
 	public void onProviderEnabled(String provider) {
 		Toast.makeText(context, "GPS Enabled", Toast.LENGTH_SHORT).show();
 	}
-
 	public void onStatusChanged(String provider, int status, Bundle extras) {
 	}
 
