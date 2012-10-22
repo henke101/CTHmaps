@@ -28,6 +28,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
 
 public class Map extends MapActivity {
 	private MapController controller;
@@ -40,7 +41,7 @@ public class Map extends MapActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_map);
-
+		
 		//Create buttons and listeners
 		buttonToggle = (Button) findViewById(R.id.buttonToggle);
 		buttonCenter = (Button) findViewById(R.id.buttonCenter);
@@ -48,7 +49,8 @@ public class Map extends MapActivity {
 		buttonClear = (Button) findViewById(R.id.buttonRemoveDest);
 		buttonManualPosition = (Button) findViewById(R.id.buttonManualPosition);
 		buttonToggle.setOnClickListener(new OnClickListener() {
-
+			
+			
 			public void onClick(View v) {
 				mapView.setSatellite(!mapView.isSatellite());
 			}
