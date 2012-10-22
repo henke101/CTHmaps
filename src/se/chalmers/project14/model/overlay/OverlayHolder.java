@@ -265,25 +265,7 @@ public class OverlayHolder extends Overlay implements LocationListener {
 						context);
 				buildingOptions.setTitle("Building options");
 				buildingOptions.setMessage("Entrance to " + building);
-				buildingOptions.setNegativeButton("Go back to map",
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int which) {
-								// do nothing and go back to mapview
-							}
-						});
-				buildingOptions.setNeutralButton("Enter Building",
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int which) {
-								// The Indoorview of the building of the chosen
-								// door is opened
-								Intent intent = new Intent(
-										context,
-										se.chalmers.project14.activities.FloorViewer.class);
-								context.startActivity(intent);
-							}
-						});
+				
 				buildingOptions.setPositiveButton("Set destination",
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog,
@@ -297,6 +279,25 @@ public class OverlayHolder extends Overlay implements LocationListener {
 										"This is the chosen destination");
 								destOverlay.setMarker(destinationItem);
 								mapView.invalidate();
+							}
+						});
+				buildingOptions.setNeutralButton("Enter building",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,
+									int which) {
+								// The Indoorview of the building of the chosen
+								// door is opened
+								Intent intent = new Intent(
+										context,
+										se.chalmers.project14.activities.FloorViewer.class);
+								context.startActivity(intent);
+							}
+						});
+				buildingOptions.setNegativeButton("Go back to map",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,
+									int which) {
+								// do nothing and go back to mapview
 							}
 						});
 				buildingOptions.show();
@@ -339,7 +340,7 @@ public class OverlayHolder extends Overlay implements LocationListener {
 				+ focusedGeoPoint.getLatitudeE6() / 1E6 + "\nLongitude: "
 				+ focusedGeoPoint.getLongitudeE6() / 1E6
 				+ "\n\nWhat do you want to do?");
-		options.setNegativeButton("Set destination",
+		options.setPositiveButton("Set destination",
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
 						// updating the destination-GeoPoint
@@ -375,7 +376,7 @@ public class OverlayHolder extends Overlay implements LocationListener {
 						}
 					}
 				});
-		options.setPositiveButton("Back to Map",
+		options.setNegativeButton("Go back to map",
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
 						Toast.makeText(context, "Back to map",
