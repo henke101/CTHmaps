@@ -5,12 +5,9 @@ package se.chalmers.project14.model;
  * See the file license.txt for copying permission.
  */
 
-import se.chalmers.project14.activities.R;
-import android.util.Log;
+
 import android.view.GestureDetector.*;
 import android.view.MotionEvent;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.ViewFlipper;
 
 public class SwipeHandler extends SimpleOnGestureListener {

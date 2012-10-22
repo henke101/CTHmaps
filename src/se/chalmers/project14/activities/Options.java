@@ -5,7 +5,6 @@ package se.chalmers.project14.activities;
  * See the file license.txt for copying permission.
  */
 
-import com.google.android.maps.MapView;
 
 import se.chalmers.project14.activities.R;
 import android.app.Activity;
@@ -16,7 +15,7 @@ import android.widget.CheckBox;
 
 public class Options extends Activity {
 
-	private MapView mapView;
+
 	CheckBox cbS;
 	OnClickListener checkBoxListener;
 

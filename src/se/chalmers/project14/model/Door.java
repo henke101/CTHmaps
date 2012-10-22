@@ -1,7 +1,5 @@
 package se.chalmers.project14.model;
 
-import java.util.ArrayList;
-import java.util.List;
 
 /*
  * Copyright (c) 2012 Henrik Andersson, Anton Palmqvist, Tomas Selldén and Marcus Tyrén

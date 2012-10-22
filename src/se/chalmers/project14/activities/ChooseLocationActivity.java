@@ -10,7 +10,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import se.chalmers.project14.activities.R;
 import se.chalmers.project14.model.Coordinates;
 import se.chalmers.project14.model.DatabaseAdapter;
 import se.chalmers.project14.model.Door;
@@ -18,18 +17,14 @@ import se.chalmers.project14.model.House;
 import se.chalmers.project14.model.storage.DatabaseHandler;
 import se.chalmers.project14.model.storage.DatabaseStorage;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.support.v4.app.NavUtils;
 import android.widget.AdapterView.OnItemClickListener;
 
 public class ChooseLocationActivity extends ListActivity implements

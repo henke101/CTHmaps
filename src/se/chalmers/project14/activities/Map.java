@@ -8,34 +8,24 @@ package se.chalmers.project14.activities;
 import java.util.List;
 import se.chalmers.project14.activities.R;
 import se.chalmers.project14.model.overlay.OverlayHolder;
-import se.chalmers.project14.utils.CoordinateParser;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
-import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.Overlay;
-import com.google.android.maps.OverlayItem;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.CheckBox;
 
 public class Map extends MapActivity {
 	private MapController controller;
 	private Button buttonToggleSat, buttonCenter, buttonNewDest, buttonClear, buttonToggleGpsPosition;
 	private MapView mapView;
-	private GeoPoint geoPoint;
 	private OverlayHolder overlayHolder;
 
 	@Override

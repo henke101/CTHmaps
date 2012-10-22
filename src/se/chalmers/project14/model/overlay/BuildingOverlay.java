@@ -6,20 +6,14 @@ package se.chalmers.project14.model.overlay;
  */
 
 import java.util.*;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.view.MotionEvent;
 import com.google.android.maps.ItemizedOverlay;
-import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
 
-public class BuildingOverlay extends ItemizedOverlay {
+public class BuildingOverlay extends ItemizedOverlay<OverlayItem>{
 
 	private ArrayList<OverlayItem> buildingOverlays = new ArrayList<OverlayItem>();
-	private Context buildingContext;
 
 	public BuildingOverlay(Drawable pic) {
 		super(boundCenterBottom(pic));
@@ -27,7 +21,6 @@ public class BuildingOverlay extends ItemizedOverlay {
 
 	public BuildingOverlay(Drawable pic, Context context) {
 		super(boundCenterBottom(pic));
-		buildingContext = context;
 	}
 
 	public void addOverlay(OverlayItem overlay) {

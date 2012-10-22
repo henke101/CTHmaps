@@ -21,8 +21,7 @@ import com.google.android.maps.OverlayItem;
  * 
  *         Anton Palmqvist
  */
-public class MarkerOverlay extends ItemizedOverlay{
-	private MapView mapView;
+public class MarkerOverlay extends ItemizedOverlay<OverlayItem>{
 	private OverlayItem markerItem;
 	
 	/**
@@ -33,7 +32,6 @@ public class MarkerOverlay extends ItemizedOverlay{
 	public MarkerOverlay(Drawable marker, MapView mapView) {
 		/* Fixing so that the flag is pointed to the lower left corner*/
 		super(boundCenterBottom(marker));
-		this.mapView=mapView;
 		populate();
 	}
 

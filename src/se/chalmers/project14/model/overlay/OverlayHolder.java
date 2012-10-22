@@ -5,26 +5,17 @@ package se.chalmers.project14.model.overlay;
  * See the file license.txt for copying permission.
  */
 
-import java.security.acl.LastOwnerException;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import org.xml.sax.Parser;
-
 import se.chalmers.project14.activities.ChooseLocationActivity;
 import se.chalmers.project14.activities.R;
 import se.chalmers.project14.model.Door;
 import se.chalmers.project14.model.storage.DatabaseHandler;
 import se.chalmers.project14.utils.CoordinateParser;
-
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -33,24 +24,18 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
-import android.graphics.PorterDuff.Mode;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.os.Looper;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.widget.Toast;
 import com.google.android.maps.GeoPoint;
-import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
-import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.Projection;
 
 /**
@@ -69,10 +54,9 @@ import com.google.android.maps.Projection;
  */
 
 public class OverlayHolder extends Overlay implements LocationListener {
-	// private ArrayList<OverlayItem> mOverlays = new ArrayList<OverlayItem>();
+
 	public static final String CHOSEN_BUILDING = "se.chalmers.project14.model.overlay.CHOSEN_BUILDING";
 	private Context context;
-	private long touchStart;
 	private float touchX, touchY;
 	private long touchTimeDown;
 	private MapView mapView;
@@ -180,15 +164,15 @@ public class OverlayHolder extends Overlay implements LocationListener {
 				public void run() {
 					if (holding) {
 						((Activity) context).runOnUiThread(new Runnable() {// Needed
-																			// to
-																			// run
-																			// in
-																			// UI-thread
-									public void run() {
-										launchMapFunctions();
-										cancel();
-									}
-								});
+							// to
+							// run
+							// in
+							// UI-thread
+							public void run() {
+								launchMapFunctions();
+								cancel();
+							}
+						});
 					}
 				}
 			}, 600);
@@ -198,17 +182,14 @@ public class OverlayHolder extends Overlay implements LocationListener {
 		else if (event.getAction() == MotionEvent.ACTION_MOVE) {
 			if (!isSameFocus(event.getX(), event.getY())) {
 				holding = false; // if the finger is moved the action is no
-									// longer consider a hold
+				// longer consider a hold
 			}
 		}
 		// When screen is released
 		else if (event.getAction() == MotionEvent.ACTION_UP) {
 			touchTimer.cancel();
 			holding = false;
-			if (event.getEventTime() - touchTimeDown <= 200) {// Checking that
-																// press is
-																// below 200 ms,
-																// aka a tap
+			if (event.getEventTime() - touchTimeDown <= 200) {// Checking that press is below 200 ms, aka a tap
 				boolean isDoorFound = false;
 				while (!isDoorFound) {
 					if (isClassroomChosen) {
@@ -241,6 +222,11 @@ public class OverlayHolder extends Overlay implements LocationListener {
 		return launchDoorFunctions(buildingName, doorCoordinates);
 	}
 
+	/**
+	 * Parses coordinates from a list of doors into a String
+	 * @param doors The list of doors the coordinates are taken from
+	 * @return String
+	 */
 	public String parseCoordinatesFromDoors(List<Door> doors) {
 		String doorCoord = doors.get(0).getDoorCoordinates();
 
@@ -259,49 +245,49 @@ public class OverlayHolder extends Overlay implements LocationListener {
 					coordinates[i + 1]);
 			Point doorPoint = new Point();
 			projection.toPixels(doorGeoPoint, doorPoint);// converting the doors
-															// GeoPoints to
-															// Points
+			// GeoPoints to
+			// Points
 			if (isSameFocus(doorPoint.x, doorPoint.y)) {
 				AlertDialog.Builder buildingOptions = new AlertDialog.Builder(
 						context);
 				buildingOptions.setTitle("Building options");
 				buildingOptions.setMessage("Entrance to " + building);
-				
+
 				buildingOptions.setPositiveButton("Set destination",
 						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int which) {
-								// updating the destination-GeoPoint
-								destGeoPoint = mapView.getProjection()
-										.fromPixels((int) touchX, (int) touchY);
-								// Adding a destination marker
-								OverlayItem destinationItem = new OverlayItem(
-										destGeoPoint, "Destinationmarker",
-										"This is the chosen destination");
-								destOverlay.setMarker(destinationItem);
-								mapView.invalidate();
-							}
-						});
+					public void onClick(DialogInterface dialog,
+							int which) {
+						// updating the destination-GeoPoint
+						destGeoPoint = mapView.getProjection()
+								.fromPixels((int) touchX, (int) touchY);
+						// Adding a destination marker
+						OverlayItem destinationItem = new OverlayItem(
+								destGeoPoint, "Destinationmarker",
+								"This is the chosen destination");
+						destOverlay.setMarker(destinationItem);
+						mapView.invalidate();
+					}
+				});
 				buildingOptions.setNeutralButton("Enter building",
 						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int which) {
-								// The Indoorview of the building of the chosen
-								// door is opened
-								Intent intent = new Intent(
-										context,
-										se.chalmers.project14.activities.FloorViewer.class);
-								intent.putExtra(CHOSEN_BUILDING, building);
-								context.startActivity(intent);
-							}
-						});
+					public void onClick(DialogInterface dialog,
+							int which) {
+						// The Indoorview of the building of the chosen
+						// door is opened
+						Intent intent = new Intent(
+								context,
+								se.chalmers.project14.activities.FloorViewer.class);
+						intent.putExtra(CHOSEN_BUILDING, building);
+						context.startActivity(intent);
+					}
+				});
 				buildingOptions.setNegativeButton("Go back to map",
 						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int which) {
-								// do nothing and go back to mapview
-							}
-						});
+					public void onClick(DialogInterface dialog,
+							int which) {
+						// do nothing and go back to mapview
+					}
+				});
 				buildingOptions.show();
 				return true;
 			}
@@ -344,46 +330,46 @@ public class OverlayHolder extends Overlay implements LocationListener {
 				+ "\n\nWhat do you want to do?");
 		options.setPositiveButton("Set destination",
 				new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int which) {
-						// updating the destination-GeoPoint
-						destGeoPoint = mapView.getProjection().fromPixels(
-								(int) touchX, (int) touchY);
-						// Adding a destination marker
-						OverlayItem destinationItem = new OverlayItem(
-								destGeoPoint, "Destinationmarker",
-								"This is the chosen destination");
-						destOverlay.setMarker(destinationItem);
-						mapView.invalidate();
-					}
-				});
+			public void onClick(DialogInterface dialog, int which) {
+				// updating the destination-GeoPoint
+				destGeoPoint = mapView.getProjection().fromPixels(
+						(int) touchX, (int) touchY);
+				// Adding a destination marker
+				OverlayItem destinationItem = new OverlayItem(
+						destGeoPoint, "Destinationmarker",
+						"This is the chosen destination");
+				destOverlay.setMarker(destinationItem);
+				mapView.invalidate();
+			}
+		});
 		options.setNeutralButton("Set location",
 				new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int which) {
-						if (!useGpsData) {
-							// myGeoPoint set from coordinates on focus
-							myGeoPoint = mapView.getProjection().fromPixels(
-									(int) touchX, (int) touchY);
-							// Adding a location marker at the manually set
-							// position
-							OverlayItem sourceItem = new OverlayItem(
-									myGeoPoint, "Locationmarker",
-									"This is the recent location");
-							sourceOverlay.setMarker(sourceItem);
-							mapView.invalidate();
-						} else {
-							Toast.makeText(
-									context,
-									"Turn of GPS-location to set manual position",
-									Toast.LENGTH_SHORT).show();
-						}
-					}
-				});
+			public void onClick(DialogInterface dialog, int which) {
+				if (!useGpsData) {
+					// myGeoPoint set from coordinates on focus
+					myGeoPoint = mapView.getProjection().fromPixels(
+							(int) touchX, (int) touchY);
+					// Adding a location marker at the manually set
+					// position
+					OverlayItem sourceItem = new OverlayItem(
+							myGeoPoint, "Locationmarker",
+							"This is the recent location");
+					sourceOverlay.setMarker(sourceItem);
+					mapView.invalidate();
+				} else {
+					Toast.makeText(
+							context,
+							"Turn of GPS-location to set manual position",
+							Toast.LENGTH_SHORT).show();
+				}
+			}
+		});
 		options.setNegativeButton("Go back to map",
 				new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int which) {
-						//Does nothing and gets back to the map
-					}
-				});
+			public void onClick(DialogInterface dialog, int which) {
+				//Does nothing and gets back to the map
+			}
+		});
 		options.show();
 	}
 
@@ -396,7 +382,11 @@ public class OverlayHolder extends Overlay implements LocationListener {
 		return destOverlay;
 	}
 
-	// TODO Henke fixar Javadoc
+	/**
+	 * Sets the picture of the building icon
+	 * @param s The name of the chosen building
+	 * @return Drawable
+	 */
 	private Drawable setBuildingIcon(String s) {
 		if (s.equals("EDIT-huset")) {
 			return mapView.getResources().getDrawable(R.drawable.edit);
@@ -422,7 +412,7 @@ public class OverlayHolder extends Overlay implements LocationListener {
 	public void onLocationChanged(Location location) {
 
 		if (useGpsData) { // if GPS-data is used the location is set
-							// automatically
+			// automatically
 			// TODO Make the the location-toast optional by a choice in settings
 			String text = "Min nuvarande position är: \nLatitud: "
 					+ location.getLatitude() + "\nLongitud: "
@@ -441,7 +431,7 @@ public class OverlayHolder extends Overlay implements LocationListener {
 			mapView.invalidate();
 		} else { // if GPS-data is not used the location is set manually
 			Toast.makeText(context, "Manually set location", Toast.LENGTH_SHORT)
-					.show();
+			.show();
 		}
 	}
 
@@ -456,24 +446,18 @@ public class OverlayHolder extends Overlay implements LocationListener {
 	public void onStatusChanged(String provider, int status, Bundle extras) {
 	}
 
-	// TODO Henke lägger till javadoc
+	/**
+	 * Draws the entrances of the building that has been chosen 
+	 * @param intent The intent which contains the name and coordinates of the entrances
+	 */
 	private void drawChosenEntrances(Intent intent) {
 		// Retrieves info about the chosen classroom from the database
-		String cthLectureRoom = intent
-				.getStringExtra(ChooseLocationActivity.CTHLECTURE_ROOM);
 		chosenBuildingName = intent
 				.getStringExtra(ChooseLocationActivity.CTHBUILDING);
 		chosenBuildingCoordinates = coordinateParser
 				.parseCoordinatesFromString(intent
 						.getStringExtra(ChooseLocationActivity.CTHDOOR_COORDINATES));
-		/*
-		 * for the moment, never used varible int [] cthBuildingCoordinates =
-		 * coordinateParser.parseCoordinates(intent
-		 * .getStringExtra(ChooseLocationActivity.CTHBUILDING_COORDINATES));
-		 */
 
-		int cthBuildingFloor = Integer.parseInt(intent
-				.getStringExtra(ChooseLocationActivity.CTHBUILDING_FLOOR));
 
 		// Creates clickable map overlays for the chosen classrooms closest
 		// entrances
@@ -491,7 +475,10 @@ public class OverlayHolder extends Overlay implements LocationListener {
 			mapView.getOverlays().add(buildingOverlay);
 		}
 	}
-
+	/**
+	 * Draws the entrances of all buildings in the database
+	 * @param intent The intent which contains names and coordinates of entrances from all buildings
+	 */
 	private void drawAllEntrances(Intent intent) {
 
 		// Splits the list of doors into a list of each building
@@ -509,7 +496,6 @@ public class OverlayHolder extends Overlay implements LocationListener {
 			}
 		}
 		// Adds the overlay into the mapview
-
 		mapView.getOverlays().add(generateBuildingOverlay(maskinDoors));
 		mapView.getOverlays().add(generateBuildingOverlay(haDoors));
 		mapView.getOverlays().add(generateBuildingOverlay(hbDoors));
@@ -517,7 +503,11 @@ public class OverlayHolder extends Overlay implements LocationListener {
 		mapView.getOverlays().add(generateBuildingOverlay(editDoors));
 	}
 
-	// TODO Henke fixar javadoc
+	/**
+	 * Generates BuildingOverlays for the entrances of a specific type of building
+	 * @param doors The list of the entrances used to create the overlays
+	 * @return BuildingOverlay
+	 */
 	private BuildingOverlay generateBuildingOverlay(List<Door> doors) {
 
 		String doorCoord = parseCoordinatesFromDoors(doors);
@@ -539,7 +529,6 @@ public class OverlayHolder extends Overlay implements LocationListener {
 			buildingOverlay.addOverlay(entranceOverlayItem);
 
 		}
-		System.out.println(buildingOverlay.size());
 		return buildingOverlay;
 	}
 
@@ -567,12 +556,12 @@ public class OverlayHolder extends Overlay implements LocationListener {
 		 */
 		if (myGeoPoint != null && destGeoPoint != null) {
 			projection.toPixels(myGeoPoint, myPoint);// converting GeoPoints to
-														// Points
+			// Points
 			projection.toPixels(destGeoPoint, destPoint);
 			path1.moveTo(myPoint.x, myPoint.y);// Moving to myPoint (my
-												// location)
+			// location)
 			path1.lineTo(destPoint.x, destPoint.y);// Path to destPoint (my
-													// destination)
+			// destination)
 			canvas.drawPath(path1, mPaint);// Drawing the path
 		}
 		/*
@@ -580,7 +569,7 @@ public class OverlayHolder extends Overlay implements LocationListener {
 		 */
 		else {
 			canvas.restore();// Retrieving the canvas from its empty state that
-								// was saved earlier
+			// was saved earlier
 		}
 	}
 

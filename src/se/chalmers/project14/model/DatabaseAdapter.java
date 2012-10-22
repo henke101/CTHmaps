@@ -17,12 +17,10 @@ import android.widget.TextView;
 
 public class DatabaseAdapter extends BaseAdapter {
 
-	private Activity activity;
 	private List<House> houseList;
 	private LayoutInflater inflater;
 
 	public DatabaseAdapter(Activity activity, List<House> houseList) {
-		this.activity = activity;
 		this.houseList = houseList;
 		inflater = (LayoutInflater) activity
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

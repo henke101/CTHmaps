@@ -1,14 +1,5 @@
 package se.chalmers.project14.utils;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
-import android.util.Log;
-
-import se.chalmers.project14.model.Door;
-
 /*
  * Copyright (c) 2012 Henrik Andersson, Anton Palmqvist, Tomas Selldén and Marcus Tyrén
  * See the file license.txt for copying permission.
