@@ -178,16 +178,13 @@ public class OverlayHolder extends Overlay implements LocationListener {
 			touchTimer.schedule(new TimerTask() {
 				public void run() {
 					if (holding) {
-						((Activity) context).runOnUiThread(new Runnable() {// Needed
-																			// to
-																			// run
-																			// in
-																			// UI-thread
-									public void run() {
-										launchMapFunctions();
-										cancel();
-									}
-								});
+						// Needed to run in UI-thread
+						((Activity) context).runOnUiThread(new Runnable() {
+							public void run() {
+								launchMapFunctions();
+								cancel();
+							}
+						});
 					}
 				}
 			}, 600);
@@ -197,7 +194,7 @@ public class OverlayHolder extends Overlay implements LocationListener {
 		else if (event.getAction() == MotionEvent.ACTION_MOVE) {
 			if (!isSameFocus(event.getX(), event.getY())) {
 				holding = false; // if the finger is moved the action is no
-									// longer consider a hold
+				// longer consider a hold
 			}
 		}
 		// When screen is released
@@ -205,9 +202,9 @@ public class OverlayHolder extends Overlay implements LocationListener {
 			touchTimer.cancel();
 			holding = false;
 			if (event.getEventTime() - touchTimeDown <= 200) {// Checking that
-																// press is
-																// below 200 ms,
-																// aka a tap
+				// press is
+				// below 200 ms,
+				// aka a tap
 				boolean isDoorFound = false;
 				while (!isDoorFound) {
 					if (isClassroomChosen) {
@@ -258,48 +255,48 @@ public class OverlayHolder extends Overlay implements LocationListener {
 					coordinates[i + 1]);
 			Point doorPoint = new Point();
 			projection.toPixels(doorGeoPoint, doorPoint);// converting the doors
-															// GeoPoints to
-															// Points
+			// GeoPoints to
+			// Points
 			if (isSameFocus(doorPoint.x, doorPoint.y)) {
 				AlertDialog.Builder buildingOptions = new AlertDialog.Builder(
 						context);
 				buildingOptions.setTitle("Building options");
 				buildingOptions.setMessage("Entrance to " + building);
-				
+
 				buildingOptions.setPositiveButton("Set destination",
 						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int which) {
-								// updating the destination-GeoPoint
-								destGeoPoint = mapView.getProjection()
-										.fromPixels((int) touchX, (int) touchY);
-								// Adding a destination marker
-								OverlayItem destinationItem = new OverlayItem(
-										destGeoPoint, "Destinationmarker",
-										"This is the chosen destination");
-								destOverlay.setMarker(destinationItem);
-								mapView.invalidate();
-							}
-						});
+					public void onClick(DialogInterface dialog,
+							int which) {
+						// updating the destination-GeoPoint
+						destGeoPoint = mapView.getProjection()
+								.fromPixels((int) touchX, (int) touchY);
+						// Adding a destination marker
+						OverlayItem destinationItem = new OverlayItem(
+								destGeoPoint, "Destinationmarker",
+								"This is the chosen destination");
+						destOverlay.setMarker(destinationItem);
+						mapView.invalidate();
+					}
+				});
 				buildingOptions.setNeutralButton("Enter building",
 						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int which) {
-								// The Indoorview of the building of the chosen
-								// door is opened
-								Intent intent = new Intent(
-										context,
-										se.chalmers.project14.activities.FloorViewer.class);
-								context.startActivity(intent);
-							}
-						});
+					public void onClick(DialogInterface dialog,
+							int which) {
+						// The Indoorview of the building of the chosen
+						// door is opened
+						Intent intent = new Intent(
+								context,
+								se.chalmers.project14.activities.FloorViewer.class);
+						context.startActivity(intent);
+					}
+				});
 				buildingOptions.setNegativeButton("Go back to map",
 						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int which) {
-								// do nothing and go back to mapview
-							}
-						});
+					public void onClick(DialogInterface dialog,
+							int which) {
+						// do nothing and go back to mapview
+					}
+				});
 				buildingOptions.show();
 				return true;
 			}
@@ -342,46 +339,46 @@ public class OverlayHolder extends Overlay implements LocationListener {
 				+ "\n\nWhat do you want to do?");
 		options.setPositiveButton("Set destination",
 				new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int which) {
-						// updating the destination-GeoPoint
-						destGeoPoint = mapView.getProjection().fromPixels(
-								(int) touchX, (int) touchY);
-						// Adding a destination marker
-						OverlayItem destinationItem = new OverlayItem(
-								destGeoPoint, "Destinationmarker",
-								"This is the chosen destination");
-						destOverlay.setMarker(destinationItem);
-						mapView.invalidate();
-					}
-				});
+			public void onClick(DialogInterface dialog, int which) {
+				// updating the destination-GeoPoint
+				destGeoPoint = mapView.getProjection().fromPixels(
+						(int) touchX, (int) touchY);
+				// Adding a destination marker
+				OverlayItem destinationItem = new OverlayItem(
+						destGeoPoint, "Destinationmarker",
+						"This is the chosen destination");
+				destOverlay.setMarker(destinationItem);
+				mapView.invalidate();
+			}
+		});
 		options.setNeutralButton("Set location",
 				new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int which) {
-						if (!useGpsData) {
-							// myGeoPoint set from coordinates on focus
-							myGeoPoint = mapView.getProjection().fromPixels(
-									(int) touchX, (int) touchY);
-							// Adding a location marker at the manually set
-							// position
-							OverlayItem sourceItem = new OverlayItem(
-									myGeoPoint, "Locationmarker",
-									"This is the recent location");
-							sourceOverlay.setMarker(sourceItem);
-							mapView.invalidate();
-						} else {
-							Toast.makeText(
-									context,
-									"Turn of GPS-location to set manual position",
-									Toast.LENGTH_SHORT).show();
-						}
-					}
-				});
+			public void onClick(DialogInterface dialog, int which) {
+				if (!useGpsData) {
+					// myGeoPoint set from coordinates on focus
+					myGeoPoint = mapView.getProjection().fromPixels(
+							(int) touchX, (int) touchY);
+					// Adding a location marker at the manually set
+					// position
+					OverlayItem sourceItem = new OverlayItem(
+							myGeoPoint, "Locationmarker",
+							"This is the recent location");
+					sourceOverlay.setMarker(sourceItem);
+					mapView.invalidate();
+				} else {
+					Toast.makeText(
+							context,
+							"Turn of GPS-location to set manual position",
+							Toast.LENGTH_SHORT).show();
+				}
+			}
+		});
 		options.setNegativeButton("Go back to map",
 				new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int which) {
-						//Does nothing and gets back to the map
-					}
-				});
+			public void onClick(DialogInterface dialog, int which) {
+				//Does nothing and gets back to the map
+			}
+		});
 		options.show();
 	}
 
@@ -420,12 +417,12 @@ public class OverlayHolder extends Overlay implements LocationListener {
 	public void onLocationChanged(Location location) {
 
 		if (useGpsData) { // if GPS-data is used the location is set
-							// automatically
+			// automatically
 			// TODO Make the the location-toast optional by a choice in settings
-//			String text = "Min nuvarande position är: \nLatitud: "
-//					+ location.getLatitude() + "\nLongitud: "
-//					+ location.getLongitude();
-//			Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+			//			String text = "Min nuvarande position är: \nLatitud: "
+			//					+ location.getLatitude() + "\nLongitud: "
+			//					+ location.getLongitude();
+			//			Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
 
 			// Obtaining the latitude and longitude
 			int lat = (int) (location.getLatitude() * 1E6);
@@ -439,7 +436,7 @@ public class OverlayHolder extends Overlay implements LocationListener {
 			mapView.invalidate();
 		} else { // if GPS-data is not used the location is set manually
 			Toast.makeText(context, "Manually set location", Toast.LENGTH_SHORT)
-					.show();
+			.show();
 		}
 	}
 
@@ -565,12 +562,12 @@ public class OverlayHolder extends Overlay implements LocationListener {
 		 */
 		if (myGeoPoint != null && destGeoPoint != null) {
 			projection.toPixels(myGeoPoint, myPoint);// converting GeoPoints to
-														// Points
+			// Points
 			projection.toPixels(destGeoPoint, destPoint);
 			path1.moveTo(myPoint.x, myPoint.y);// Moving to myPoint (my
-												// location)
+			// location)
 			path1.lineTo(destPoint.x, destPoint.y);// Path to destPoint (my
-													// destination)
+			// destination)
 			canvas.drawPath(path1, mPaint);// Drawing the path
 		}
 		/*
@@ -578,7 +575,7 @@ public class OverlayHolder extends Overlay implements LocationListener {
 		 */
 		else {
 			canvas.restore();// Retrieving the canvas from its empty state that
-								// was saved earlier
+			// was saved earlier
 		}
 	}
 
