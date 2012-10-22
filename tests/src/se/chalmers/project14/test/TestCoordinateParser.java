@@ -1,5 +1,10 @@
 package se.chalmers.project14.test;
 
+/*
+ * Copyright (c) 2012 Henrik Andersson, Anton Palmqvist, Tomas Selldén and Marcus Tyrén
+ * See the file license.txt for copying permission.
+ */
+
 import junit.framework.Assert;
 import junit.framework.TestCase;
 import se.chalmers.project14.utils.CoordinateParser;
@@ -17,32 +22,4 @@ public class TestCoordinateParser extends TestCase {
 		}
 	}
 
-	// public void testParseCoordinatesFromDoors() {
-	// Door doorOne = new Door(
-	// "11111111,22222222,33333333,44444444,55555555,66666666,77777777,88888888",
-	// "This string is irrelevant to the test");
-	// Door doorTwo = new Door(
-	// "10101010,20202020,30303030,40404040",
-	// "This string is irrelevant to the test");
-	// Door doorThree = new Door(
-	// "12345678,87654321,11223344,44332211,10203040,40302010",
-	// "This string is irrelevant to the test");
-	//
-	// List<Door> doors = new ArrayList<Door>();
-	// doors.add(doorOne);
-	// doors.add(doorTwo);
-	// doors.add(doorThree);
-	//
-	// int[] expectedCoordinates =
-	// {11111111,22222222,33333333,44444444,55555555,66666666,77777777,88888888,10101010,20202020,30303030,40404040,12345678,87654321,11223344,44332211,10203040,40302010};
-	// int[] actualCoordinates = parser.parseCoordinatesFromDoors(doors);
-	//
-	// for (int i = 0;i<expectedCoordinates.length;i++){
-	// assertEquals(expectedCoordinates[i], actualCoordinates[i]);
-	// }
-	// }
-
-	public void testParseCoordinatesToSet() {
-
-	}
 }
