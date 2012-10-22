@@ -2,7 +2,10 @@ package se.chalmers.project14.model;
 
 /*
  * Copyright (c) 2012 Henrik Andersson, Anton Palmqvist, Tomas Selldén and Marcus Tyrén
- * See the file license.txt for copying permission.
+ * MIT is the used license. See the file license.txt for copying permission.
+ */
+/**
+ * System version 0.3 21 oktober 2012
  */
 
 /**

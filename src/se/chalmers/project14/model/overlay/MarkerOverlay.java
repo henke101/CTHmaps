@@ -2,7 +2,7 @@ package se.chalmers.project14.model.overlay;
 
 /*
  * Copyright (c) 2012 Henrik Andersson, Anton Palmqvist, Tomas Selldén and Marcus Tyrén
- * See the file license.txt for copying permission.
+ * MIT is the used license. See the file license.txt for copying permission.
  */
 
 import android.graphics.drawable.Drawable;
@@ -16,7 +16,7 @@ import com.google.android.maps.OverlayItem;
  * 
  * @version
  * 
- *          0.2 21 Oktober 2012
+ *         System version 0.3 21 Oktober 2012
  * @author
  * 
  *         Anton Palmqvist

@@ -2,7 +2,7 @@ package se.chalmers.project14.model.overlay;
 
 /*
  * Copyright (c) 2012 Henrik Andersson, Anton Palmqvist, Tomas Selldén and Marcus Tyrén
- * See the file license.txt for copying permission.
+ * MIT is the used license.See the file license.txt for copying permission.
  */
 
 import java.util.ArrayList;
@@ -47,7 +47,7 @@ import com.google.android.maps.Projection;
  * 
  * @version
  * 
- *          0.2 21 Oktober 2012
+ *          System version 0.3 21 Oktober 2012
  * @author
  * 
  *         Anton Palmqvist and Henrik Andersson

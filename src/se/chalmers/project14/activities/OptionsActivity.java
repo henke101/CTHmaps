@@ -2,9 +2,12 @@ package se.chalmers.project14.activities;
 
 /*
  * Copyright (c) 2012 Henrik Andersson, Anton Palmqvist, Tomas Selldén and Marcus Tyrén
- * See the file license.txt for copying permission.
+ * MIT is the used license. See the file license.txt for copying permission.
  */
 
+/**
+ * System version 0.3 21 oktober 2012
+ */
 
 import se.chalmers.project14.activities.R;
 import android.app.Activity;
