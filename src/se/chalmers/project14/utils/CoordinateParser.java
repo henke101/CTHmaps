@@ -11,11 +11,18 @@ public class CoordinateParser {
 	private CoordinateParser() {
 
 	}
-
+	/**
+	 * Returns the singleton instance of CoordinateParser
+	 * @return CoordinateParser
+	 */
 	public static CoordinateParser getInstance() {
 		return parser;
 	}
-
+	/**
+	 * Parses from a string of coordinates separated by a "," into an array of coordinates
+	 * @param s The string of coordinates
+	 * @return int []
+	 */
 	public int[] parseCoordinatesFromString(String s) {
 		String[] coordinatesString = s.split(",");
 		int[] coordinatesInt = new int[coordinatesString.length];
