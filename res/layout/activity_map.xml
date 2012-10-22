@@ -3,44 +3,35 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".CTHmaps" >
-	
-	<com.google.android.maps.MapView
-	    xmlns:android="http://schemas.android.com/apk/res/android"
-	    android:id="@+id/mapview"
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:layout_above="@+id/linearLayout"
-	    android:apiKey="0wMDFClMcSsyqhOaYeMVyj4sZTP23y_zewDmsOw"
-	    android:clickable="true"
-	    android:enabled="true"/>
-    
-	<TextView
-	    android:id="@+id/textview"
-    	android:layout_width="wrap_content"
+
+    <com.google.android.maps.MapView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/mapview"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/linearLayout"
+        android:apiKey="0wMDFClMcSsyqhOaYeMVyj4sZTP23y_zewDmsOw"
+        android:clickable="true"
+        android:enabled="true" />
+
+    <TextView
+        android:id="@+id/textview"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        tools:context=".UseGps"/>
+        tools:context=".UseGps" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:paddingTop="2.0dip"
+        android:paddingBottom="0.0dip"
+        android:paddingRight="2.0dip"
+        android:paddingLeft="2.0dip"
         android:orientation="horizontal" >
-
-        <Button
-            android:id="@+id/buttonToggle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/button_toggle" />
-
-        <Button
-            android:id="@+id/buttonCenter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/button_center" />
-
 
         <Button
             android:id="@+id/buttonNewDest"
@@ -49,17 +40,28 @@
             android:text="@string/button_new_dest" />
 
         <Button
-            android:id="@+id/buttonManualPosition"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/button_manual_position" />
-        <Button
             android:id="@+id/buttonRemoveDest"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/button_remove_destination" />
-        
 
+        <Button
+            android:id="@+id/buttonCenter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_center" />
+
+        <Button
+            android:id="@+id/buttonToggleSat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_toggle" />
+
+        <Button
+            android:id="@+id/buttonToggleGpsPosition"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_manual_position" />
     </LinearLayout>
-    	
+
 </RelativeLayout>
