@@ -6,7 +6,7 @@ package se.chalmers.project14.model.storage;
  */
 
 import java.util.List;
-import se.chalmers.project14.main.R;
+import se.chalmers.project14.activities.R;
 import se.chalmers.project14.model.House;
 import android.app.Activity;
 import android.content.Context;

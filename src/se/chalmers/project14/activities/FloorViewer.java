@@ -5,7 +5,7 @@ package se.chalmers.project14.activities;
  * See the file license.txt for copying permission.
  */
 
-import se.chalmers.project14.main.R;
+import se.chalmers.project14.activities.R;
 import se.chalmers.project14.model.SwipeHandler;
 import android.os.Bundle;
 import android.app.Activity;

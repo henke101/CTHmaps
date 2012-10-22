@@ -17,7 +17,7 @@ import java.util.TimerTask;
 import org.xml.sax.Parser;
 
 import se.chalmers.project14.activities.ChooseLocationActivity;
-import se.chalmers.project14.main.R;
+import se.chalmers.project14.activities.R;
 import se.chalmers.project14.model.Door;
 import se.chalmers.project14.model.storage.DatabaseHandler;
 import se.chalmers.project14.utils.CoordinateParser;
