@@ -24,7 +24,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:contentDescription="@string/floorOne"
-                android:src="@drawable/map3" />
+                android:src="@drawable/edit_map_floor3" />
         </LinearLayout>
 
         <LinearLayout
@@ -36,7 +36,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:contentDescription="@string/floorTwo"
-                android:src="@drawable/map4" />
+                android:src="@drawable/edit_map_floor5" />
         </LinearLayout>
     </ViewFlipper>
 

@@ -29,21 +29,9 @@
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:contentDescription="@string/floorOne"
-                android:src="@drawable/map3" />
+                android:src="@drawable/maskin_map" />
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
-
-            <ImageView
-                android:id="@+id/maskinView2"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:contentDescription="@string/floorTwo"
-                android:src="@drawable/map2" />
-
-        </LinearLayout>
     </ViewFlipper>
 
 </RelativeLayout>

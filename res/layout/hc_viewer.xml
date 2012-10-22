@@ -29,19 +29,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:contentDescription="@string/floorOne"
-                android:src="@drawable/map3" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
-
-            <ImageView
-                android:id="@+id/hcView2"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:contentDescription="@string/floorTwo"
-                android:src="@drawable/map4" />
+                android:src="@drawable/hc_map" />
         </LinearLayout>
     </ViewFlipper>
 
