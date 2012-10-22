@@ -1,4 +1,4 @@
-package se.chalmers.project14.enterBuilding;
+package se.chalmers.project14.model;
 
 /*
  * Copyright (c) 2012 Henrik Andersson, Anton Palmqvist, Tomas Selldén and Marcus Tyrén

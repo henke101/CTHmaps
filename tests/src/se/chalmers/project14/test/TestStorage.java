@@ -3,11 +3,11 @@ package se.chalmers.project14.test;
 import java.util.ArrayList;
 import java.util.List;
 
-import se.chalmers.project14.database.DatabaseHandler;
-import se.chalmers.project14.database.DatabaseStorage;
 import se.chalmers.project14.model.Coordinates;
 import se.chalmers.project14.model.Door;
 import se.chalmers.project14.model.House;
+import se.chalmers.project14.model.storage.DatabaseHandler;
+import se.chalmers.project14.model.storage.DatabaseStorage;
 import android.test.AndroidTestCase;
 import android.test.RenamingDelegatingContext;
 

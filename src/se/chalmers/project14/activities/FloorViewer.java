@@ -1,4 +1,4 @@
-package se.chalmers.project14.enterBuilding;
+package se.chalmers.project14.activities;
 
 /*
  * Copyright (c) 2012 Henrik Andersson, Anton Palmqvist, Tomas Selldén and Marcus Tyrén
@@ -6,6 +6,7 @@ package se.chalmers.project14.enterBuilding;
  */
 
 import se.chalmers.project14.main.R;
+import se.chalmers.project14.model.SwipeHandler;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.*;

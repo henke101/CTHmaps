@@ -1,4 +1,4 @@
-package se.chalmers.project14.main;
+package se.chalmers.project14.model.overlay;
 
 /*
  * Copyright (c) 2012 Henrik Andersson, Anton Palmqvist, Tomas Selldén and Marcus Tyrén

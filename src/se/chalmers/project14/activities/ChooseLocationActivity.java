@@ -1,4 +1,4 @@
-package se.chalmers.project14.main;
+package se.chalmers.project14.activities;
 
 /*
  * Copyright (c) 2012 Henrik Andersson, Anton Palmqvist, Tomas Selldén and Marcus Tyrén
@@ -10,12 +10,13 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import se.chalmers.project14.database.DatabaseAdapter;
-import se.chalmers.project14.database.DatabaseHandler;
-import se.chalmers.project14.database.DatabaseStorage;
+import se.chalmers.project14.main.R;
 import se.chalmers.project14.model.Coordinates;
 import se.chalmers.project14.model.Door;
 import se.chalmers.project14.model.House;
+import se.chalmers.project14.model.storage.DatabaseAdapter;
+import se.chalmers.project14.model.storage.DatabaseHandler;
+import se.chalmers.project14.model.storage.DatabaseStorage;
 import android.os.Bundle;
 import android.app.ListActivity;
 import android.content.Intent;

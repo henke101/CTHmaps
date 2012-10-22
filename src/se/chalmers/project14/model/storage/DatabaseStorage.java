@@ -1,4 +1,4 @@
-package se.chalmers.project14.database;
+package se.chalmers.project14.model.storage;
 
 import java.util.List;
 
