@@ -22,13 +22,7 @@ public class DatabaseAdapter extends BaseAdapter {
 	private List<House> houseList;
 	private LayoutInflater inflater;
 
-	public DatabaseAdapter(Activity activity, List<House> houseList) {// change
-																		// this
-																		// to
-																		// House
-																		// instead
-																		// of
-																		// Coordinates!!!!!!!
+	public DatabaseAdapter(Activity activity, List<House> houseList) {
 		this.activity = activity;
 		this.houseList = houseList;
 		inflater = (LayoutInflater) activity
@@ -59,7 +53,6 @@ public class DatabaseAdapter extends BaseAdapter {
 			view = convertView;
 		}
 		return view;
-		// return new HouseListItem(activity,h);
 	}
 
 }

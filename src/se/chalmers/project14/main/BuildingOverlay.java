@@ -5,11 +5,7 @@ package se.chalmers.project14.main;
  * See the file license.txt for copying permission.
  */
 
-
 import java.util.*;
-
-
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -37,31 +33,6 @@ public class BuildingOverlay extends ItemizedOverlay {
 	public void addOverlay(OverlayItem overlay) {
 		buildingOverlays.add(overlay);
 		populate();
-	}
-
-	@Override
-	protected boolean onTap(int index) {
-		OverlayItem item = buildingOverlays.get(index);
-		AlertDialog.Builder dialog = new AlertDialog.Builder(buildingContext);
-		dialog.setTitle(item.getTitle());
-		dialog.setMessage(item.getSnippet());
-		dialog.setPositiveButton("Enter Building", new DialogInterface.OnClickListener() {
-
-			public void onClick(DialogInterface dialog, int which) {
-				Intent intent = new Intent(buildingContext, se.chalmers.project14.enterBuilding.FloorViewer.class);
-				buildingContext.startActivity(intent);
-			}
-		});
-		dialog.setNegativeButton("Go back to map", new DialogInterface.OnClickListener() {
-
-			public void onClick(DialogInterface dialog, int which) {
-			// do nothing and go back to mapview
-			}
-		});
-		dialog.show();
-
-
-		return true;
 	}
 
 	@Override

@@ -12,6 +12,7 @@ import java.util.List;
 
 import se.chalmers.project14.database.DatabaseAdapter;
 import se.chalmers.project14.database.DatabaseHandler;
+import se.chalmers.project14.database.DatabaseStorage;
 import se.chalmers.project14.model.Coordinates;
 import se.chalmers.project14.model.Door;
 import se.chalmers.project14.model.House;
@@ -19,7 +20,6 @@ import utils.Options;
 import android.os.Bundle;
 import android.app.ListActivity;
 import android.content.Intent;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -41,7 +41,7 @@ OnItemClickListener {
 	private DatabaseAdapter dba;
 	private ListView listview;
 	private List<House> houseList;
-	private DatabaseHandler db;
+	private DatabaseStorage db;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -123,6 +123,6 @@ OnItemClickListener {
 		intent.putExtra(CTHBUILDING, door.getBuilding());
 		intent.putExtra(CTHDOOR_COORDINATES, door.getDoorCoordinates());
 		startActivity(intent);
-		
+
 	}
 }
