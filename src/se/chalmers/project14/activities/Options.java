@@ -1,4 +1,4 @@
-package se.chalmers.project14.utils;
+package se.chalmers.project14.activities;
 
 /*
  * Copyright (c) 2012 Henrik Andersson, Anton Palmqvist, Tomas Selldén and Marcus Tyrén
