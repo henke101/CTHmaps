@@ -70,6 +70,7 @@ import com.google.android.maps.Projection;
 
 public class OverlayHolder extends Overlay implements LocationListener {
 	// private ArrayList<OverlayItem> mOverlays = new ArrayList<OverlayItem>();
+	public static final String CHOSEN_BUILDING = "se.chalmers.project14.model.overlay.CHOSEN_BUILDING";
 	private Context context;
 	private long touchStart;
 	private float touchX, touchY;
@@ -281,6 +282,7 @@ public class OverlayHolder extends Overlay implements LocationListener {
 								Intent intent = new Intent(
 										context,
 										se.chalmers.project14.activities.FloorViewer.class);
+								intent.putExtra(CHOSEN_BUILDING, chosenBuildingName);
 								context.startActivity(intent);
 							}
 						});
