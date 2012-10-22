@@ -1,4 +1,4 @@
-package se.chalmers.project14.database;
+package se.chalmers.project14.model.storage;
 
 /*
  * Copyright (c) 2012 Henrik Andersson, Anton Palmqvist, Tomas Selldén and Marcus Tyrén
@@ -6,7 +6,7 @@ package se.chalmers.project14.database;
  */
 
 import java.util.List;
-import se.chalmers.project14.main.R;
+import se.chalmers.project14.activities.R;
 import se.chalmers.project14.model.House;
 import android.app.Activity;
 import android.content.Context;

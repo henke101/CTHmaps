@@ -1,11 +1,11 @@
-package se.chalmers.project14.enterBuilding;
+package se.chalmers.project14.model;
 
 /*
  * Copyright (c) 2012 Henrik Andersson, Anton Palmqvist, Tomas Selldén and Marcus Tyrén
  * See the file license.txt for copying permission.
  */
 
-import se.chalmers.project14.main.R;
+import se.chalmers.project14.activities.R;
 import android.util.Log;
 import android.view.GestureDetector.*;
 import android.view.MotionEvent;

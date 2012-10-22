@@ -11,21 +11,21 @@ public class TestHouse extends TestCase {
 
 	private House house = new House();
 
-	public void TestGetId() {
+	public void testGetId() {
 		house.setId(0);
 		int getId = house.getId();
 		int expectedResult = 0;
 		assertEquals(expectedResult, getId);
 	}
 
-	public void TestGetFloor() {
+	public void testGetFloor() {
 		house.SetFloor("5");
 		String getFloor = house.getFloor();
 		String expectedResult = "5";
 		assertEquals(expectedResult, getFloor);
 	}
 
-	public void TestGetLectureRoom() {
+	public void testGetLectureRoom() {
 		house.setLectureRoom("hubben");
 		String getLectureRoom = house.getLectureRoom();
 		String expectedResult = "hubben";
