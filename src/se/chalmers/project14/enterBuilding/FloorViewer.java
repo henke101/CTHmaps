@@ -5,6 +5,7 @@ package se.chalmers.project14.enterBuilding;
  * See the file license.txt for copying permission.
  */
 
+import se.chalmers.project14.main.OverlayHolder;
 import se.chalmers.project14.main.R;
 import android.os.Bundle;
 import android.app.Activity;
@@ -27,8 +28,11 @@ public class FloorViewer extends Activity {
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_floor_viewer);
-        floorFlipper = (ViewFlipper) findViewById(R.id.viewFlipper1);
+        String building = getIntent().getStringExtra(OverlayHolder.NAME_OF_BUILDING);
+        
+        setContentView(R.layout.edit_viewer);
+        floorFlipper = (ViewFlipper) findViewById(R.id.viewFlipper2);
+       
         swipeHandler = new SwipeHandler(floorFlipper);
         detector = new GestureDetector(this, swipeHandler);
         gestureListener = new OnTouchListener() {
