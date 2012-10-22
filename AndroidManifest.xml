@@ -32,6 +32,14 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".Options"
+            android:label="@string/app_name">
+            <intent-filter >
+                <action android:name="se.chalmers.project14.activities.Options"/>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>    
+        <activity
             android:name=".Splash"
             android:configChanges="orientation"
             android:label="@string/title_activity_main"

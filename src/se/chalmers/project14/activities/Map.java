@@ -6,11 +6,9 @@ package se.chalmers.project14.activities;
  */
 
 import java.util.List;
-
 import se.chalmers.project14.activities.R;
 import se.chalmers.project14.model.overlay.OverlayHolder;
 import se.chalmers.project14.utils.CoordinateParser;
-
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
@@ -26,13 +24,16 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
 
 public class Map extends MapActivity {
 	private MapController controller;
-	private Button buttonToggle, buttonCenter, buttonNewDest, buttonClear, buttonManualPosition;
+	private Button buttonToggleSat, buttonCenter, buttonNewDest, buttonClear, buttonToggleGpsPosition;
 	private MapView mapView;
 	private GeoPoint geoPoint;
 	private OverlayHolder overlayHolder;
@@ -43,23 +44,12 @@ public class Map extends MapActivity {
 		setContentView(R.layout.activity_map);
 		
 		//Create buttons and listeners
-		buttonToggle = (Button) findViewById(R.id.buttonToggle);
-		buttonCenter = (Button) findViewById(R.id.buttonCenter);
 		buttonNewDest = (Button) findViewById(R.id.buttonNewDest);
 		buttonClear = (Button) findViewById(R.id.buttonRemoveDest);
-		buttonManualPosition = (Button) findViewById(R.id.buttonManualPosition);
-		buttonToggle.setOnClickListener(new OnClickListener() {
-
-			public void onClick(View v) {
-				mapView.setSatellite(!mapView.isSatellite());
-			}
-		});
-		buttonCenter.setOnClickListener(new OnClickListener() {
-			
-			public void onClick(View v) {
-				controller.animateTo(new GeoPoint(57688018, 11977886));
-			}
-		});
+		buttonCenter = (Button) findViewById(R.id.buttonCenter);
+		buttonToggleSat = (Button) findViewById(R.id.buttonToggleSat);
+		buttonToggleGpsPosition = (Button) findViewById(R.id.buttonToggleGpsPosition);
+		
 		buttonNewDest.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
@@ -73,13 +63,26 @@ public class Map extends MapActivity {
 				mapView.invalidate();
 			}
 		});
-		buttonManualPosition.setOnClickListener(new OnClickListener() {
+		buttonCenter.setOnClickListener(new OnClickListener() {
+			
+			public void onClick(View v) {
+				controller.animateTo(new GeoPoint(57688018, 11977886));
+			}
+		});
+		buttonToggleSat.setOnClickListener(new OnClickListener() {
+
+			public void onClick(View v) {
+				mapView.setSatellite(!mapView.isSatellite());
+			}
+		});
+		buttonToggleGpsPosition.setOnClickListener(new OnClickListener() {
 			
 			public void onClick(View v) {
 				overlayHolder.toggleUseGpsData();
 			}
 		});
 		
+
 		// Enabling zooming
 		mapView = (MapView) findViewById(R.id.mapview);
 		mapView.setBuiltInZoomControls(true);
@@ -100,8 +103,19 @@ public class Map extends MapActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.activity_main, menu);
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.menu_options, menu);
 		return true;
+	}
+
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+
+		startActivity(new Intent(this, Options.class));
+		return true;
+
+
 	}
 
 	@Override

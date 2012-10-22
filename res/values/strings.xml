@@ -7,10 +7,10 @@
     <string name="title_activity_main">CTHmaps</string>
     <string name="button_new_dest">New Dest</string>
     <string name="button_toggle">Sat</string>
-    <string name="button_center">Center</string>
+    <string name="button_center">Centr</string>
     <string name="button_browse">Browse destination</string>
-    <string name="button_manual_position">GPS-toggle</string>
-    <string name="button_remove_destination">Clear</string>
+    <string name="button_manual_position">GPS</string>
+    <string name="button_remove_destination">Clear Dest</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_floor_viewer">FloorViewer</string>
     <string name="floorOne">Våning 1</string>
