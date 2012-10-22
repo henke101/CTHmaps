@@ -379,8 +379,7 @@ public class OverlayHolder extends Overlay implements LocationListener {
 		options.setNegativeButton("Go back to map",
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
-						Toast.makeText(context, "Back to map",
-								Toast.LENGTH_SHORT).show();
+						//Does nothing and gets back to the map
 					}
 				});
 		options.show();
