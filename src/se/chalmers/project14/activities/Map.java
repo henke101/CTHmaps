@@ -6,7 +6,6 @@ package se.chalmers.project14.activities;
  */
 
 import java.util.List;
-import se.chalmers.project14.utils.Options;
 import se.chalmers.project14.activities.R;
 import se.chalmers.project14.model.overlay.OverlayHolder;
 import se.chalmers.project14.utils.CoordinateParser;

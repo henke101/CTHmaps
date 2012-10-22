@@ -12,10 +12,9 @@ import java.util.List;
 
 import se.chalmers.project14.activities.R;
 import se.chalmers.project14.model.Coordinates;
+import se.chalmers.project14.model.DatabaseAdapter;
 import se.chalmers.project14.model.Door;
 import se.chalmers.project14.model.House;
-import se.chalmers.project14.utils.Options;
-import se.chalmers.project14.model.storage.DatabaseAdapter;
 import se.chalmers.project14.model.storage.DatabaseHandler;
 import se.chalmers.project14.model.storage.DatabaseStorage;
 import android.os.Bundle;

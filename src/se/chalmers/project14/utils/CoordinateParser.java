@@ -33,28 +33,4 @@ public class CoordinateParser {
 		}
 		return coordinatesInt;
 	}
-
-	public HashSet<Integer> parseCoordinatesToSet(String s) {
-		int[] array = parseCoordinatesFromString(s);
-
-		HashSet<Integer> set = new HashSet<Integer>();
-		for (int i = 0; i < array.length; i = i + 2) {
-			int lon = array[i];
-			int lat = array[i + 1];
-			set.add(lat);
-			set.add(lon);
-		}
-
-		return set;
-	}
-
-	public HashSet<Integer> parseCoordinatesToSetFromDoors(List<Door> doors) {
-		String s = doors.get(0).getDoorCoordinates();
-
-		for (int i = 1; i < doors.size(); i++) {
-			s = s + "," + doors.get(i).getDoorCoordinates();
-		}
-		return parseCoordinatesToSet(s);
-
-	}
 }
