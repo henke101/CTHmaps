@@ -24,35 +24,57 @@ public class FloorViewer extends Activity {
 	SimpleOnGestureListener swipeHandler;
 	GestureDetector detector;
 	OnTouchListener gestureListener;
-	
+
 	@Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        String building = getIntent().getStringExtra(OverlayHolder.NAME_OF_BUILDING);
-        
-        setContentView(R.layout.edit_viewer);
-        floorFlipper = (ViewFlipper) findViewById(R.id.viewFlipper2);
-       
-        swipeHandler = new SwipeHandler(floorFlipper);
-        detector = new GestureDetector(this, swipeHandler);
-        gestureListener = new OnTouchListener() {
-            public boolean onTouch(View v, MotionEvent event) {
-                if (detector.onTouchEvent(event)) {
-                    return true;
-                }
-                return false;
-            }
-        };
-   
-    }
-	
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		String building = getIntent().getStringExtra(OverlayHolder.NAME_OF_BUILDING);
+		System.out.println(building);
+		initialize(building);
+
+		swipeHandler = new SwipeHandler(floorFlipper);
+		detector = new GestureDetector(this, swipeHandler);
+		gestureListener = new OnTouchListener() {
+			public boolean onTouch(View v, MotionEvent event) {
+				if (detector.onTouchEvent(event)) {
+					return true;
+				}
+				return false;
+			}
+		};
+
+	}
+
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-	    if (detector.onTouchEvent(event))
-	        return true;
-	    else
-	        return false;
+		if (detector.onTouchEvent(event))
+			return true;
+		else
+			return false;
 
+
+	}
+	private void initialize(String building){
+		if (building.equals("EDIT-huset")){
+			setContentView(R.layout.edit_viewer);
+			floorFlipper = (ViewFlipper) findViewById(R.id.editFlipper);
+		}
+		else if (building.equals("Maskinhuset")){
+			setContentView(R.layout.maskin_viewer);
+			floorFlipper = (ViewFlipper) findViewById(R.id.maskinFlipper);
+		}
+		else if (building.equals("HA")){
+			setContentView(R.layout.ha_viewer);
+			floorFlipper = (ViewFlipper) findViewById(R.id.haFlipper);
+		}
+		else if (building.equals("HB")){
+			setContentView(R.layout.hb_viewer);
+			floorFlipper = (ViewFlipper) findViewById(R.id.hbFlipper);
+		}
+		else if (building.equals("HC")){
+			setContentView(R.layout.hc_viewer);
+			floorFlipper = (ViewFlipper) findViewById(R.id.hcFlipper);
+		}
 
 	}
 
