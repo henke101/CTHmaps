@@ -1,4 +1,4 @@
-package utils;
+package se.chalmers.project14.utils;
 
 /*
  * Copyright (c) 2012 Henrik Andersson, Anton Palmqvist, Tomas Selldén and Marcus Tyrén
@@ -7,7 +7,7 @@ package utils;
 
 import com.google.android.maps.MapView;
 
-import se.chalmers.project14.main.R;
+import se.chalmers.project14.activities.R;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;

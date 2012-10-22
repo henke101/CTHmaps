@@ -1,4 +1,4 @@
-package se.chalmers.project14.main;
+package se.chalmers.project14.activities;
 
 /*
  * Copyright (c) 2012 Henrik Andersson, Anton Palmqvist, Tomas Selldén and Marcus Tyrén
@@ -6,8 +6,10 @@ package se.chalmers.project14.main;
  */
 
 import java.util.List;
-import utils.CoordinateParser;
-import utils.Options;
+import se.chalmers.project14.utils.Options;
+import se.chalmers.project14.activities.R;
+import se.chalmers.project14.model.overlay.OverlayHolder;
+import se.chalmers.project14.utils.CoordinateParser;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
