@@ -32,7 +32,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="utils.Options"
+            android:name="se.chalmers.project14.utils.Options"
             android:label="@string/app_name">
             <intent-filter >
                 <action android:name="se.chalmers.project14.utils.Options"/>
