@@ -163,11 +163,8 @@ public class OverlayHolder extends Overlay implements LocationListener {
 			touchTimer.schedule(new TimerTask() {
 				public void run() {
 					if (holding) {
-						((Activity) context).runOnUiThread(new Runnable() {// Needed
-							// to
-							// run
-							// in
-							// UI-thread
+						// Needed to run in UI-thread
+						((Activity) context).runOnUiThread(new Runnable() {
 							public void run() {
 								launchMapFunctions();
 								cancel();
@@ -189,7 +186,9 @@ public class OverlayHolder extends Overlay implements LocationListener {
 		else if (event.getAction() == MotionEvent.ACTION_UP) {
 			touchTimer.cancel();
 			holding = false;
+
 			if (event.getEventTime() - touchTimeDown <= 200) {// Checking that press is below 200 ms, aka a tap
+
 				boolean isDoorFound = false;
 				while (!isDoorFound) {
 					if (isClassroomChosen) {
@@ -414,10 +413,10 @@ public class OverlayHolder extends Overlay implements LocationListener {
 		if (useGpsData) { // if GPS-data is used the location is set
 			// automatically
 			// TODO Make the the location-toast optional by a choice in settings
-			String text = "Min nuvarande position är: \nLatitud: "
-					+ location.getLatitude() + "\nLongitud: "
-					+ location.getLongitude();
-			Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+			//			String text = "Min nuvarande position är: \nLatitud: "
+			//					+ location.getLatitude() + "\nLongitud: "
+			//					+ location.getLongitude();
+			//			Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
 
 			// Obtaining the latitude and longitude
 			int lat = (int) (location.getLatitude() * 1E6);
