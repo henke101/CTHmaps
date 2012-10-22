@@ -27,8 +27,8 @@ import android.database.sqlite.SQLiteOpenHelper;
  * @author tomassellden
  * 
  */
-public class DatabaseHandler extends SQLiteOpenHelper implements
-		DatabaseStorage {
+public class Storage extends SQLiteOpenHelper implements
+		Storable {
 
 	private static final int DATABASE_VERSION = 8;
 	private static final String DATABASE_NAME = "cordinatesManager";
@@ -55,7 +55,7 @@ public class DatabaseHandler extends SQLiteOpenHelper implements
 			+ TABLE_DOORCOORDINATES + "(" + KEY_ID + " INTEGER PRIMARY KEY,"
 			+ KEY_BUILDING + " TEXT," + KEY_DOOR + " TEXT" + ")";
 
-	public DatabaseHandler(Context context) {
+	public Storage(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 
 	}

@@ -6,15 +6,15 @@ import java.util.List;
 import se.chalmers.project14.model.Coordinates;
 import se.chalmers.project14.model.Door;
 import se.chalmers.project14.model.House;
-import se.chalmers.project14.model.storage.DatabaseHandler;
-import se.chalmers.project14.model.storage.DatabaseStorage;
+import se.chalmers.project14.model.storage.Storage;
+import se.chalmers.project14.model.storage.Storable;
 import android.test.AndroidTestCase;
 import android.test.RenamingDelegatingContext;
 
 public class TestStorage extends AndroidTestCase {
 
 	private static final String TEST_FILE_PREFIX = "test_";
-	private DatabaseStorage db;
+	private Storable db;
 	private int databaseId = 1;
 
 	@Override
@@ -22,7 +22,7 @@ public class TestStorage extends AndroidTestCase {
 		super.setUp();
 		RenamingDelegatingContext context = new RenamingDelegatingContext(
 				getContext(), TEST_FILE_PREFIX);
-		db = new DatabaseHandler(context);
+		db = new Storage(context);
 		// Creating three door, House and Coordinates object so We can test the
 		// database getters
 		Door door = new Door("Edithuset", "11111,11111");

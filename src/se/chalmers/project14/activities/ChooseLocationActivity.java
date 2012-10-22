@@ -11,11 +11,11 @@ import java.util.Comparator;
 import java.util.List;
 
 import se.chalmers.project14.model.Coordinates;
-import se.chalmers.project14.model.DatabaseAdapter;
+import se.chalmers.project14.model.StorageAdapter;
 import se.chalmers.project14.model.Door;
 import se.chalmers.project14.model.House;
-import se.chalmers.project14.model.storage.DatabaseHandler;
-import se.chalmers.project14.model.storage.DatabaseStorage;
+import se.chalmers.project14.model.storage.Storage;
+import se.chalmers.project14.model.storage.Storable;
 import android.os.Bundle;
 import android.app.ListActivity;
 import android.content.Intent;
@@ -36,21 +36,21 @@ OnItemClickListener {
 	public final static String CTHBUILDING_FLOOR = "se.chalmers.project14.activities.CTHBUILDING_FLOOR";
 	public final static String CTHLECTURE_ROOM = "se.chalmers.project14.activities.CTHLECTURE_ROOM";
 
-	private DatabaseAdapter dba;
+	private StorageAdapter dba;
 	private ListView listview;
 	private List<House> houseList;
-	private DatabaseStorage db;
+	private Storable db;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_choose_location);
 		listview = getListView();
-		db = new DatabaseHandler(this);
+		db = new Storage(this);
 		houseList = new ArrayList<House>();
 		houseList = db.getAllLectureRoom();
 		sortCoordinateList(houseList);
-		dba = new DatabaseAdapter(this, houseList);
+		dba = new StorageAdapter(this, houseList);
 		setListAdapter(dba);
 		listview.setOnItemClickListener(this);
 
@@ -67,7 +67,7 @@ OnItemClickListener {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 
-		startActivity(new Intent(this, Options.class));
+		startActivity(new Intent(this, OptionsActivity.class));
 		return true;
 	}
 
@@ -95,7 +95,7 @@ OnItemClickListener {
 	 * @param view
 	 */
 	public void browseDestinationButton(View view) {
-		Intent intent = new Intent(this, Map.class);
+		Intent intent = new Intent(this, CthMapActivity.class);
 		startActivity(intent);
 	}
 
@@ -114,7 +114,7 @@ OnItemClickListener {
 		int houseId = house.getId();
 		Door door = db.getDoorCoordinates(houseId);
 		Coordinates coordinate = db.getCoordinates(houseId);
-		Intent intent = new Intent(this, Map.class);
+		Intent intent = new Intent(this, CthMapActivity.class);
 		intent.putExtra(CTHLECTURE_ROOM, cthLectureRoom);
 		intent.putExtra(CTHBUILDING_FLOOR, cthFloor);
 		intent.putExtra(CTHBUILDING_COORDINATES, coordinate.getCoordinates());

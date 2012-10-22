@@ -21,7 +21,7 @@
         <uses-library android:name="com.google.android.maps" />
 
         <activity
-            android:name=".Map"
+            android:name=".CthMapActivity"
             android:configChanges="orientation"
             android:label="@string/title_activity_main"
             android:screenOrientation="portrait" >
@@ -32,7 +32,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Options"
+            android:name=".OptionsActivity"
             android:label="@string/app_name">
             <intent-filter >
                 <action android:name="se.chalmers.project14.activities.Options"/>
@@ -40,7 +40,7 @@
             </intent-filter>
         </activity>    
         <activity
-            android:name=".Splash"
+            android:name=".SplashActivity"
             android:configChanges="orientation"
             android:label="@string/title_activity_main"
             android:noHistory="true"
@@ -69,7 +69,7 @@
             -->
         </activity>
         <activity
-            android:name="se.chalmers.project14.activities.FloorViewer"
+            android:name=".FloorViewerActivity"
             android:configChanges="orientation"
             android:label="@string/title_activity_floor_viewer"
             android:screenOrientation="portrait" >

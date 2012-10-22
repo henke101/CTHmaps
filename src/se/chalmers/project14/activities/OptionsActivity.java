@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.CheckBox;
 
-public class Options extends Activity {
+public class OptionsActivity extends Activity {
 
 
 	CheckBox cbS;

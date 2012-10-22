@@ -22,7 +22,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-public class Map extends MapActivity {
+public class CthMapActivity extends MapActivity {
 	private MapController controller;
 	private Button buttonToggleSat, buttonCenter, buttonNewDest, buttonClear, buttonToggleGpsPosition;
 	private MapView mapView;
@@ -102,7 +102,7 @@ public class Map extends MapActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 
-		startActivity(new Intent(this, Options.class));
+		startActivity(new Intent(this, OptionsActivity.class));
 		return true;
 
 

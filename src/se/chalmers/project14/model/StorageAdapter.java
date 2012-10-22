@@ -15,12 +15,12 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-public class DatabaseAdapter extends BaseAdapter {
+public class StorageAdapter extends BaseAdapter {
 
 	private List<House> houseList;
 	private LayoutInflater inflater;
 
-	public DatabaseAdapter(Activity activity, List<House> houseList) {
+	public StorageAdapter(Activity activity, List<House> houseList) {
 		this.houseList = houseList;
 		inflater = (LayoutInflater) activity
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

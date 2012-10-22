@@ -15,7 +15,7 @@ import android.view.GestureDetector.*;
 import android.widget.ViewFlipper;
 
 
-public class FloorViewer extends Activity {
+public class FloorViewerActivity extends Activity {
 
 	ViewFlipper floorFlipper; // contains all floors of the building
 	SimpleOnGestureListener swipeHandler; // handles the swipes when the floor is being switched

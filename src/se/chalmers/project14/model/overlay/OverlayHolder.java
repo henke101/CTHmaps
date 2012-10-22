@@ -12,7 +12,7 @@ import java.util.TimerTask;
 import se.chalmers.project14.activities.ChooseLocationActivity;
 import se.chalmers.project14.activities.R;
 import se.chalmers.project14.model.Door;
-import se.chalmers.project14.model.storage.DatabaseHandler;
+import se.chalmers.project14.model.storage.Storage;
 import se.chalmers.project14.utils.CoordinateParser;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -70,7 +70,7 @@ public class OverlayHolder extends Overlay implements LocationListener {
 	private boolean useGpsData = true;
 	private Timer touchTimer;
 	private boolean holding;
-	private DatabaseHandler db;
+	private Storage db;
 	private List<Door> doors;
 	private List<Door> editDoors;
 	private List<Door> maskinDoors;
@@ -92,7 +92,7 @@ public class OverlayHolder extends Overlay implements LocationListener {
 		this.context = context;
 		this.mapView = mapView;
 		projection = mapView.getProjection();
-		db = new DatabaseHandler(context);
+		db = new Storage(context);
 		doors = db.getAllDoorsAndBuildings();
 		editDoors = new ArrayList<Door>();
 		maskinDoors = new ArrayList<Door>();
@@ -275,7 +275,7 @@ public class OverlayHolder extends Overlay implements LocationListener {
 						// door is opened
 						Intent intent = new Intent(
 								context,
-								se.chalmers.project14.activities.FloorViewer.class);
+								se.chalmers.project14.activities.FloorViewerActivity.class);
 						intent.putExtra(CHOSEN_BUILDING, building);
 						context.startActivity(intent);
 					}

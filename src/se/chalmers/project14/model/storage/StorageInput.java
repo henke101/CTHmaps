@@ -24,11 +24,11 @@ import android.content.res.AssetManager;
  * @author tomassellden
  * 
  */
-public class DatabaseInput {
+public class StorageInput {
 
 	private Context context;
 
-	public DatabaseInput(Context context) {
+	public StorageInput(Context context) {
 		this.context = context;
 	}
 
@@ -57,7 +57,7 @@ public class DatabaseInput {
 	 *            a String representing a row line from the file Coordinates.txt
 	 */
 	private void addCoordinatesToDatabase(String coordinateLine) {
-		DatabaseStorage db = new DatabaseHandler(context);
+		Storable db = new Storage(context);
 		String[] coordinateInput = coordinateLine.split(":");
 		int coordinateKey = Integer.parseInt(coordinateInput[0]);
 		House house = new House(coordinateKey, coordinateInput[1],
