@@ -31,11 +31,11 @@ import android.widget.AdapterView.OnItemClickListener;
 public class ChooseLocationActivity extends ListActivity implements
 		OnItemClickListener {
 
-	public final static String CTHBUILDING_COORDINATES = "se.chalmers.project14.main.CTHBUILDING_COORDINATES";
-	public final static String CTHBUILDING = "se.chalmers.project14.main.CTHBUILDING";
-	public final static String CTHDOOR_COORDINATES = "se.chalmers.project14.main.CTHDOOR_CTHBUILDING";
-	public final static String CTHBUILDING_FLOOR = "se.chalmers.project14.main.CTHBUILDING_FLOOR";
-	public final static String CTHLECTURE_ROOM = "se.chalmers.project14.main.CTHLECTURE_ROOM";
+	public final static String CTHBUILDING_COORDINATES = "se.chalmers.project14.activities.CTHBUILDING_COORDINATES";
+	public final static String CTHBUILDING = "se.chalmers.project14.activities.CTHBUILDING";
+	public final static String CTHDOOR_COORDINATES = "se.chalmers.project14.activities.CTHDOOR_CTHBUILDING";
+	public final static String CTHBUILDING_FLOOR = "se.chalmers.project14.activities.CTHBUILDING_FLOOR";
+	public final static String CTHLECTURE_ROOM = "se.chalmers.project14.activities.CTHLECTURE_ROOM";
 
 	private DatabaseAdapter dba;
 	private ListView listview;
